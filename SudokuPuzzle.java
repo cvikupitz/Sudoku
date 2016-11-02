@@ -7,13 +7,13 @@
 package sudoku;
 
 
-public class Puzzle {
+public class SudokuPuzzle {
 
     /* Declare private members */
     private final int[][] board;
 
     /* Default constructor */
-    public Puzzle(String config) {
+    public SudokuPuzzle(String config) {
         this.board = new int[9][9];
         char[] chars = config.toCharArray();
         int temp, index = 0;
@@ -80,6 +80,16 @@ public class Puzzle {
             if (i == 2 || i == 5)
                 System.out.println("------+-------+------");
         }
+    }
+
+
+    /**
+     * Returns a 2-d integer array representing the sudoku board.
+     *
+     * @return The 2-d array representing the sudoku board.
+     */
+    public int[][] toArray() {
+        return this.board;
     }
 
 
@@ -256,4 +266,4 @@ public class Puzzle {
         return (sum == 45);
     }
 
-} // End Puzzle class
+} // End SudokuPuzzle class
