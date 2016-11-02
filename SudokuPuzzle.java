@@ -163,7 +163,6 @@ public class SudokuPuzzle {
         sum += this.board[2][3];
         sum += this.board[2][4];
         sum += this.board[2][5];
-
         return (sum == 45);
     }
 
@@ -179,7 +178,6 @@ public class SudokuPuzzle {
         sum += this.board[2][6];
         sum += this.board[2][7];
         sum += this.board[2][8];
-
         return (sum == 45);
     }
 
@@ -195,7 +193,6 @@ public class SudokuPuzzle {
         sum += this.board[5][0];
         sum += this.board[5][1];
         sum += this.board[5][2];
-
         return (sum == 45);
     }
 
@@ -211,7 +208,6 @@ public class SudokuPuzzle {
         sum += this.board[5][3];
         sum += this.board[5][4];
         sum += this.board[5][5];
-
         return (sum == 45);
     }
 
@@ -227,7 +223,6 @@ public class SudokuPuzzle {
         sum += this.board[5][6];
         sum += this.board[5][7];
         sum += this.board[5][8];
-
         return (sum == 45);
     }
 
@@ -243,7 +238,6 @@ public class SudokuPuzzle {
         sum += this.board[8][0];
         sum += this.board[8][1];
         sum += this.board[8][2];
-
         return (sum == 45);
     }
 
@@ -259,7 +253,6 @@ public class SudokuPuzzle {
         sum += this.board[8][3];
         sum += this.board[8][4];
         sum += this.board[8][5];
-
         return (sum == 45);
     }
 
@@ -275,7 +268,6 @@ public class SudokuPuzzle {
         sum += this.board[8][6];
         sum += this.board[8][7];
         sum += this.board[8][8];
-
         return (sum == 45);
     }
 
