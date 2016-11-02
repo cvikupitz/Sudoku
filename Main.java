@@ -6,15 +6,33 @@
  */
 package sudoku;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
+// functionality is not architectural
 public class Main {
 
     /* Invoked at runtime, starts and runs the program. */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
 
-        Puzzle p = new Puzzle("082001900064032718700850060900200087826105009007380026005600072098407630670028090");
-        p.print();
-        System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
+        BufferedReader r = new BufferedReader(new FileReader("5.txt"));
+        String l = r.readLine();
+        int i = 0, j = 0;
+        while (l != null) {
+            Puzzle p = new Puzzle(l);
+            i++;
+            if (p.isComplete())
+                j++;
+            l = r.readLine();
+        }
+        System.out.printf("%d puzzles scanned. %d complete.\n", i, j);
+
+
+//        Puzzle p = new Puzzle("");
+//        p.print();
+//        System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
     }
 
 }
