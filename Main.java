@@ -54,7 +54,7 @@ public class Main {
         //</editor-fold>
 
 
-        SudokuPuzzle p = new SudokuPuzzle("096040001100060004504810390007950043030080000405023018010630059059070830003590007");
+        SudokuPuzzle p = new SudokuPuzzle("062100950908035006040029170250000084400502600890463205020357000070006502685004731");
         p.print();
         System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
         SudokuFrame f = new SudokuFrame();
