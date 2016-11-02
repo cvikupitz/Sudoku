@@ -17,22 +17,48 @@ public class Main {
     /* Invoked at runtime, starts and runs the program. */
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
-        BufferedReader r = new BufferedReader(new FileReader("5.txt"));
-        String l = r.readLine();
-        int i = 0, j = 0;
-        while (l != null) {
-            SudokuPuzzle p = new SudokuPuzzle(l);
-            i++;
-            if (p.isComplete())
-                j++;
-            l = r.readLine();
+//        BufferedReader r = new BufferedReader(new FileReader("5.txt"));
+//        String l = r.readLine();
+//        int i = 0, j = 0;
+//        while (l != null) {
+//            SudokuPuzzle p = new SudokuPuzzle(l);
+//            i++;
+//            if (p.isComplete())
+//                j++;
+//            l = r.readLine();
+//        }
+//        System.out.printf("%d puzzles scanned. %d complete.\n", i, j);
+
+
+/* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        System.out.printf("%d puzzles scanned. %d complete.\n", i, j);
+        //</editor-fold>
 
 
-//        Puzzle p = new Puzzle("");
-//        p.print();
-//        System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
+        SudokuPuzzle p = new SudokuPuzzle("096040001100060004504810390007950043030080000405023018010630059059070830003590007");
+        p.print();
+        System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
+        SudokuFrame f = new SudokuFrame();
+        f.initializeTable(p.toArray());
     }
 
 }
