@@ -21,7 +21,7 @@ public class Main {
         String l = r.readLine();
         int i = 0, j = 0;
         while (l != null) {
-            Puzzle p = new Puzzle(l);
+            SudokuPuzzle p = new SudokuPuzzle(l);
             i++;
             if (p.isComplete())
                 j++;
