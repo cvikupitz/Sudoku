@@ -1,8 +1,10 @@
 /**
- * NinePuzzle.java
+ * SudokuPuzzle.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that represents a sudoku puzzle. A string is passed into the constructor
+ * containing 81 characters/numbers, and the board is constructed from that.
+ * The board is represetned as a 9x9 2-dimensional integer array.
  */
 package sudoku;
 
@@ -10,7 +12,7 @@ package sudoku;
 public class SudokuPuzzle {
 
     /* Declare private members */
-    private final int[][] board;
+    private int[][] board;
 
     /* Default constructor */
     public SudokuPuzzle(String config) {
@@ -90,6 +92,17 @@ public class SudokuPuzzle {
      */
     public int[][] toArray() {
         return this.board;
+    }
+
+
+    /**
+     * Sets the sudoku board to the specified 2-d integer array. Used after
+     * being passed through the sudoku solver.
+     *
+     * @param b The array to set the sudoku board to.
+     */
+    protected void setArray(int[][] b) {
+        this.board = b;
     }
 
 
