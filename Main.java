@@ -10,6 +10,11 @@ package sudoku;
 public class Main {
 
     /* Invoked at runtime, starts and runs the program. */
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+
+        Puzzle p = new Puzzle("082001900064032718700850060900200087826105009007380026005600072098407630670028090");
+        p.print();
+        System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
+    }
 
 }
