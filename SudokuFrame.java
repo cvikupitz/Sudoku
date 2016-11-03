@@ -22,6 +22,7 @@ public class SudokuFrame extends JFrame {
     private final JTextPane[][] fields;
 
     public SudokuFrame(int[][] board) {
+
         this.initComponents();
         this.getContentPane().setBackground(new Color(255, 255, 153));
         this.fields = new JTextPane[][]{
@@ -36,6 +37,7 @@ public class SudokuFrame extends JFrame {
         {this.I1, this.I2, this.I3, this.I4, this.I5, this.I6, this.I7, this.I8, this.I9}};
         this.initializeTable(board);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setLocation(300, 100);
         this.setVisible(true);
     }
 
