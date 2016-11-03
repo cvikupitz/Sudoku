@@ -54,11 +54,10 @@ public class Main {
         //</editor-fold>
 
 
-        SudokuPuzzle p = new SudokuPuzzle("062100950908035006040029170250000084400502600890463205020357000070006502685004731");
+        SudokuPuzzle p = new SudokuPuzzle("123456789589137246647298315712864593936521478458973162264785931375619824891342657");
         p.print();
         System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
-        SudokuFrame f = new SudokuFrame();
-        f.initializeTable(p.toArray());
+        SudokuFrame f = new SudokuFrame(p.toArray());
     }
 
 }

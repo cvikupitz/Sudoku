@@ -9,7 +9,6 @@ package sudoku;
 
 /* Imports */
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
@@ -22,7 +21,7 @@ public class SudokuFrame extends JFrame {
     /* Initialize private members */
     private final JTextPane[][] fields;
 
-    public SudokuFrame() {
+    public SudokuFrame(int[][] board) {
         this.initComponents();
         this.getContentPane().setBackground(new Color(255, 255, 153));
         this.fields = new JTextPane[][]{
@@ -35,6 +34,7 @@ public class SudokuFrame extends JFrame {
         {this.G1, this.G2, this.G3, this.G4, this.G5, this.G6, this.G7, this.G8, this.G9},
         {this.H1, this.H2, this.H3, this.H4, this.H5, this.H6, this.H7, this.H8, this.H9},
         {this.I1, this.I2, this.I3, this.I4, this.I5, this.I6, this.I7, this.I8, this.I9}};
+        this.initializeTable(board);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setVisible(true);
     }
@@ -51,13 +51,41 @@ public class SudokuFrame extends JFrame {
                 doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
                 if (board[i][j] != 0) {
+                    this.fields[i][j].setForeground(Color.BLACK);
                     this.fields[i][j].setText(Integer.toString(board[i][j]));
                     this.fields[i][j].setEditable(false);
                 } else {
                     this.fields[i][j].setText("");
+                    this.fields[i][j].setForeground(new Color(0, 51, 153));
                 }
             }
         }
+    }
+
+
+    /***/
+    protected void importBoard(int[][] board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                this.fields[i][j].setText(Integer.toString(board[i][j]));
+            }
+        }
+    }
+
+
+    /***/
+    protected int[][] exportBoard() {
+        int[][] board = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                try {
+                    board[i][j] = Integer.parseInt(this.fields[i][j].getText());
+                } catch (Exception e) {
+                    board[i][j] = 0;
+                }
+            }
+        }
+        return board;
     }
 
     /**
@@ -232,6 +260,7 @@ public class SudokuFrame extends JFrame {
         I8 = new javax.swing.JTextPane();
         jScrollPane82 = new javax.swing.JScrollPane();
         I9 = new javax.swing.JTextPane();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sudoku");
@@ -644,6 +673,13 @@ public class SudokuFrame extends JFrame {
         I9.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jScrollPane82.setViewportView(I9);
 
+        jButton1.setText("Check");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -820,7 +856,8 @@ public class SudokuFrame extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane81, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane82, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane82, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -937,11 +974,20 @@ public class SudokuFrame extends JFrame {
                             .addComponent(jScrollPane81, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane82, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane76, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        SudokuPuzzle p = new SudokuPuzzle();
+        p.setArray(exportBoard());
+        if (p.isComplete())
+            this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -972,10 +1018,12 @@ public class SudokuFrame extends JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new SudokuFrame().setVisible(true);
+            new SudokuFrame(new int[9][9]).setVisible(true);
         });
     }
 
+    /* UI component variable declarations */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane A1;
     private javax.swing.JTextPane A2;
@@ -1059,6 +1107,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane I8;
     private javax.swing.JTextPane I9;
     private javax.swing.JLabel TimeLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
@@ -1141,4 +1190,5 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane82;
     private javax.swing.JScrollPane jScrollPane9;
     // End of variables declaration//GEN-END:variables
+//</editor-fold>
 }

@@ -15,6 +15,11 @@ public class SudokuPuzzle {
     private int[][] board;
 
     /* Default constructor */
+    public SudokuPuzzle() {
+        this("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+    }
+
+    /* Default constructor */
     public SudokuPuzzle(String config) {
         this.board = new int[9][9];
         char[] chars = config.toCharArray();
