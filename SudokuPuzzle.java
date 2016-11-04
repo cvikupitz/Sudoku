@@ -118,16 +118,23 @@ public class SudokuPuzzle {
     //  method for checking a row, a column, and one for  //
     //  each subgrid.                                     //
     ////////////////////////////////////////////////////////
+    //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle checking functions ">
 
     /*
     Checks if the given row of the sudoku board is complete. Returns true if
     so, or false if otherwise.
     */
     private boolean rowIsComplete(int r) {
-        int sum = 0;
-        for (int i = 0; i < 9; i++)
-            sum += this.board[r][i];
-        return (sum == 45);
+        boolean[] row = {false, false, false, false, false, false, false, false, false};
+        for (int i = 0; i < 9; i++) {
+            if (this.board[r][i] == 0)
+                return false;
+            else if (row[this.board[r][i]-1])
+                return false;
+            else
+                row[this.board[r][i]-1] = true;
+        }
+        return true;
     }
 
     /*
@@ -135,10 +142,16 @@ public class SudokuPuzzle {
     so, or false if otherwise.
     */
     private boolean columnIsComplete(int c) {
-        int sum = 0;
-        for (int i = 0; i < 9; i++)
-            sum += this.board[i][c];
-        return (sum == 45);
+        boolean[] row = {false, false, false, false, false, false, false, false, false};
+        for (int i = 0; i < 9; i++) {
+            if (this.board[i][c] == 0)
+                return false;
+            else if (row[this.board[i][c]-1])
+                return false;
+            else
+                row[this.board[i][c]-1] = true;
+        }
+        return true;
     }
 
     /* Checks the first subgrid for completenes. */
@@ -275,5 +288,6 @@ public class SudokuPuzzle {
         sum += this.board[8][8];
         return (sum == 45);
     }
+    //</editor-fold>
 
 } // End SudokuPuzzle class

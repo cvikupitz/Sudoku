@@ -7,28 +7,14 @@
 package sudoku;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
+import java.util.Random;
 
 // functionality is not architectural
 public class Main {
 
     /* Invoked at runtime, starts and runs the program. */
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-
-//        BufferedReader r = new BufferedReader(new FileReader("5.txt"));
-//        String l = r.readLine();
-//        int i = 0, j = 0;
-//        while (l != null) {
-//            SudokuPuzzle p = new SudokuPuzzle(l);
-//            i++;
-//            if (p.isComplete())
-//                j++;
-//            l = r.readLine();
-//        }
-//        System.out.printf("%d puzzles scanned. %d complete.\n", i, j);
-
+    public static void main(String[] args) {
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -53,11 +39,15 @@ public class Main {
         }
         //</editor-fold>
 
-
-        SudokuPuzzle p = new SudokuPuzzle("123456789947138265586279341439765128251984637768321594615892473394617852872543916");
-        p.print();
-        System.out.printf("\nIs Complete: %s\n\n", p.isComplete());
-        SudokuFrame f = new SudokuFrame(p);
+        Random r = new Random();
+        int k = r.nextInt(10000);
+        try (BufferedReader br = new BufferedReader(new FileReader("1.txt"))) {
+            String line = br.readLine();
+            for (int i = 0; i < k-1; i++)
+                line = br.readLine();
+            SudokuPuzzle p = new SudokuPuzzle(line);
+            p.print();
+            SudokuFrame f = new SudokuFrame(p);
+        } catch (Exception e) {}
     }
-
 }
