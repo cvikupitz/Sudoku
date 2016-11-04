@@ -39,15 +39,19 @@ public class Main {
         }
         //</editor-fold>
 
-        Random r = new Random();
-        int k = r.nextInt(10000);
-        try (BufferedReader br = new BufferedReader(new FileReader("1.txt"))) {
-            String line = br.readLine();
-            for (int i = 0; i < k-1; i++)
-                line = br.readLine();
-            SudokuPuzzle p = new SudokuPuzzle(line);
-            p.print();
-            SudokuFrame f = new SudokuFrame(p);
-        } catch (Exception e) {}
+//        Random r = new Random();
+//        int k = r.nextInt(10000);
+//        try (BufferedReader br = new BufferedReader(new FileReader("123456789.txt"))) {
+//            String line = br.readLine();
+//            for (int i = 0; i < k-1; i++)
+//                line = br.readLine();
+//            SudokuPuzzle p = new SudokuPuzzle(line);
+//            p.print();
+//            SudokuFrame f = new SudokuFrame(p);
+//        } catch (Exception e) {}
+
+        SudokuPuzzle p = new SudokuPuzzle("123456789958172346647938125285613497719524638364897512531269874896741253472385960");
+        p.print();
+        SudokuFrame f = new SudokuFrame(p);
     }
 }

@@ -27,6 +27,8 @@ import javax.swing.text.StyledDocument;
 public class SudokuFrame extends JFrame {
 
     /* Initialize private members */
+    private final Color GREEN = new Color(0, 200, 51);
+    private final Color BLUE = new Color(0, 51, 153);
     private final JTextPane[][] fields;
     private final boolean[][] editable;
     private final SudokuPuzzle puzzle;
@@ -68,7 +70,6 @@ public class SudokuFrame extends JFrame {
                 t.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        t.requestFocus();
                         if (e.getClickCount() == 2)
                             highlight(t);
                     }
@@ -80,7 +81,14 @@ public class SudokuFrame extends JFrame {
                     public void keyTyped(KeyEvent e) {
                         if (!flag)
                             return;
-                        t.setText(Character.toString(e.getKeyChar()));
+                        if (!(e.getKeyChar() == '1' || e.getKeyChar() == '2' ||
+                                e.getKeyChar() == '3' || e.getKeyChar() == '4' ||
+                                e.getKeyChar() == '5' || e.getKeyChar() == '6' ||
+                                e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
+                                e.getKeyChar() == '9'))
+                            t.setText("");
+                        else
+                            t.setText(Character.toString(e.getKeyChar()));
                     }
                     @Override
                     public void keyPressed(KeyEvent e) {}
@@ -129,7 +137,7 @@ public class SudokuFrame extends JFrame {
                 } else {
                     this.editable[i][j] = true;
                     this.fields[i][j].setText("");
-                    this.fields[i][j].setForeground(new Color(0, 51, 153));
+                    this.fields[i][j].setForeground(this.BLUE);
                 }
             }
         }
@@ -162,8 +170,7 @@ public class SudokuFrame extends JFrame {
     private void highlight(JTextPane t) {
         try {
             int k = Integer.parseInt(t.getText());
-
-            if (t.getForeground() != Color.BLACK) {
+            if (t.getForeground() == this.GREEN) {
                 this.resetColors();
                 return;
             }
@@ -172,7 +179,7 @@ public class SudokuFrame extends JFrame {
                 for (int j = 0; j < 9; j++) {
                     try {
                         if (Integer.parseInt(this.fields[i][j].getText()) == k) {
-                            this.fields[i][j].setForeground(new Color(0, 200, 51));
+                            this.fields[i][j].setForeground(this.GREEN);
                         }
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
@@ -194,7 +201,7 @@ public class SudokuFrame extends JFrame {
                     this.fields[i][j].setForeground(Color.BLACK);
                     this.fields[i][j].setText(Integer.toString(board[i][j]));
                 } else {
-                    this.fields[i][j].setForeground(new Color(0, 51, 153));
+                    this.fields[i][j].setForeground(this.BLUE);
                 }
             }
         }
