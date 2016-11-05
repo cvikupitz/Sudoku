@@ -72,12 +72,42 @@ public class SudokuFrame extends JFrame {
         /* Set up the puzzle */
         this.initializeTable();
 
-//        /* Adds the event listeners for each panel */
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//
-//            }
-//        }
+        /* Adds the event listeners for each panel */
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                JTextPane pane = this.fields[i][j];
+
+                /* Adds the mouse listeners for each panel */
+                pane.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getClickCount() == 2)
+                            highlight(pane);
+                    }
+                });
+
+                /* Adds the focus listeners for each panel */
+                pane.addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        UIDefaults defaults = new UIDefaults();
+                        defaults.put("TextPane[Enabled].backgroundPainter", SELECTED);
+                        pane.putClientProperty("Nimbus.Overrides", defaults);
+                        pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+                        pane.setBackground(SELECTED);
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        UIDefaults defaults = new UIDefaults();
+                        defaults.put("TextPane[Enabled].backgroundPainter", Color.WHITE);
+                        pane.putClientProperty("Nimbus.Overrides", defaults);
+                        pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+                        pane.setBackground(Color.WHITE);
+                    }
+                });
+            }
+        }
 
         /* Asks user if they're sure when closing the window. */
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -147,37 +177,6 @@ public class SudokuFrame extends JFrame {
                 int m = i;
                 int n = j;
 
-                /* Adds the mouse listeners for each panel */
-                pane.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (e.getClickCount() == 2)
-                            highlight(pane);
-                    }
-                });
-
-                /* Adds the focus listeners for each panel */
-                pane.addFocusListener(new FocusListener() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", SELECTED);
-                        pane.putClientProperty("Nimbus.Overrides", defaults);
-                        pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        pane.setBackground(SELECTED);
-                    }
-
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", Color.WHITE);
-                        pane.putClientProperty("Nimbus.Overrides", defaults);
-                        pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        pane.setBackground(Color.WHITE);
-                    }
-                });
-
-
                 /* Adds the key listeners for each panel */
                 pane.addKeyListener(new KeyListener() {
                     @Override
@@ -235,8 +234,7 @@ public class SudokuFrame extends JFrame {
      */
     private void highlight(JTextPane t) {
         try {
-            int k = Integer.parseInt(t.getText());
-            this.highlighted = k;
+            this.highlighted = Integer.parseInt(t.getText());
             if (t.getForeground() == this.GREEN) {
                 this.resetColors();
                 this.highlighted = 0;
@@ -246,7 +244,7 @@ public class SudokuFrame extends JFrame {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     try {
-                        if (Integer.parseInt(this.fields[i][j].getText()) == k) {
+                        if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted) {
                             this.fields[i][j].setForeground(this.GREEN);
                         }
                     } catch (Exception e) {/* Ignore exceptions */}
@@ -1358,15 +1356,16 @@ public class SudokuFrame extends JFrame {
         if (e.isComplete()) {
             WindowUtility.displayInfo("You beat the puzzle!", "Congratulations");
             this.puzzle = Main.getPuzzle();
-            this.initializeTable();
+            FileUtility.saveGame(this.puzzle);
+            System.exit(0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
-            this.puzzle = Main.getPuzzle();
-            this.initializeTable();
-        }
+//        if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
+//            this.puzzle = Main.getPuzzle();
+//            this.initializeTable();
+//        }
     }//GEN-LAST:event_NewGameOptionActionPerformed
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Resetting"))
