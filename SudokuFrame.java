@@ -1344,7 +1344,6 @@ public class SudokuFrame extends JFrame {
             System.exit(0);
     }//GEN-LAST:event_QuitOptionActionPerformed
 
-
     /* UI component variable declarations */
     //<editor-fold defaultstate="collapsed" desc=" Component declarations (optional) ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
