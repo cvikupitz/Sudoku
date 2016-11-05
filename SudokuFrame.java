@@ -37,13 +37,13 @@ public class SudokuFrame extends JFrame {
     private final Color SELECTED = new Color(255, 255, 150);
     private final JTextPane[][] fields;
     private boolean[][] editable;
-    private final SudokuPuzzle puzzle, temp;
+    private final SudokuPuzzle puzzle;
     private int highlighted;
 
     public SudokuFrame(SudokuPuzzle p) {
 
         /* Sets up the window components and design */
-        this.puzzle = this.temp = p;
+        this.puzzle = p;
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(new Color(180, 180, 180));
@@ -61,9 +61,6 @@ public class SudokuFrame extends JFrame {
         {this.G1, this.G2, this.G3, this.G4, this.G5, this.G6, this.G7, this.G8, this.G9},
         {this.H1, this.H2, this.H3, this.H4, this.H5, this.H6, this.H7, this.H8, this.H9},
         {this.I1, this.I2, this.I3, this.I4, this.I5, this.I6, this.I7, this.I8, this.I9}};
-
-        /* Keep a 2-d array of booleans to track which panels can be editable */
-        this.editable = new boolean[9][9];
 
         /* Set up the puzzle */
         this.initializeTable();
@@ -119,14 +116,14 @@ public class SudokuFrame extends JFrame {
                                 e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
                                 e.getKeyChar() == '9')) {
                             t.setText("");  /* If not a valid number, delete the value in square */
-                            temp.remove(k, m);
+                            puzzle.remove(k, m);
                         }
 
                         else {
                             if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
                                 t.setForeground(GREEN);
                             t.setText(Character.toString(e.getKeyChar()));
-                            temp.insert(Integer.parseInt(Character.toString(e.getKeyChar())), k, m);
+                            puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), k, m);
                         }
                     }
                     @Override
@@ -144,6 +141,7 @@ public class SudokuFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
+                    FileUtility.saveGame(puzzle);
                     System.exit(0);
                 }
             }
@@ -170,7 +168,10 @@ public class SudokuFrame extends JFrame {
      * Takes the puzzle given and sets up the board in the window for the user.
      */
     protected void initializeTable() {
-        int[][] board = this.puzzle.toArray();
+        this.editable = new boolean[9][9];
+        int k = 0;
+        String s = this.puzzle.initialPuzzleState();
+        String t = this.puzzle.currentPuzzleState();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
 
@@ -182,14 +183,17 @@ public class SudokuFrame extends JFrame {
                 this.fields[i][j].setEditable(false);
 
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
-                if (board[i][j] != 0) {
+                if (s.charAt(k) != '0') {
                     this.fields[i][j].setForeground(Color.BLACK);
-                    this.fields[i][j].setText(Integer.toString(board[i][j]));
+                    this.fields[i][j].setText(Character.toString(s.charAt(k)));
                 } else {
                     this.editable[i][j] = true;
-                    this.fields[i][j].setText("");
                     this.fields[i][j].setForeground(this.BLUE);
-                }
+                    if (t.charAt(k) != '0')
+                        this.fields[i][j].setText(Character.toString(t.charAt(k)));
+                    else
+                        this.fields[i][j].setText("");
+                } k++;
             }
         }
     }
@@ -246,16 +250,12 @@ public class SudokuFrame extends JFrame {
      * numbers are reset to black, and others set to blue.
      */
     private void resetColors() {
-        int[][] board = this.puzzle.toArray();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-
-                if (board[i][j] != 0) {
+                if (!this.editable[i][j])
                     this.fields[i][j].setForeground(Color.BLACK);
-                    this.fields[i][j].setText(Integer.toString(board[i][j]));
-                } else {
+                else
                     this.fields[i][j].setForeground(this.BLUE);
-                }
             }
         }
     }
@@ -266,17 +266,8 @@ public class SudokuFrame extends JFrame {
      * to reset the game.
      */
     private void resetGame() {
-        int[][] board = this.puzzle.toArray();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] != 0)
-                    this.fields[i][j].setText(Integer.toString(board[i][j]));
-                else
-                    this.fields[i][j].setText("");
-            }
-        }
-        this.resetColors();
-        this.repaint();
+        this.puzzle.resetPuzzle();
+        this.initializeTable();
     }
 
 
@@ -1332,7 +1323,7 @@ public class SudokuFrame extends JFrame {
 
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
-            FileUtility.saveGame(this.temp);
+
         }
     }//GEN-LAST:event_NewGameOptionActionPerformed
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
@@ -1340,8 +1331,10 @@ public class SudokuFrame extends JFrame {
             this.resetGame();
     }//GEN-LAST:event_ResetGameOptionActionPerformed
     private void QuitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitOptionActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to exit?", "Exiting"))
+        if (WindowUtility.askYesNo("Are you sure you want to exit?", "Exiting")) {
+            FileUtility.saveGame(this.puzzle);
             System.exit(0);
+        }
     }//GEN-LAST:event_QuitOptionActionPerformed
 
     /* UI component variable declarations */

@@ -141,6 +141,26 @@ public class SudokuPuzzle {
 
 
     /**
+     * Resets the Sudoku puzzle back to it's initial starting state.
+     */
+    public void resetPuzzle() {
+        this.board = new int[9][9];
+        char[] chars = this.config.toCharArray();
+        int temp, index = 0;
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                temp = Character.getNumericValue(chars[index++]);
+                if (temp == -1)
+                    this.board[i][j] = 0;
+                else
+                    this.board[i][j] = temp;
+            }
+        }
+    }
+
+
+    /**
      * Returns a 2-d integer array representing the sudoku board.
      *
      * @return The 2-d array representing the sudoku board.
