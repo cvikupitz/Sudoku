@@ -72,74 +72,12 @@ public class SudokuFrame extends JFrame {
         /* Set up the puzzle */
         this.initializeTable();
 
-        /* Adds the event listeners for each panel */
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                JTextPane t = this.fields[i][j];
-                boolean flag = this.editable[i][j];
-                int k = i;
-                int m = j;
-
-                /* Adds the mouse listeners for each panel */
-                t.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (e.getClickCount() == 2)
-                            highlight(t);
-                    }
-                });
-
-                /* Adds the focus listeners for each panel */
-                t.addFocusListener(new FocusListener() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", SELECTED);
-                        t.putClientProperty("Nimbus.Overrides", defaults);
-                        t.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        t.setBackground(SELECTED);
-                    }
-
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", Color.WHITE);
-                        t.putClientProperty("Nimbus.Overrides", defaults);
-                        t.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        t.setBackground(Color.WHITE);
-                    }
-                });
-
-
-                /* Adds the key listeners for each panel */
-                t.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        if (!flag)  /* If square is uneditable, do nothing */
-                            return;
-                        if (!(e.getKeyChar() == '1' || e.getKeyChar() == '2' ||
-                                e.getKeyChar() == '3' || e.getKeyChar() == '4' ||
-                                e.getKeyChar() == '5' || e.getKeyChar() == '6' ||
-                                e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
-                                e.getKeyChar() == '9')) {
-                            t.setText("");  /* If not a valid number, delete the value in square */
-                            puzzle.remove(k, m);
-                        }
-
-                        else {
-                            if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
-                                t.setForeground(GREEN);
-                            t.setText(Character.toString(e.getKeyChar()));
-                            puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), k, m);
-                        }
-                    }
-                    @Override
-                    public void keyPressed(KeyEvent e) {/* No implementation needed */}
-                    @Override
-                    public void keyReleased(KeyEvent e) {/* No implementation needed */}
-                });
-            }
-        }
+//        /* Adds the event listeners for each panel */
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//
+//            }
+//        }
 
         /* Asks user if they're sure when closing the window. */
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -175,7 +113,7 @@ public class SudokuFrame extends JFrame {
     /**
      * Takes the puzzle given and sets up the board in the window for the user.
      */
-    protected void initializeTable() {
+    private void initializeTable() {
         this.editable = new boolean[9][9];
         int k = 0;
         String s = this.puzzle.initialPuzzleState();
@@ -192,6 +130,7 @@ public class SudokuFrame extends JFrame {
 
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
                 if (s.charAt(k) != '0') {
+                    this.editable[i][j] = false;
                     this.fields[i][j].setForeground(Color.BLACK);
                     this.fields[i][j].setText(Character.toString(s.charAt(k)));
                 } else {
@@ -202,6 +141,70 @@ public class SudokuFrame extends JFrame {
                     else
                         this.fields[i][j].setText("");
                 } k++;
+
+                JTextPane pane = this.fields[i][j];
+                boolean flag = this.editable[i][j];
+                int m = i;
+                int n = j;
+
+                /* Adds the mouse listeners for each panel */
+                pane.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getClickCount() == 2)
+                            highlight(pane);
+                    }
+                });
+
+                /* Adds the focus listeners for each panel */
+                pane.addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        UIDefaults defaults = new UIDefaults();
+                        defaults.put("TextPane[Enabled].backgroundPainter", SELECTED);
+                        pane.putClientProperty("Nimbus.Overrides", defaults);
+                        pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+                        pane.setBackground(SELECTED);
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        UIDefaults defaults = new UIDefaults();
+                        defaults.put("TextPane[Enabled].backgroundPainter", Color.WHITE);
+                        pane.putClientProperty("Nimbus.Overrides", defaults);
+                        pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+                        pane.setBackground(Color.WHITE);
+                    }
+                });
+
+
+                /* Adds the key listeners for each panel */
+                pane.addKeyListener(new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (!flag)  /* If square is uneditable, do nothing */
+                            return;
+                        if (!(e.getKeyChar() == '1' || e.getKeyChar() == '2' ||
+                                e.getKeyChar() == '3' || e.getKeyChar() == '4' ||
+                                e.getKeyChar() == '5' || e.getKeyChar() == '6' ||
+                                e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
+                                e.getKeyChar() == '9')) {
+                            pane.setText("");  /* If not a valid number, delete the value in square */
+                            puzzle.remove(m, n);
+                        }
+
+                        else {
+                            if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
+                                pane.setForeground(GREEN);
+                            pane.setText(Character.toString(e.getKeyChar()));
+                            puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), m, n);
+                        }
+                    }
+                    @Override
+                    public void keyPressed(KeyEvent e) {/* No implementation needed */}
+                    @Override
+                    public void keyReleased(KeyEvent e) {/* No implementation needed */}
+                });
             }
         }
     }
