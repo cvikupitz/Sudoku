@@ -172,6 +172,23 @@ public class SudokuPuzzle {
     }
 
 
+    /**
+     * Returns the string representing the Sudoku puzzle in its current state.
+     * Used for saving the user's progress midgame.
+     *
+     * @return A string representing the current state of the Sudoku puzzle.
+     */
+    protected String currentPuzzleState() {
+        String s = "";
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                s += this.board[i][j];
+            }
+        }
+        return s;
+    }
+
+
     ////////////////////////////////////////////////////////
     //       --- Completion Checker Methods --            //
     //  These methods are invoked when checking the       //

@@ -6,15 +6,19 @@
  */
 package sudoku;
 
+
+/* Imports */
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Random;
 
 // functionality is not architectural
 public class Main {
 
     /* Invoked at runtime, starts and runs the program. */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -39,7 +43,14 @@ public class Main {
         }
         //</editor-fold>
 
-        SudokuPuzzle p = getPuzzle();
+        /* Loads the Sudoku save folder on user's computer */
+        File dir = new File(FileUtility.PATH);
+        if (!dir.exists())
+            dir.mkdir();
+
+        SudokuPuzzle p = FileUtility.loadGame();
+        if (p == null)
+            p = getPuzzle();
         SudokuFrame f = new SudokuFrame(p);
     }
 
@@ -47,7 +58,7 @@ public class Main {
     protected static SudokuPuzzle getPuzzle() {
         Random r = new Random();
         int k = r.nextInt(10000);
-        try (BufferedReader br = new BufferedReader(new FileReader("5.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("0.txt"))) {
             String line = br.readLine();
             for (int i = 0; i < k-1; i++)
                 line = br.readLine();

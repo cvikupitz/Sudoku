@@ -1332,7 +1332,7 @@ public class SudokuFrame extends JFrame {
 
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
-            WindowUtility.displayInfo("Not implemented yet...", "Note!");
+            FileUtility.saveGame(this.temp);
         }
     }//GEN-LAST:event_NewGameOptionActionPerformed
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
