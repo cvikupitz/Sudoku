@@ -58,7 +58,7 @@ public class Main {
     protected static SudokuPuzzle getPuzzle() {
         Random r = new Random();
         int k = r.nextInt(10000);
-        try (BufferedReader br = new BufferedReader(new FileReader("0.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("2.txt"))) {
             String line = br.readLine();
             for (int i = 0; i < k-1; i++)
                 line = br.readLine();
@@ -68,3 +68,12 @@ public class Main {
         } catch (Exception e) {return null;}
     }
 }
+
+
+/*
+0.txt - 45
+1.txt - 40
+2.txt - 35
+3.txt - 30
+5.txt - 25
+*/
