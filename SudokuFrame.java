@@ -49,6 +49,7 @@ public class SudokuFrame extends JFrame {
         this.getContentPane().setBackground(new Color(204, 204, 255));
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setLocation(360, 50);
+
 ///////////////////////////////////////////////
 //        this.addMouseListener(new MouseAdapter() {
 //            @Override
@@ -57,6 +58,7 @@ public class SudokuFrame extends JFrame {
 //            }
 //        });
 //////////////////////////////////////////////////////
+
         /* Keep a 2-d list of the panels for easy accessing and checking */
         this.fields = new JTextPane[][]{
         {this.A1, this.A2, this.A3, this.A4, this.A5, this.A6, this.A7, this.A8, this.A9},
@@ -76,6 +78,8 @@ public class SudokuFrame extends JFrame {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 JTextPane pane = this.fields[i][j];
+                int m = i;
+                int n = j;
 
                 /* Adds the mouse listeners for each panel */
                 pane.addMouseListener(new MouseAdapter() {
@@ -105,6 +109,34 @@ public class SudokuFrame extends JFrame {
                         pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
                         pane.setBackground(Color.WHITE);
                     }
+                });
+
+                /* Adds the key listeners for each panel */
+                pane.addKeyListener(new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (!editable[m][n])  /* If square is uneditable, do nothing */
+                            return;
+                        if (!(e.getKeyChar() == '1' || e.getKeyChar() == '2' ||
+                                e.getKeyChar() == '3' || e.getKeyChar() == '4' ||
+                                e.getKeyChar() == '5' || e.getKeyChar() == '6' ||
+                                e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
+                                e.getKeyChar() == '9')) {
+                            pane.setText("");  /* If not a valid number, delete the value in square */
+                            puzzle.remove(m, n);
+                        }
+
+                        else {
+                            if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
+                                pane.setForeground(GREEN);
+                            pane.setText(Character.toString(e.getKeyChar()));
+                            puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), m, n);
+                        }
+                    }
+                    @Override
+                    public void keyPressed(KeyEvent e) {/* No implementation needed */}
+                    @Override
+                    public void keyReleased(KeyEvent e) {/* No implementation needed */}
                 });
             }
         }
@@ -171,39 +203,6 @@ public class SudokuFrame extends JFrame {
                     else
                         this.fields[i][j].setText("");
                 } k++;
-
-                JTextPane pane = this.fields[i][j];
-                boolean flag = this.editable[i][j];
-                int m = i;
-                int n = j;
-
-                /* Adds the key listeners for each panel */
-                pane.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        if (!flag)  /* If square is uneditable, do nothing */
-                            return;
-                        if (!(e.getKeyChar() == '1' || e.getKeyChar() == '2' ||
-                                e.getKeyChar() == '3' || e.getKeyChar() == '4' ||
-                                e.getKeyChar() == '5' || e.getKeyChar() == '6' ||
-                                e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
-                                e.getKeyChar() == '9')) {
-                            pane.setText("");  /* If not a valid number, delete the value in square */
-                            puzzle.remove(m, n);
-                        }
-
-                        else {
-                            if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
-                                pane.setForeground(GREEN);
-                            pane.setText(Character.toString(e.getKeyChar()));
-                            puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), m, n);
-                        }
-                    }
-                    @Override
-                    public void keyPressed(KeyEvent e) {/* No implementation needed */}
-                    @Override
-                    public void keyReleased(KeyEvent e) {/* No implementation needed */}
-                });
             }
         }
     }
@@ -1356,16 +1355,15 @@ public class SudokuFrame extends JFrame {
         if (e.isComplete()) {
             WindowUtility.displayInfo("You beat the puzzle!", "Congratulations");
             this.puzzle = Main.getPuzzle();
-            FileUtility.saveGame(this.puzzle);
-            System.exit(0);
+            this.initializeTable();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
-//        if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
-//            this.puzzle = Main.getPuzzle();
-//            this.initializeTable();
-//        }
+        if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
+            this.puzzle = Main.getPuzzle();
+            this.initializeTable();
+        }
     }//GEN-LAST:event_NewGameOptionActionPerformed
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Resetting"))
