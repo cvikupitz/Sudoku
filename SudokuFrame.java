@@ -124,11 +124,11 @@ public class SudokuFrame extends JFrame {
                                 e.getKeyChar() == '9')) {
                             pane.setText("");  /* If not a valid number, delete the value in square */
                             puzzle.remove(m, n);
-                        }
-
-                        else {
+                        } else {
                             if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
                                 pane.setForeground(GREEN);
+                            else
+                                pane.setForeground(BLUE);
                             pane.setText(Character.toString(e.getKeyChar()));
                             puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), m, n);
                         }
@@ -1358,7 +1358,6 @@ public class SudokuFrame extends JFrame {
             this.initializeTable();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
             this.puzzle = Main.getPuzzle();
