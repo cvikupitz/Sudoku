@@ -32,7 +32,7 @@ public class FileUtility {
     protected static void saveGame(SudokuPuzzle p) {
 
         /* Puzzle is equal to null, return */
-        if (p == null){
+        if (p == null) {
             WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
                     "Error Saving Puzzle");
             return;
@@ -43,7 +43,6 @@ public class FileUtility {
 
         /* Open the file to write to */
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-
             writer.write(p.initialPuzzleState() + "\n");
             writer.write(p.currentPuzzleState());
             writer.close();

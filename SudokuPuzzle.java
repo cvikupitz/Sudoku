@@ -83,7 +83,9 @@ public class SudokuPuzzle {
      * @return A list of booleans representing the legal moves to make.
      */
     public boolean[] getLegalMoves(int i, int j) {
-        return new boolean[]{false, false, false, false, false, false, false, false, false};
+        boolean[] legalMoves = {true, true, true, true, true, true, true, true, true};
+        /* FIXME */
+        return legalMoves;
     }
 
 
@@ -172,7 +174,7 @@ public class SudokuPuzzle {
 
     /**
      * Sets the sudoku board to the specified 2-d integer array. Used after
-     * being passed through the sudoku solver.
+     * being passed through the sudoku solver and loading from a file.
      *
      * @param b The array to set the sudoku board to.
      */
