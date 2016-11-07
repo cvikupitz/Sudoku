@@ -51,12 +51,12 @@ public class SudokuFrame extends JFrame {
         this.setLocation(360, 50);
 
 ///////////////////////////////////////////////
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.printf("(%d, %d)\n", e.getX(), e.getY());
-            }
-        });
+//        this.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                System.out.printf("(%d, %d)\n", e.getX(), e.getY());
+//            }
+//        });
 //////////////////////////////////////////////////////
 
         /* Keep a 2-d list of the panels for easy accessing and checking */
@@ -170,7 +170,6 @@ public class SudokuFrame extends JFrame {
         g2d.draw(new Line2D.Float(327, 126, 327, 556));
         g2d.draw(new Line2D.Float(38, 268, 468, 268));
         g2d.draw(new Line2D.Float(38, 412, 468, 412));
-        g2d.drawRect(489, 125, 140, 275);
     }
 
     /**
@@ -458,28 +457,16 @@ public class SudokuFrame extends JFrame {
         C3 = new javax.swing.JTextPane();
         jScrollPane43 = new javax.swing.JScrollPane();
         E7 = new javax.swing.JTextPane();
-        jPanel2 = new javax.swing.JPanel();
-        SevenButton = new javax.swing.JButton();
-        EightButton = new javax.swing.JButton();
-        NineButton = new javax.swing.JButton();
-        jScrollPane46 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        OneButton = new javax.swing.JButton();
-        TwoButton = new javax.swing.JButton();
-        ThreeButton = new javax.swing.JButton();
-        FourButton = new javax.swing.JButton();
-        FiveButton = new javax.swing.JButton();
-        SixButton = new javax.swing.JButton();
-        AddAllButton = new javax.swing.JButton();
-        ClearButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        FileMenu = new javax.swing.JMenu();
+        OptionsMenu = new javax.swing.JMenu();
         NewGameOption = new javax.swing.JMenuItem();
         ResetGameOption = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         QuitOption = new javax.swing.JMenuItem();
-        OptionsMenu = new javax.swing.JMenu();
         HelpMenu = new javax.swing.JMenu();
+        GetHintOption = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        SolveOption = new javax.swing.JMenuItem();
 
         jMenu2.setText("File");
         jMenuBar2.add(jMenu2);
@@ -1296,99 +1283,7 @@ public class SudokuFrame extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
-
-        SevenButton.setText("7");
-
-        EightButton.setText("8");
-
-        NineButton.setText("9");
-
-        jTextPane1.setFocusable(false);
-        jTextPane1.setHighlighter(null);
-        jScrollPane46.setViewportView(jTextPane1);
-
-        OneButton.setText("1");
-
-        TwoButton.setText("2");
-
-        ThreeButton.setText("3");
-
-        FourButton.setText("4");
-
-        FiveButton.setText("5");
-
-        SixButton.setText("6");
-
-        AddAllButton.setText("Add All");
-
-        ClearButton.setText("Clear");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane46, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(OneButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TwoButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ThreeButton))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(FourButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(FiveButton))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(SevenButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(EightButton)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(SixButton)
-                                    .addComponent(NineButton)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(AddAllButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ClearButton)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane46, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(OneButton)
-                    .addComponent(TwoButton)
-                    .addComponent(ThreeButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FourButton)
-                    .addComponent(FiveButton)
-                    .addComponent(SixButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SevenButton)
-                    .addComponent(EightButton)
-                    .addComponent(NineButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddAllButton)
-                    .addComponent(ClearButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        FileMenu.setText("File");
+        OptionsMenu.setText("Options");
 
         NewGameOption.setText("New Game");
         NewGameOption.addActionListener(new java.awt.event.ActionListener() {
@@ -1396,7 +1291,7 @@ public class SudokuFrame extends JFrame {
                 NewGameOptionActionPerformed(evt);
             }
         });
-        FileMenu.add(NewGameOption);
+        OptionsMenu.add(NewGameOption);
 
         ResetGameOption.setText("Reset Game");
         ResetGameOption.addActionListener(new java.awt.event.ActionListener() {
@@ -1404,8 +1299,8 @@ public class SudokuFrame extends JFrame {
                 ResetGameOptionActionPerformed(evt);
             }
         });
-        FileMenu.add(ResetGameOption);
-        FileMenu.add(jSeparator1);
+        OptionsMenu.add(ResetGameOption);
+        OptionsMenu.add(jSeparator1);
 
         QuitOption.setText("Quit");
         QuitOption.addActionListener(new java.awt.event.ActionListener() {
@@ -1413,14 +1308,19 @@ public class SudokuFrame extends JFrame {
                 QuitOptionActionPerformed(evt);
             }
         });
-        FileMenu.add(QuitOption);
+        OptionsMenu.add(QuitOption);
 
-        jMenuBar1.add(FileMenu);
-
-        OptionsMenu.setText("Options");
         jMenuBar1.add(OptionsMenu);
 
         HelpMenu.setText("Help");
+
+        GetHintOption.setText("Get Hint");
+        HelpMenu.add(GetHintOption);
+        HelpMenu.add(jSeparator2);
+
+        SolveOption.setText("Solve Puzzle");
+        HelpMenu.add(SolveOption);
+
         jMenuBar1.add(HelpMenu);
 
         setJMenuBar(jMenuBar1);
@@ -1433,12 +1333,9 @@ public class SudokuFrame extends JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(CheckButton)
-                    .addComponent(TimeLabel)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TimeLabel))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1446,12 +1343,10 @@ public class SudokuFrame extends JFrame {
                 .addContainerGap(54, Short.MAX_VALUE)
                 .addComponent(TimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(CheckButton)
-                .addGap(48, 48, 48))
+                .addGap(41, 41, 41))
         );
 
         pack();
@@ -1496,7 +1391,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane A7;
     private javax.swing.JTextPane A8;
     private javax.swing.JTextPane A9;
-    private javax.swing.JButton AddAllButton;
     private javax.swing.JTextPane B1;
     private javax.swing.JTextPane B2;
     private javax.swing.JTextPane B3;
@@ -1516,7 +1410,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane C8;
     private javax.swing.JTextPane C9;
     private javax.swing.JButton CheckButton;
-    private javax.swing.JButton ClearButton;
     private javax.swing.JTextPane D1;
     private javax.swing.JTextPane D2;
     private javax.swing.JTextPane D3;
@@ -1535,7 +1428,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane E7;
     private javax.swing.JTextPane E8;
     private javax.swing.JTextPane E9;
-    private javax.swing.JButton EightButton;
     private javax.swing.JTextPane F1;
     private javax.swing.JTextPane F2;
     private javax.swing.JTextPane F3;
@@ -1545,9 +1437,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane F7;
     private javax.swing.JTextPane F8;
     private javax.swing.JTextPane F9;
-    private javax.swing.JMenu FileMenu;
-    private javax.swing.JButton FiveButton;
-    private javax.swing.JButton FourButton;
     private javax.swing.JTextPane G1;
     private javax.swing.JTextPane G2;
     private javax.swing.JTextPane G3;
@@ -1557,6 +1446,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane G7;
     private javax.swing.JTextPane G8;
     private javax.swing.JTextPane G9;
+    private javax.swing.JMenuItem GetHintOption;
     private javax.swing.JTextPane H1;
     private javax.swing.JTextPane H2;
     private javax.swing.JTextPane H3;
@@ -1577,22 +1467,16 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane I8;
     private javax.swing.JTextPane I9;
     private javax.swing.JMenuItem NewGameOption;
-    private javax.swing.JButton NineButton;
-    private javax.swing.JButton OneButton;
     private javax.swing.JMenu OptionsMenu;
     private javax.swing.JMenuItem QuitOption;
     private javax.swing.JMenuItem ResetGameOption;
-    private javax.swing.JButton SevenButton;
-    private javax.swing.JButton SixButton;
-    private javax.swing.JButton ThreeButton;
+    private javax.swing.JMenuItem SolveOption;
     private javax.swing.JLabel TimeLabel;
-    private javax.swing.JButton TwoButton;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
@@ -1633,7 +1517,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane43;
     private javax.swing.JScrollPane jScrollPane44;
     private javax.swing.JScrollPane jScrollPane45;
-    private javax.swing.JScrollPane jScrollPane46;
     private javax.swing.JScrollPane jScrollPane47;
     private javax.swing.JScrollPane jScrollPane48;
     private javax.swing.JScrollPane jScrollPane49;
@@ -1676,7 +1559,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane82;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>
 }

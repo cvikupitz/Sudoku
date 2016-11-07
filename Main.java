@@ -63,6 +63,7 @@ public class Main {
             for (int i = 0; i < k-1; i++)
                 line = br.readLine();
             SudokuPuzzle p = new SudokuPuzzle(line);
+            br.close();
             return p;
 
         } catch (Exception e) {return null;}
