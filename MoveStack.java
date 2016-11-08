@@ -52,7 +52,7 @@ public class MoveStack {
 
 
     /* Declare private members */
-    private final int CAPACITY = 5;
+    private final int CAPACITY = 500;
     private Node top, bottom;
     private int size;
 

@@ -38,12 +38,14 @@ public class SudokuFrame extends JFrame {
     private final JTextPane[][] fields;
     private boolean[][] editable;
     private SudokuPuzzle puzzle;
+    private MoveStack stack;
     private int highlighted;
 
     public SudokuFrame(SudokuPuzzle p) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
+        this.stack = new MoveStack();
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(new Color(204, 204, 255));
@@ -124,13 +126,18 @@ public class SudokuFrame extends JFrame {
                                 e.getKeyChar() == '9')) {
                             pane.setText("");  /* If not a valid number, delete the value in square */
                             puzzle.remove(m, n);
+                            String cmd = "" + m + " " + n + " 0";
+                            stack.push(cmd);
                         } else {
-                            if (Integer.parseInt(Character.toString(e.getKeyChar())) == highlighted)
+                            int x = Integer.parseInt(Character.toString(e.getKeyChar()));
+                            if (x == highlighted)
                                 pane.setForeground(GREEN);
                             else
                                 pane.setForeground(BLUE);
-                            pane.setText(Character.toString(e.getKeyChar()));
-                            puzzle.insert(Integer.parseInt(Character.toString(e.getKeyChar())), m, n);
+                            pane.setText(Integer.toString(x));
+                            puzzle.insert(x, m, n);
+                            String cmd = "" + m + " " + n + " " + x;
+                            stack.push(cmd);
                         }
                     }
                     @Override
@@ -176,6 +183,7 @@ public class SudokuFrame extends JFrame {
      * Takes the puzzle given and sets up the board in the window for the user.
      */
     private void initializeTable() {
+        this.stack.clear();
         this.highlighted = 0;
         this.editable = new boolean[9][9];
         int k = 0;
@@ -457,6 +465,7 @@ public class SudokuFrame extends JFrame {
         C3 = new javax.swing.JTextPane();
         jScrollPane43 = new javax.swing.JScrollPane();
         E7 = new javax.swing.JTextPane();
+        UndoButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         OptionsMenu = new javax.swing.JMenu();
         NewGameOption = new javax.swing.JMenuItem();
@@ -1283,6 +1292,13 @@ public class SudokuFrame extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        UndoButton.setText("Undo");
+        UndoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UndoButtonActionPerformed(evt);
+            }
+        });
+
         OptionsMenu.setText("Options");
 
         NewGameOption.setText("New Game");
@@ -1332,10 +1348,14 @@ public class SudokuFrame extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CheckButton)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TimeLabel))
-                .addContainerGap(80, Short.MAX_VALUE))
+                    .addComponent(TimeLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(CheckButton)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(UndoButton))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1345,7 +1365,9 @@ public class SudokuFrame extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(CheckButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CheckButton)
+                    .addComponent(UndoButton))
                 .addGap(41, 41, 41))
         );
 
@@ -1378,6 +1400,16 @@ public class SudokuFrame extends JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_QuitOptionActionPerformed
+    private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
+        if (this.stack.isEmpty())
+            return;
+        String cmd = this.stack.pop();
+        int x = Integer.parseInt(Character.toString(cmd.charAt(0)));
+        int y = Integer.parseInt(Character.toString(cmd.charAt(2)));
+        int z = Integer.parseInt(Character.toString(cmd.charAt(4)));
+        this.puzzle.insert(z, x, y);
+        this.fields[x][y].setText(Integer.toString(z));
+    }//GEN-LAST:event_UndoButtonActionPerformed
 
     /* UI component variable declarations */
     //<editor-fold defaultstate="collapsed" desc=" Component declarations (optional) ">
@@ -1472,6 +1504,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JMenuItem ResetGameOption;
     private javax.swing.JMenuItem SolveOption;
     private javax.swing.JLabel TimeLabel;
+    private javax.swing.JButton UndoButton;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;

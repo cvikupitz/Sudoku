@@ -3,7 +3,7 @@
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
  * Contains static methods useful for displaying messages and prompting users
- * for information through a JFrame. Useful for applications with UI's.
+ * for information through a JOptionFrame. Useful for applications with UI's.
  */
 package sudoku;
 
