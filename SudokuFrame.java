@@ -36,6 +36,7 @@ public class SudokuFrame extends JFrame {
     private final Color RED = new Color(255, 0, 0);
     private final Color SELECTED = new Color(255, 255, 150);
     private final JTextPane[][] fields;
+    private final JTextPane[] legalBoxes;
     private boolean[][] editable;
     private SudokuPuzzle puzzle;
     private MoveStack stack;
@@ -73,6 +74,12 @@ public class SudokuFrame extends JFrame {
         {this.H1, this.H2, this.H3, this.H4, this.H5, this.H6, this.H7, this.H8, this.H9},
         {this.I1, this.I2, this.I3, this.I4, this.I5, this.I6, this.I7, this.I8, this.I9}};
 
+        /* Keep a list of the panels displaying the legal moves for easy accessing */
+        this.legalBoxes = new JTextPane[]{
+            this.legalOne, this.legalTwo, this.legalThree,
+            this.legalFour, this.legalFive, this.legalSix,
+            this.legalSeven, this.legalEight, this.legalNine};
+
         /* Set up the puzzle */
         this.initializeTable();
 
@@ -87,6 +94,7 @@ public class SudokuFrame extends JFrame {
                 pane.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        updateLegalMoves(m, n);
                         if (e.getClickCount() == 2)
                             highlight(pane);
                     }
@@ -138,7 +146,7 @@ public class SudokuFrame extends JFrame {
                             puzzle.insert(x, m, n);
                             String cmd = "" + m + " " + n + " " + x;
                             stack.push(cmd);
-                        }
+                        } updateLegalMoves(m, n);
                     }
                     @Override
                     public void keyPressed(KeyEvent e) {/* No implementation needed */}
@@ -190,13 +198,20 @@ public class SudokuFrame extends JFrame {
         String s = this.puzzle.initialPuzzleState();
         String t = this.puzzle.currentPuzzleState();
         for (int i = 0; i < 9; i++) {
+
+            /* Sets the text alignment in each grid to centered */
+            StyledDocument l_doc = this.legalBoxes[i].getStyledDocument();
+            SimpleAttributeSet l_center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(l_center, StyleConstants.ALIGN_CENTER);
+            l_doc.setParagraphAttributes(0, l_doc.getLength(), l_center, false);
+
             for (int j = 0; j < 9; j++) {
 
                 /* Sets the text alignment in each grid to centered */
-                StyledDocument doc = this.fields[i][j].getStyledDocument();
-                SimpleAttributeSet center = new SimpleAttributeSet();
-                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-                doc.setParagraphAttributes(0, doc.getLength(), center, false);
+                StyledDocument f_doc = this.fields[i][j].getStyledDocument();
+                SimpleAttributeSet f_center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(f_center, StyleConstants.ALIGN_CENTER);
+                f_doc.setParagraphAttributes(0, f_doc.getLength(), f_center, false);
                 this.fields[i][j].setEditable(false);
 
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
@@ -233,6 +248,22 @@ public class SudokuFrame extends JFrame {
             }
         }
         return board;
+    }
+
+
+    /***/
+    private void updateLegalMoves(int i, int j) {
+        boolean[] legalMoves = this.puzzle.getLegalMoves(i, j);
+        for (int k = 0; k < 9; k++) {
+            if (this.editable[i][j]) {
+                if (legalMoves[k])
+                    this.legalBoxes[k].setText(Integer.toString(k + 1));
+                else
+                    this.legalBoxes[k].setText("");
+            } else {
+                this.legalBoxes[k].setText("");
+            }
+        }
     }
 
 
@@ -466,6 +497,34 @@ public class SudokuFrame extends JFrame {
         jScrollPane43 = new javax.swing.JScrollPane();
         E7 = new javax.swing.JTextPane();
         UndoButton = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane86 = new javax.swing.JScrollPane();
+        legalTwo = new javax.swing.JTextPane();
+        jScrollPane87 = new javax.swing.JScrollPane();
+        legalFive = new javax.swing.JTextPane();
+        jScrollPane46 = new javax.swing.JScrollPane();
+        legalOne = new javax.swing.JTextPane();
+        jScrollPane88 = new javax.swing.JScrollPane();
+        legalNine = new javax.swing.JTextPane();
+        jScrollPane83 = new javax.swing.JScrollPane();
+        legalFour = new javax.swing.JTextPane();
+        jScrollPane89 = new javax.swing.JScrollPane();
+        legalSix = new javax.swing.JTextPane();
+        jScrollPane84 = new javax.swing.JScrollPane();
+        legalSeven = new javax.swing.JTextPane();
+        jScrollPane90 = new javax.swing.JScrollPane();
+        legalThree = new javax.swing.JTextPane();
+        jScrollPane85 = new javax.swing.JScrollPane();
+        legalEight = new javax.swing.JTextPane();
+        oneButton = new javax.swing.JButton();
+        twoButton = new javax.swing.JButton();
+        threeButton = new javax.swing.JButton();
+        fourButton = new javax.swing.JButton();
+        fiveButton = new javax.swing.JButton();
+        sixButton = new javax.swing.JButton();
+        sevenButton = new javax.swing.JButton();
+        eightButton = new javax.swing.JButton();
+        nineButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         OptionsMenu = new javax.swing.JMenu();
         NewGameOption = new javax.swing.JMenuItem();
@@ -1299,6 +1358,143 @@ public class SudokuFrame extends JFrame {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+
+        legalTwo.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalTwo.setFocusable(false);
+        legalTwo.setHighlighter(null);
+        jScrollPane86.setViewportView(legalTwo);
+
+        legalFive.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalFive.setFocusable(false);
+        legalFive.setHighlighter(null);
+        jScrollPane87.setViewportView(legalFive);
+
+        legalOne.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalOne.setFocusable(false);
+        legalOne.setHighlighter(null);
+        jScrollPane46.setViewportView(legalOne);
+
+        legalNine.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalNine.setFocusable(false);
+        legalNine.setHighlighter(null);
+        jScrollPane88.setViewportView(legalNine);
+
+        legalFour.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalFour.setHighlighter(null);
+        jScrollPane83.setViewportView(legalFour);
+
+        legalSix.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalSix.setFocusable(false);
+        legalSix.setHighlighter(null);
+        jScrollPane89.setViewportView(legalSix);
+
+        legalSeven.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalSeven.setFocusable(false);
+        legalSeven.setHighlighter(null);
+        jScrollPane84.setViewportView(legalSeven);
+
+        legalThree.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalThree.setFocusable(false);
+        legalThree.setHighlighter(null);
+        jScrollPane90.setViewportView(legalThree);
+
+        legalEight.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalEight.setFocusable(false);
+        legalEight.setHighlighter(null);
+        jScrollPane85.setViewportView(legalEight);
+
+        oneButton.setText("1");
+
+        twoButton.setText("2");
+
+        threeButton.setText("3");
+
+        fourButton.setText("4");
+
+        fiveButton.setText("5");
+
+        sixButton.setText("6");
+
+        sevenButton.setText("7");
+
+        eightButton.setText("8");
+
+        nineButton.setText("9");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(sevenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(fourButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(oneButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane46, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane83, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane84, javax.swing.GroupLayout.Alignment.LEADING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane85)
+                    .addComponent(jScrollPane86)
+                    .addComponent(jScrollPane87)
+                    .addComponent(twoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(fiveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(eightButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane88)
+                    .addComponent(jScrollPane89)
+                    .addComponent(jScrollPane90)
+                    .addComponent(threeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(sixButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane90, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane89, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane88, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jScrollPane86, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane87, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane85, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jScrollPane46, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane83, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane84, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(oneButton)
+                    .addComponent(twoButton)
+                    .addComponent(threeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fourButton)
+                    .addComponent(fiveButton)
+                    .addComponent(sixButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sevenButton)
+                    .addComponent(eightButton)
+                    .addComponent(nineButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         OptionsMenu.setText("Options");
 
         NewGameOption.setText("New Game");
@@ -1348,14 +1544,16 @@ public class SudokuFrame extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TimeLabel)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(CheckButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(UndoButton))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TimeLabel))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1363,7 +1561,9 @@ public class SudokuFrame extends JFrame {
                 .addContainerGap(54, Short.MAX_VALUE)
                 .addComponent(TimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CheckButton)
@@ -1505,11 +1705,15 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JMenuItem SolveOption;
     private javax.swing.JLabel TimeLabel;
     private javax.swing.JButton UndoButton;
+    private javax.swing.JButton eightButton;
+    private javax.swing.JButton fiveButton;
+    private javax.swing.JButton fourButton;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
@@ -1550,6 +1754,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane43;
     private javax.swing.JScrollPane jScrollPane44;
     private javax.swing.JScrollPane jScrollPane45;
+    private javax.swing.JScrollPane jScrollPane46;
     private javax.swing.JScrollPane jScrollPane47;
     private javax.swing.JScrollPane jScrollPane48;
     private javax.swing.JScrollPane jScrollPane49;
@@ -1590,9 +1795,32 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane80;
     private javax.swing.JScrollPane jScrollPane81;
     private javax.swing.JScrollPane jScrollPane82;
+    private javax.swing.JScrollPane jScrollPane83;
+    private javax.swing.JScrollPane jScrollPane84;
+    private javax.swing.JScrollPane jScrollPane85;
+    private javax.swing.JScrollPane jScrollPane86;
+    private javax.swing.JScrollPane jScrollPane87;
+    private javax.swing.JScrollPane jScrollPane88;
+    private javax.swing.JScrollPane jScrollPane89;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JScrollPane jScrollPane90;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JTextPane legalEight;
+    private javax.swing.JTextPane legalFive;
+    private javax.swing.JTextPane legalFour;
+    private javax.swing.JTextPane legalNine;
+    private javax.swing.JTextPane legalOne;
+    private javax.swing.JTextPane legalSeven;
+    private javax.swing.JTextPane legalSix;
+    private javax.swing.JTextPane legalThree;
+    private javax.swing.JTextPane legalTwo;
+    private javax.swing.JButton nineButton;
+    private javax.swing.JButton oneButton;
+    private javax.swing.JButton sevenButton;
+    private javax.swing.JButton sixButton;
+    private javax.swing.JButton threeButton;
+    private javax.swing.JButton twoButton;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>
 }

@@ -73,6 +73,16 @@ public class MoveStack {
 
 
     /**
+     * Returns the value currently stored at the top of the stack.
+     *
+     * @return The vlaue at the top of the stack.
+     */
+    public String peek() {
+        return this.top.getVal();
+    }
+
+
+    /**
      * Inserts the specified value s into the stack.
      *
      * @param s The string representing the command to insert.

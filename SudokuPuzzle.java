@@ -84,7 +84,9 @@ public class SudokuPuzzle {
      */
     public boolean[] getLegalMoves(int i, int j) {
         boolean[] legalMoves = {true, true, true, true, true, true, true, true, true};
-        /* FIXME */
+        legalMoves = this.legalMovesInRow(i, legalMoves);
+        legalMoves = this.legalMovesInColumn(j, legalMoves);
+        legalMoves = this.legalMovesInSubGrid(i, j, legalMoves);
         return legalMoves;
     }
 
@@ -227,7 +229,7 @@ public class SudokuPuzzle {
     //  These methods are invoked when checking the       //
     //  sudoku board for completeness. Contains a         //
     //  method for checking a row, a column, and one for  //
-    //  each subgrid.                                     //
+    //  the subgrid.                                      //
     ////////////////////////////////////////////////////////
     //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle checking functions ">
 
@@ -281,6 +283,51 @@ public class SudokuPuzzle {
             }
         }
         return true;
+    }
+    //</editor-fold>
+
+    ////////////////////////////////////////////////////////
+    //       --- Legal Moves Helper Methods --            //
+    //  These methods are invoked when checking a space   //
+    //  on the sudoku board for the list of legal moves.  //
+    //  Contains a method for checking a row, a column,   //
+    //  and one for the subgrid.                          //
+    ////////////////////////////////////////////////////////
+    //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle legal moves checker functions ">
+
+    /*
+    FIXME
+    */
+    private boolean[] legalMovesInRow(int r, boolean[] list) {
+        for (int i = 0; i < 9; i++) {
+            if (this.board[r][i] != 0)
+                list[this.board[r][i]-1] = false;
+        }
+        return list;
+    }
+
+    /*
+    FIXME
+    */
+    private boolean[] legalMovesInColumn(int c, boolean[] list) {
+        for (int i = 0; i < 9; i++) {
+            if (this.board[i][c] != 0)
+                list[this.board[i][c]-1] = false;
+        }
+        return list;
+    }
+
+    /* FIXME */
+    private boolean[] legalMovesInSubGrid(int x, int y, boolean[] list) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int m = ((x / 3) * 3 + (i % 3));
+                int n = ((y / 3) * 3 + (j % 3));
+                if (this.board[m][n] != 0)
+                    list[this.board[m][n]-1] = false;
+            }
+        }
+        return list;
     }
     //</editor-fold>
 
