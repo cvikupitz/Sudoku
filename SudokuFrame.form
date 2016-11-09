@@ -116,7 +116,10 @@
                   <Component id="TimeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="32767" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -125,7 +128,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace pref="54" max="32767" attributes="0"/>
-              <Component id="TimeLabel" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="TimeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
@@ -161,7 +167,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="b9" green="b9" red="b9" type="rgb"/>
         </Property>
       </Properties>
 
@@ -2507,7 +2513,7 @@
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="ff" green="cc" red="cc" type="rgb"/>
         </Property>
       </Properties>
 
@@ -2517,30 +2523,21 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="sevenButton" pref="40" max="32767" attributes="0"/>
-                      <Component id="fourButton" max="32767" attributes="0"/>
-                      <Component id="oneButton" max="32767" attributes="0"/>
-                      <Component id="jScrollPane46" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jScrollPane46" alignment="0" pref="40" max="32767" attributes="0"/>
                       <Component id="jScrollPane83" alignment="0" max="32767" attributes="0"/>
                       <Component id="jScrollPane84" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jScrollPane85" max="32767" attributes="0"/>
+                      <Component id="jScrollPane85" pref="40" max="32767" attributes="0"/>
                       <Component id="jScrollPane86" max="32767" attributes="0"/>
                       <Component id="jScrollPane87" max="32767" attributes="0"/>
-                      <Component id="twoButton" pref="40" max="32767" attributes="0"/>
-                      <Component id="fiveButton" max="32767" attributes="0"/>
-                      <Component id="eightButton" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jScrollPane88" max="32767" attributes="0"/>
+                      <Component id="jScrollPane88" pref="40" max="32767" attributes="0"/>
                       <Component id="jScrollPane89" max="32767" attributes="0"/>
                       <Component id="jScrollPane90" max="32767" attributes="0"/>
-                      <Component id="threeButton" alignment="0" pref="40" max="32767" attributes="0"/>
-                      <Component id="sixButton" max="32767" attributes="0"/>
-                      <Component id="nineButton" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -2574,24 +2571,6 @@
                               <Component id="jScrollPane84" min="-2" pref="41" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="oneButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="twoButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="threeButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="fourButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fiveButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="sixButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="sevenButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="eightButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="nineButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -2691,6 +2670,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="20" style="1"/>
                 </Property>
+                <Property name="focusable" type="boolean" value="false"/>
                 <Property name="highlighter" type="javax.swing.text.Highlighter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="null"/>
                 </Property>
@@ -2778,52 +2758,15 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="oneButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="twoButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="2"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="threeButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="3"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="fourButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="4"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="fiveButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="5"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="sixButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="6"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="sevenButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="7"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="eightButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="8"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="nineButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="9"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Legal Moves"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

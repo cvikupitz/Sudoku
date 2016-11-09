@@ -85,6 +85,7 @@ public class SudokuFrame extends JFrame {
 
         /* Adds the event listeners for each panel */
         for (int i = 0; i < 9; i++) {
+            this.legalBoxes[i].setEditable(false);
             for (int j = 0; j < 9; j++) {
                 JTextPane pane = this.fields[i][j];
                 int m = i;
@@ -134,8 +135,6 @@ public class SudokuFrame extends JFrame {
                                 e.getKeyChar() == '9')) {
                             pane.setText("");  /* If not a valid number, delete the value in square */
                             puzzle.remove(m, n);
-                            String cmd = "" + m + " " + n + " 0";
-                            stack.push(cmd);
                         } else {
                             int x = Integer.parseInt(Character.toString(e.getKeyChar()));
                             if (x == highlighted)
@@ -143,9 +142,10 @@ public class SudokuFrame extends JFrame {
                             else
                                 pane.setForeground(BLUE);
                             pane.setText(Integer.toString(x));
-                            puzzle.insert(x, m, n);
-                            String cmd = "" + m + " " + n + " " + x;
-                            stack.push(cmd);
+                            if (!puzzle.insert(x, m, n)) {
+                                String conflicts = puzzle.getConflictingSquares(m, n);
+                                mark(conflicts);
+                            }
                         } updateLegalMoves(m, n);
                     }
                     @Override
@@ -290,6 +290,18 @@ public class SudokuFrame extends JFrame {
                 }
             }
         } catch (Exception e) {/* Ignore exceptions */}
+    }
+
+
+    /***/
+    private void mark(String conflicts) {
+//        System.out.println(conflicts);
+//        for (int i = 0; i < conflicts.length(); i += 6) {
+//            String str = conflicts.substring(i, i += 6);
+//            int r = Integer.parseInt(Character.toString(str.charAt(1)));
+//            int c = Integer.parseInt(Character.toString(str.charAt(3)));
+//            this.fields[r][c].setForeground(this.RED);
+//        }
     }
 
 
@@ -516,15 +528,7 @@ public class SudokuFrame extends JFrame {
         legalThree = new javax.swing.JTextPane();
         jScrollPane85 = new javax.swing.JScrollPane();
         legalEight = new javax.swing.JTextPane();
-        oneButton = new javax.swing.JButton();
-        twoButton = new javax.swing.JButton();
-        threeButton = new javax.swing.JButton();
-        fourButton = new javax.swing.JButton();
-        fiveButton = new javax.swing.JButton();
-        sixButton = new javax.swing.JButton();
-        sevenButton = new javax.swing.JButton();
-        eightButton = new javax.swing.JButton();
-        nineButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         OptionsMenu = new javax.swing.JMenu();
         NewGameOption = new javax.swing.JMenuItem();
@@ -556,7 +560,7 @@ public class SudokuFrame extends JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(185, 185, 185));
 
         jScrollPane22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
@@ -1358,7 +1362,7 @@ public class SudokuFrame extends JFrame {
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
         legalTwo.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         legalTwo.setFocusable(false);
@@ -1381,6 +1385,7 @@ public class SudokuFrame extends JFrame {
         jScrollPane88.setViewportView(legalNine);
 
         legalFour.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        legalFour.setFocusable(false);
         legalFour.setHighlighter(null);
         jScrollPane83.setViewportView(legalFour);
 
@@ -1404,24 +1409,6 @@ public class SudokuFrame extends JFrame {
         legalEight.setHighlighter(null);
         jScrollPane85.setViewportView(legalEight);
 
-        oneButton.setText("1");
-
-        twoButton.setText("2");
-
-        threeButton.setText("3");
-
-        fourButton.setText("4");
-
-        fiveButton.setText("5");
-
-        sixButton.setText("6");
-
-        sevenButton.setText("7");
-
-        eightButton.setText("8");
-
-        nineButton.setText("9");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1429,28 +1416,19 @@ public class SudokuFrame extends JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(sevenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(fourButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(oneButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane46, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane46, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(jScrollPane83, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane84, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane85)
+                    .addComponent(jScrollPane85, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(jScrollPane86)
-                    .addComponent(jScrollPane87)
-                    .addComponent(twoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(fiveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(eightButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane87))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane88)
+                    .addComponent(jScrollPane88, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(jScrollPane89)
-                    .addComponent(jScrollPane90)
-                    .addComponent(threeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(sixButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane90))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -1477,23 +1455,11 @@ public class SudokuFrame extends JFrame {
                             .addComponent(jScrollPane83, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jScrollPane84, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(oneButton)
-                    .addComponent(twoButton)
-                    .addComponent(threeButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fourButton)
-                    .addComponent(fiveButton)
-                    .addComponent(sixButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sevenButton)
-                    .addComponent(eightButton)
-                    .addComponent(nineButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Legal Moves");
 
         OptionsMenu.setText("Options");
 
@@ -1552,14 +1518,18 @@ public class SudokuFrame extends JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(TimeLabel))
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(54, Short.MAX_VALUE)
-                .addComponent(TimeLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TimeLabel)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1601,14 +1571,7 @@ public class SudokuFrame extends JFrame {
         }
     }//GEN-LAST:event_QuitOptionActionPerformed
     private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
-        if (this.stack.isEmpty())
-            return;
-        String cmd = this.stack.pop();
-        int x = Integer.parseInt(Character.toString(cmd.charAt(0)));
-        int y = Integer.parseInt(Character.toString(cmd.charAt(2)));
-        int z = Integer.parseInt(Character.toString(cmd.charAt(4)));
-        this.puzzle.insert(z, x, y);
-        this.fields[x][y].setText(Integer.toString(z));
+        this.resetColors();
     }//GEN-LAST:event_UndoButtonActionPerformed
 
     /* UI component variable declarations */
@@ -1705,9 +1668,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JMenuItem SolveOption;
     private javax.swing.JLabel TimeLabel;
     private javax.swing.JButton UndoButton;
-    private javax.swing.JButton eightButton;
-    private javax.swing.JButton fiveButton;
-    private javax.swing.JButton fourButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1815,12 +1776,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane legalSix;
     private javax.swing.JTextPane legalThree;
     private javax.swing.JTextPane legalTwo;
-    private javax.swing.JButton nineButton;
-    private javax.swing.JButton oneButton;
-    private javax.swing.JButton sevenButton;
-    private javax.swing.JButton sixButton;
-    private javax.swing.JButton threeButton;
-    private javax.swing.JButton twoButton;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>
 }

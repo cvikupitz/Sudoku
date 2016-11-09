@@ -52,10 +52,13 @@ public class SudokuPuzzle {
     public boolean insert(int val, int i, int j) {
         if (1 > val || val > 9 || 0 > i || i > 8 || 0 > j || j > 8)
             return false;
-
         this.board[i][j] = val;
         boolean[] legalMoves = this.getLegalMoves(i, j);
-        return legalMoves[val-1];
+        ///////////////////////////////////////////////////////////////////
+        for (boolean b : legalMoves) System.out.print(b + " ");
+        System.out.println("\n" + legalMoves[this.board[i][j]-1]);
+        //////////////////////////////////////////////////////////////////
+        return legalMoves[this.board[i][j]-1];
     }
 
 
@@ -73,6 +76,26 @@ public class SudokuPuzzle {
 
 
     /**
+     * Returns a string containing all the coordinates that conflict with the value
+     * in the specified coordinate in the Sudoku board. Used for highlighting these
+     * conflicting squares in red during gameplay.
+     *
+     * @param i The row to scan from.
+     * @param j The column to scan from
+     * @return A string representing the conflicting squares in the form:
+     *      "(i j) (i j) ..." where i is the row and j is the column.
+     */
+    protected String getConflictingSquares(int i, int j) {
+        String squares = "";
+        //int val = this.board[i][j];
+        //squares = this.getConflictingRow(i, val, squares);
+        //squares = this.getConflictingColumn(j, val, squares);
+        //squares = this.getConflictingSubGrid(i, j, squares);
+        return squares;
+    }
+
+
+    /**
      * Returns a list of booleans representing the list of legal numbers that
      * can be inserted into the specified square. Index 0 represents a 1, index
      * 1 represents a 2, and so forth. True indicates that the number is legal,
@@ -84,8 +107,8 @@ public class SudokuPuzzle {
      */
     public boolean[] getLegalMoves(int i, int j) {
         boolean[] legalMoves = {true, true, true, true, true, true, true, true, true};
-        legalMoves = this.legalMovesInRow(i, legalMoves);
-        legalMoves = this.legalMovesInColumn(j, legalMoves);
+        legalMoves = this.legalMovesInRow(i, j, legalMoves);
+        legalMoves = this.legalMovesInColumn(j, i, legalMoves);
         legalMoves = this.legalMovesInSubGrid(i, j, legalMoves);
         return legalMoves;
     }
@@ -114,7 +137,7 @@ public class SudokuPuzzle {
         /* Check all subgrids */
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!this.subGridIsComplete(i*3, j*3))
+                if (!this.subGridIsComplete(i * 3, j * 3))
                     return false;
             }
         }
@@ -233,10 +256,9 @@ public class SudokuPuzzle {
     ////////////////////////////////////////////////////////
     //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle checking functions ">
 
-    /*
-    Checks if the given row of the sudoku board is complete. Returns true if
-    so, or false if otherwise.
-    */
+    /**
+     * FIXME
+     */
     private boolean rowIsComplete(int r) {
         boolean[] row = {false, false, false, false, false, false, false, false, false};
         for (int i = 0; i < 9; i++) {
@@ -250,10 +272,9 @@ public class SudokuPuzzle {
         return true;
     }
 
-    /*
-    Checks if the given column of the sudoku board is complete. Returns true if
-    so, or false if otherwise.
-    */
+    /**
+     * FIXME
+     */
     private boolean columnIsComplete(int c) {
         boolean[] row = {false, false, false, false, false, false, false, false, false};
         for (int i = 0; i < 9; i++) {
@@ -267,13 +288,15 @@ public class SudokuPuzzle {
         return true;
     }
 
-    /* Checks the subgrid in the specified location for completion. */
-    private boolean subGridIsComplete(int x, int y) {
+    /**
+     * FIXME
+     */
+    private boolean subGridIsComplete(int r, int c) {
         boolean[] grid = {false, false, false, false, false, false, false, false, false};
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                int m = ((x / 3) * 3 + (i % 3));
-                int n = ((y / 3) * 3 + (j % 3));
+                int m = ((r / 3) * 3 + (i % 3));
+                int n = ((c / 3) * 3 + (j % 3));
                 if (this.board[m][n] == 0)
                     return false;
                 else if (grid[this.board[m][n]-1])
@@ -287,6 +310,65 @@ public class SudokuPuzzle {
     //</editor-fold>
 
     ////////////////////////////////////////////////////////
+    //       --- Conflicting Square Methods --            //
+    //  These methods are invoked when checking a space   //
+    //  on the sudoku board for the list of squares that  //
+    //  conflict with the given square. Contains a method //
+    //  for checking a row, a column, and one for the     //
+    //  subgrid.                                          //
+    ////////////////////////////////////////////////////////
+    //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle illegal checker functions ">
+
+    /**
+     * FIXME
+     */
+    private String getConflictingRow(int r, int c, String squares) {
+
+        for (int k = 0; k < 9; k++) {
+            if (k == r)
+                continue;
+
+            if (this.board[r][c] == this.board[r][k])
+                squares += String.format("(%d %d) ", r, k);
+        }
+        return squares;
+    }
+
+
+    /**
+     * FIXME
+     */
+    private String getConflictingColumn(int c, int r, String squares) {
+        for (int k = 0; k < 9; k++) {
+            if (k == r)
+                continue;
+            if (this.board[r][c] == this.board[k][c])
+                squares += String.format("(%d %d) ", k, c);
+        }
+        return squares;
+    }
+
+
+    /**
+     * FIXME
+     */
+    private String getConflictingSubGrid(int r, int c, String squares) {
+         for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int m = ((r / 3) * 3 + (i % 3));
+                int n = ((c / 3) * 3 + (j % 3));
+                if (r == m && c == n)
+                    continue;
+                if (this.board[m][n] == this.board[i][j])
+                    squares += String.format("(%d %d) ",m, n);
+            }
+        }
+        return squares;
+    }
+
+    //</editor-fold>
+
+    ////////////////////////////////////////////////////////
     //       --- Legal Moves Helper Methods --            //
     //  These methods are invoked when checking a space   //
     //  on the sudoku board for the list of legal moves.  //
@@ -295,34 +377,42 @@ public class SudokuPuzzle {
     ////////////////////////////////////////////////////////
     //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle legal moves checker functions ">
 
-    /*
-    FIXME
-    */
-    private boolean[] legalMovesInRow(int r, boolean[] list) {
+    /**
+     * FIXME
+     */
+    private boolean[] legalMovesInRow(int r, int c, boolean[] list) {
         for (int i = 0; i < 9; i++) {
+            if (i == c)
+                continue;
             if (this.board[r][i] != 0)
                 list[this.board[r][i]-1] = false;
         }
         return list;
     }
 
-    /*
-    FIXME
-    */
-    private boolean[] legalMovesInColumn(int c, boolean[] list) {
+    /**
+     * FIXME
+     */
+    private boolean[] legalMovesInColumn(int c, int r, boolean[] list) {
         for (int i = 0; i < 9; i++) {
+            if (i == r)
+                continue;
             if (this.board[i][c] != 0)
                 list[this.board[i][c]-1] = false;
         }
         return list;
     }
 
-    /* FIXME */
-    private boolean[] legalMovesInSubGrid(int x, int y, boolean[] list) {
+    /**
+     * FIXME
+     */
+    private boolean[] legalMovesInSubGrid(int r, int c, boolean[] list) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                int m = ((x / 3) * 3 + (i % 3));
-                int n = ((y / 3) * 3 + (j % 3));
+                int m = ((r / 3) * 3 + (i % 3));
+                int n = ((c / 3) * 3 + (j % 3));
+                if (r == m && c == n)
+                    continue;
                 if (this.board[m][n] != 0)
                     list[this.board[m][n]-1] = false;
             }
