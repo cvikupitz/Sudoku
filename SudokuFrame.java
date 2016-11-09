@@ -39,14 +39,12 @@ public class SudokuFrame extends JFrame {
     private final JTextPane[] legalBoxes;
     private boolean[][] editable;
     private SudokuPuzzle puzzle;
-    private MoveStack stack;
     private int highlighted;
 
     public SudokuFrame(SudokuPuzzle p) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
-        this.stack = new MoveStack();
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(new Color(204, 204, 255));
@@ -110,6 +108,7 @@ public class SudokuFrame extends JFrame {
                         pane.putClientProperty("Nimbus.Overrides", defaults);
                         pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
                         pane.setBackground(SELECTED);
+                        updateLegalMoves(m, n);
                     }
 
                     @Override
@@ -143,10 +142,10 @@ public class SudokuFrame extends JFrame {
                                 pane.setForeground(BLUE);
                             pane.setText(Integer.toString(x));
                             if (!puzzle.insert(x, m, n)) {
-                                String conflicts = puzzle.getConflictingSquares(m, n);
-                                mark(conflicts);
+                                //String conflicts = puzzle.getConflictingSquares(m, n);
+                                //mark(conflicts);
                             }
-                        } updateLegalMoves(m, n);
+                        }
                     }
                     @Override
                     public void keyPressed(KeyEvent e) {/* No implementation needed */}
@@ -191,7 +190,6 @@ public class SudokuFrame extends JFrame {
      * Takes the puzzle given and sets up the board in the window for the user.
      */
     private void initializeTable() {
-        this.stack.clear();
         this.highlighted = 0;
         this.editable = new boolean[9][9];
         int k = 0;
@@ -295,13 +293,18 @@ public class SudokuFrame extends JFrame {
 
     /***/
     private void mark(String conflicts) {
-//        System.out.println(conflicts);
-//        for (int i = 0; i < conflicts.length(); i += 6) {
-//            String str = conflicts.substring(i, i += 6);
-//            int r = Integer.parseInt(Character.toString(str.charAt(1)));
-//            int c = Integer.parseInt(Character.toString(str.charAt(3)));
-//            this.fields[r][c].setForeground(this.RED);
-//        }
+        for (int i = 0; i < conflicts.length(); i += 6) {
+            String str = conflicts.substring(i, i + 6);
+            int r = Integer.parseInt(Character.toString(str.charAt(1)));
+            int c = Integer.parseInt(Character.toString(str.charAt(3)));
+            this.fields[r][c].setForeground(this.RED);
+        }
+    }
+
+
+    /***/
+    private void correctColor() {
+        /* FIXME */
     }
 
 

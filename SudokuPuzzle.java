@@ -54,10 +54,6 @@ public class SudokuPuzzle {
             return false;
         this.board[i][j] = val;
         boolean[] legalMoves = this.getLegalMoves(i, j);
-        ///////////////////////////////////////////////////////////////////
-        for (boolean b : legalMoves) System.out.print(b + " ");
-        System.out.println("\n" + legalMoves[this.board[i][j]-1]);
-        //////////////////////////////////////////////////////////////////
         return legalMoves[this.board[i][j]-1];
     }
 
@@ -87,10 +83,9 @@ public class SudokuPuzzle {
      */
     protected String getConflictingSquares(int i, int j) {
         String squares = "";
-        //int val = this.board[i][j];
-        //squares = this.getConflictingRow(i, val, squares);
-        //squares = this.getConflictingColumn(j, val, squares);
-        //squares = this.getConflictingSubGrid(i, j, squares);
+        squares = this.getConflictingRow(i, j, squares);
+        squares = this.getConflictingColumn(j, i, squares);
+        squares = this.getConflictingSubGrid(i, j, squares);
         return squares;
     }
 
@@ -325,7 +320,7 @@ public class SudokuPuzzle {
     private String getConflictingRow(int r, int c, String squares) {
 
         for (int k = 0; k < 9; k++) {
-            if (k == r)
+            if (k == c)
                 continue;
 
             if (this.board[r][c] == this.board[r][k])
@@ -359,8 +354,8 @@ public class SudokuPuzzle {
                 int n = ((c / 3) * 3 + (j % 3));
                 if (r == m && c == n)
                     continue;
-                if (this.board[m][n] == this.board[i][j])
-                    squares += String.format("(%d %d) ",m, n);
+                if (this.board[m][n] == this.board[r][c])
+                    squares += String.format("(%d %d) ", m, n);
             }
         }
         return squares;
