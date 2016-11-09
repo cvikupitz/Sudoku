@@ -109,6 +109,12 @@ public class SudokuPuzzle {
     }
 
 
+    /***/
+    public int getValue(int r, int c) {
+        return this.board[r][c];
+    }
+
+
     /**
      * Checks the Sudoku puzzle for completeness. Returns true if the puzzle is
      * complete and all constraints are satisfied, or false if otherwise.

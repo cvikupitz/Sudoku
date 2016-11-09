@@ -133,7 +133,9 @@ public class SudokuFrame extends JFrame {
                                 e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
                                 e.getKeyChar() == '9')) {
                             pane.setText("");  /* If not a valid number, delete the value in square */
+                            int val = puzzle.getValue(m, n);
                             puzzle.remove(m, n);
+                            correctColors(m, n, val);
                         } else {
                             int x = Integer.parseInt(Character.toString(e.getKeyChar()));
                             if (x == highlighted)
@@ -142,9 +144,11 @@ public class SudokuFrame extends JFrame {
                                 pane.setForeground(BLUE);
                             pane.setText(Integer.toString(x));
                             if (!puzzle.insert(x, m, n)) {
-                                //String conflicts = puzzle.getConflictingSquares(m, n);
-                                //mark(conflicts);
-                            }
+                                correctColors(m, n, x);
+                                pane.setForeground(RED);
+                                String conflicts = puzzle.getConflictingSquares(m, n);
+                                mark(conflicts);
+                            } else {correctColors(m, n, x);}
                         }
                     }
                     @Override
@@ -185,6 +189,7 @@ public class SudokuFrame extends JFrame {
         g2d.draw(new Line2D.Float(38, 268, 468, 268));
         g2d.draw(new Line2D.Float(38, 412, 468, 412));
     }
+
 
     /**
      * Takes the puzzle given and sets up the board in the window for the user.
@@ -249,7 +254,9 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * FIXME
+     */
     private void updateLegalMoves(int i, int j) {
         boolean[] legalMoves = this.puzzle.getLegalMoves(i, j);
         for (int k = 0; k < 9; k++) {
@@ -280,6 +287,8 @@ public class SudokuFrame extends JFrame {
             this.resetColors();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
+                    if (this.fields[i][j].getForeground() == this.RED)
+                        continue;
                     try {
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted) {
                             this.fields[i][j].setForeground(this.GREEN);
@@ -303,8 +312,62 @@ public class SudokuFrame extends JFrame {
 
 
     /***/
-    private void correctColor() {
-        /* FIXME */
+    private void correctColors(int r, int c, int val) {
+
+        int[][] board = this.puzzle.toArray();
+
+        /* Sets this square's color back to normal */
+        if (this.editable[r][c])
+            this.fields[r][c].setForeground(this.BLUE);
+        else
+            this.fields[r][c].setForeground(Color.BLACK);
+
+        /* Correct all conflicting squares in row */
+        for (int i = 0; i < 9; i++) {
+            if (i == c)
+                continue;
+            if (board[r][i] == val) {
+                if (val == this.highlighted)
+                    this.fields[r][i].setForeground(this.GREEN);
+                else
+                    if (this.editable[r][i])
+                        this.fields[r][i].setForeground(this.BLUE);
+                    else
+                        this.fields[r][i].setForeground(Color.BLACK);
+            }
+        }
+
+        /* Correct all conflicting squares in column */
+        for (int i = 0; i < 9; i++) {
+            if (i == r)
+                continue;
+            if (board[i][c] == val) {
+                if (val == this.highlighted)
+                        this.fields[i][c].setForeground(this.GREEN);
+                else
+                    if (this.editable[i][c])
+                        this.fields[i][c].setForeground(this.BLUE);
+                    else
+                        this.fields[i][c].setForeground(Color.BLACK);
+            }
+        }
+
+        /* Correct all conflicting squares in subgrid */
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int m = ((r / 3) * 3 + (i % 3));
+                int n = ((c / 3) * 3 + (j % 3));
+                if (r == m && c == n)
+                    continue;
+                if (val == this.highlighted)
+                    this.fields[m][n].setForeground(this.GREEN);
+                else
+                    if (this.editable[m][n])
+                        this.fields[m][n].setForeground(this.BLUE);
+                    else
+                        this.fields[m][n].setForeground(Color.BLACK);
+            }
+        }
     }
 
 
@@ -315,10 +378,11 @@ public class SudokuFrame extends JFrame {
     private void resetColors() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (!this.editable[i][j])
-                    this.fields[i][j].setForeground(Color.BLACK);
-                else
-                    this.fields[i][j].setForeground(this.BLUE);
+                if (this.fields[i][j].getForeground() != this.RED)
+                    if (!this.editable[i][j])
+                        this.fields[i][j].setForeground(Color.BLACK);
+                    else
+                        this.fields[i][j].setForeground(this.BLUE);
             }
         }
     }
