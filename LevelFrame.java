@@ -1,24 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * LevelFrame.java
+ * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
+ * -----------------------------------------------------------------------------
+ * FIXME
  */
 package sudoku;
 
+
+/* Imports */
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
-/**
- *
- * @author robolike
- */
-public class GameLevel extends javax.swing.JFrame {
+public class LevelFrame extends JFrame {
 
     /**
      * Creates new form GameLevel
      */
-    public GameLevel() {
+    public LevelFrame() {
         initComponents();
     }
 
@@ -136,7 +136,7 @@ public class GameLevel extends javax.swing.JFrame {
             SudokuFrame su = new SudokuFrame(p);
             this.dispose();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameLevel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LevelFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_noviceButtonActionPerformed
 
@@ -146,14 +146,12 @@ public class GameLevel extends javax.swing.JFrame {
             p = Main.getPuzzle(5);
             SudokuFrame su = new SudokuFrame(p);
             this.dispose();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameLevel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (FileNotFoundException ex) {}
     }//GEN-LAST:event_expertButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        MainPage m = new MainPage();
+        MainFrame m = new MainFrame();
         this.dispose();
         m.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
@@ -164,9 +162,7 @@ public class GameLevel extends javax.swing.JFrame {
             p = Main.getPuzzle(2);
             SudokuFrame su = new SudokuFrame(p);
             this.dispose();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameLevel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (FileNotFoundException ex) {}
     }//GEN-LAST:event_easyButtonActionPerformed
 
     private void mediumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediumButtonActionPerformed
@@ -175,9 +171,7 @@ public class GameLevel extends javax.swing.JFrame {
             p = Main.getPuzzle(3);
             SudokuFrame su = new SudokuFrame(p);
             this.dispose();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameLevel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (FileNotFoundException ex) {}
     }//GEN-LAST:event_mediumButtonActionPerformed
 
     private void hardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hardButtonActionPerformed
@@ -186,9 +180,7 @@ public class GameLevel extends javax.swing.JFrame {
             p = Main.getPuzzle(4);
             SudokuFrame su = new SudokuFrame(p);
             this.dispose();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameLevel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (FileNotFoundException ex) {}
     }//GEN-LAST:event_hardButtonActionPerformed
 
     /**
@@ -208,21 +200,19 @@ public class GameLevel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameLevel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameLevel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameLevel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameLevel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GameLevel().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new LevelFrame().setVisible(true);
         });
     }
 

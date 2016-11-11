@@ -1,15 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * RankFrame.java
+ * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
+ * -----------------------------------------------------------------------------
+ * FIXME
  */
 package sudoku;
 
-/**
- *
- * @author robolike
- */
-public class RankFrame extends javax.swing.JFrame {
+
+/* Imports */
+import javax.swing.JFrame;
+
+public class RankFrame extends JFrame {
 
     /**
      * Creates new form RankFrame
@@ -172,9 +173,8 @@ public class RankFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Starpage s = new Starpage();
+        MainFrame m = new MainFrame();
         this.dispose();
-        s.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
