@@ -188,6 +188,18 @@ public class SudokuPuzzle {
     }
 
 
+    /***/
+    protected int getNumberFilled() {
+        int amt = 0;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (this.board[i][j] != 0)
+                    amt++;
+            }
+        } return amt;
+    }
+
+
     /**
      * Returns a copy of this sudoku puzzle.
      *

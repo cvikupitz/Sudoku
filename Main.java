@@ -10,6 +10,7 @@ package sudoku;
 /* Imports */
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
@@ -50,16 +51,36 @@ public class Main {
 
         SudokuPuzzle p = FileUtility.loadGame();
         if (p == null)
-            p = getPuzzle();
+            p = getPuzzle(3);
         SudokuFrame f = new SudokuFrame(p);
     }
 
 
     ////////////////////////////////////////////////////////////////////////
-    protected static SudokuPuzzle getPuzzle() {
+    protected static SudokuPuzzle getPuzzle(int difficulty) throws FileNotFoundException {
         Random r = new Random();
         int k = r.nextInt(10000);
-        try (BufferedReader br = new BufferedReader(new FileReader("3.txt"))) {
+
+        try {
+            BufferedReader br;
+            switch (difficulty) {
+                case 1:
+                    br = new BufferedReader(new FileReader("1.txt"));
+                    break;
+                case 2:
+                    br = new BufferedReader(new FileReader("2.txt"));
+                    break;
+                case 3:
+                    br = new BufferedReader(new FileReader("3.txt"));
+                    break;
+                case 4:
+                    br = new BufferedReader(new FileReader("4.txt"));
+                    break;
+                default:
+                    br = new BufferedReader(new FileReader("5.txt"));
+            }
+
+
             String line = br.readLine();
             for (int i = 0; i < k-1; i++)
                 line = br.readLine();
