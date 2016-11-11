@@ -8,6 +8,7 @@ package sudoku;
 
 
 /* Imports */
+import java.awt.Toolkit;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,11 @@ public class LevelFrame extends JFrame {
      */
     public LevelFrame() {
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setTitle("Sudoku");
+        this.setLocation(360, 30);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setVisible(true);
     }
 
     /**
@@ -40,6 +46,7 @@ public class LevelFrame extends JFrame {
         backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Choose Game Difficulty");
 

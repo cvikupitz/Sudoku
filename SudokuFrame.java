@@ -54,7 +54,7 @@ public class SudokuFrame extends JFrame {
         this.initComponents();
         this.getContentPane().setBackground(this.BACKGROUND);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
-        this.setLocation(360, 50);
+        this.setLocation(360, 30);
 
         /* Sets the background color of the status fields */
         UIDefaults defaults = new UIDefaults();
@@ -1636,9 +1636,10 @@ public class SudokuFrame extends JFrame {
             this.resetGame();
     }//GEN-LAST:event_ResetGameOptionActionPerformed
     private void QuitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitOptionActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to exit?", "Exiting")) {
+        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting")) {
             FileUtility.saveGame(this.puzzle);
-            System.exit(0);
+            MainFrame f = new MainFrame();
+            this.dispose();
         }
     }//GEN-LAST:event_QuitOptionActionPerformed
     private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed

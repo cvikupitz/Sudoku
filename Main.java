@@ -49,10 +49,7 @@ public class Main {
         if (!dir.exists())
             dir.mkdir();
 
-        SudokuPuzzle p = FileUtility.loadGame();
-        if (p == null)
-            p = getPuzzle(3);
-        SudokuFrame f = new SudokuFrame(p);
+        MainFrame f = new MainFrame();
     }
 
 

@@ -8,6 +8,7 @@ package sudoku;
 
 
 /* Imports */
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 public class RankFrame extends JFrame {
@@ -17,6 +18,11 @@ public class RankFrame extends JFrame {
      */
     public RankFrame() {
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setTitle("Sudoku");
+        this.setLocation(360, 30);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setVisible(true);
     }
 
     /**
@@ -44,6 +50,7 @@ public class RankFrame extends JFrame {
         jTable5 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Best Time");
 
