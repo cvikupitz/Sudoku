@@ -12,6 +12,7 @@ package sudoku;
 public class SudokuPuzzle {
 
     /* Declare private members */
+    private int difficulty;
     private final String config;
     private int[][] board;
 
@@ -22,6 +23,7 @@ public class SudokuPuzzle {
 
     /* Default constructor */
     public SudokuPuzzle(String config) {
+        this.difficulty = 0;
         this.config = config;
         this.board = new int[9][9];
         char[] chars = config.toCharArray();
@@ -229,6 +231,18 @@ public class SudokuPuzzle {
      */
     protected void setArray(int[][] b) {
         this.board = b;
+    }
+
+
+    /***/
+    protected int getDifficulty() {
+        return this.difficulty;
+    }
+
+
+    /***/
+    protected void setDifficulty(int d) {
+        this.difficulty = d;
     }
 
 

@@ -49,7 +49,7 @@ public class Main {
         if (!dir.exists())
             dir.mkdir();
 
-        MainFrame f = new MainFrame();
+        MainFrame f = new MainFrame(360, 30);
     }
 
 
@@ -82,6 +82,7 @@ public class Main {
             for (int i = 0; i < k-1; i++)
                 line = br.readLine();
             SudokuPuzzle p = new SudokuPuzzle(line);
+            p.setDifficulty(difficulty);
             br.close();
             return p;
 

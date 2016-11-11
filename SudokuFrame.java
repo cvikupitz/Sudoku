@@ -22,8 +22,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.geom.Line2D;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.UIDefaults;
@@ -46,7 +44,7 @@ public class SudokuFrame extends JFrame {
     private SudokuPuzzle puzzle;
     private int highlighted;
 
-    public SudokuFrame(SudokuPuzzle p) {
+    public SudokuFrame(SudokuPuzzle p, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
@@ -54,17 +52,41 @@ public class SudokuFrame extends JFrame {
         this.initComponents();
         this.getContentPane().setBackground(this.BACKGROUND);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
-        this.setLocation(360, 30);
+        this.setLocation(x, y);
 
         /* Sets the background color of the status fields */
         UIDefaults defaults = new UIDefaults();
         defaults.put("TextPane[Enabled].backgroundPainter", this.BACKGROUND);
+        this.timeField.putClientProperty("Nimbus.Overrides", defaults);
+        this.timeField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+        this.timeField.setBackground(this.BACKGROUND);
+        this.difficultyField.putClientProperty("Nimbus.Overrides", defaults);
+        this.difficultyField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+        this.difficultyField.setBackground(this.BACKGROUND);
         this.statusField.putClientProperty("Nimbus.Overrides", defaults);
         this.statusField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
         this.statusField.setBackground(this.BACKGROUND);
         this.completeField.putClientProperty("Nimbus.Overrides", defaults);
         this.completeField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
         this.completeField.setBackground(this.BACKGROUND);
+
+        /* Sets the difficulty text in the frame */
+        switch (this.puzzle.getDifficulty()) {
+            case 1:
+                this.difficultyField.setText("Novice");
+                break;
+            case 2:
+                this.difficultyField.setText("Easy");
+                break;
+            case 3:
+                this.difficultyField.setText("Medium");
+                break;
+            case 4:
+                this.difficultyField.setText("Hard");
+                break;
+            default:
+                this.difficultyField.setText("Expert");
+        }
 
 ///////////////////////////////////////////////
 //        this.addMouseListener(new MouseAdapter() {
@@ -174,7 +196,7 @@ public class SudokuFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
-                    FileUtility.saveGame(puzzle);
+                    FileUtility.saveGame(puzzle, puzzle.getDifficulty());
                     System.exit(0);
                 }
             }
@@ -194,8 +216,8 @@ public class SudokuFrame extends JFrame {
         g2d.drawRect(38, 130, 433, 433);
         g2d.draw(new Line2D.Float(183, 131, 183, 561));
         g2d.draw(new Line2D.Float(327, 131, 327, 561));
-        g2d.draw(new Line2D.Float(38, 276, 468, 276));
-        g2d.draw(new Line2D.Float(38, 420, 468, 420));
+        g2d.draw(new Line2D.Float(38, 275, 468, 275));
+        g2d.draw(new Line2D.Float(38, 419, 468, 419));
     }
 
 
@@ -375,7 +397,6 @@ public class SudokuFrame extends JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        TimeLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane22 = new javax.swing.JScrollPane();
         C4 = new javax.swing.JTextPane();
@@ -564,6 +585,11 @@ public class SudokuFrame extends JFrame {
         statusField = new javax.swing.JTextPane();
         jScrollPane92 = new javax.swing.JScrollPane();
         completeField = new javax.swing.JTextPane();
+        jScrollPane94 = new javax.swing.JScrollPane();
+        timeField = new javax.swing.JTextPane();
+        TimeLabel1 = new javax.swing.JLabel();
+        jScrollPane93 = new javax.swing.JScrollPane();
+        difficultyField = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         OptionsMenu = new javax.swing.JMenu();
         NewGameOption = new javax.swing.JMenuItem();
@@ -584,9 +610,6 @@ public class SudokuFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sudoku");
         setResizable(false);
-
-        TimeLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        TimeLabel.setText("Time:");
 
         jPanel1.setBackground(new java.awt.Color(180, 180, 180));
 
@@ -1521,6 +1544,21 @@ public class SudokuFrame extends JFrame {
         completeField.setHighlighter(null);
         jScrollPane92.setViewportView(completeField);
 
+        timeField.setEditable(false);
+        timeField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        timeField.setFocusable(false);
+        timeField.setHighlighter(null);
+        jScrollPane94.setViewportView(timeField);
+
+        TimeLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        TimeLabel1.setText("Time:");
+
+        difficultyField.setEditable(false);
+        difficultyField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        difficultyField.setFocusable(false);
+        difficultyField.setHighlighter(null);
+        jScrollPane93.setViewportView(difficultyField);
+
         OptionsMenu.setText("Options");
 
         NewGameOption.setText("New Game");
@@ -1574,15 +1612,19 @@ public class SudokuFrame extends JFrame {
                         .addComponent(jScrollPane92, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jScrollPane91, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(UndoButton))
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(TimeLabel))
-                        .addGap(18, 23, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane91, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(UndoButton))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(TimeLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane94, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane93, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))))
@@ -1591,11 +1633,17 @@ public class SudokuFrame extends JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(TimeLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(54, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane93)
+                            .addComponent(TimeLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane94))))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1613,23 +1661,18 @@ public class SudokuFrame extends JFrame {
 
 
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
-        if (this.completeField.getForeground() != this.DARK_GREEN) {
-            if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game")) {
-                try {
-                    this.puzzle = Main.getPuzzle(1);
-                    this.initializeTable();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(SudokuFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
-            try {
-                this.puzzle = Main.getPuzzle(1);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(SudokuFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.initializeTable();
+        try {
+            this.puzzle = Main.getPuzzle(this.puzzle.getDifficulty());
+        } catch (FileNotFoundException ex) {
+            /* Ignore exceptions */
+            return;
         }
+
+        if (this.completeField.getForeground() != this.DARK_GREEN) {
+            if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game"))
+                    this.initializeTable();
+        } else
+            this.initializeTable();
     }//GEN-LAST:event_NewGameOptionActionPerformed
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Resetting"))
@@ -1637,8 +1680,8 @@ public class SudokuFrame extends JFrame {
     }//GEN-LAST:event_ResetGameOptionActionPerformed
     private void QuitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting")) {
-            FileUtility.saveGame(this.puzzle);
-            MainFrame f = new MainFrame();
+            FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty());
+            MainFrame f = new MainFrame(this.getX(), this.getY());
             this.dispose();
         }
     }//GEN-LAST:event_QuitOptionActionPerformed
@@ -1737,9 +1780,10 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JMenuItem QuitOption;
     private javax.swing.JMenuItem ResetGameOption;
     private javax.swing.JMenuItem SolveOption;
-    private javax.swing.JLabel TimeLabel;
+    private javax.swing.JLabel TimeLabel1;
     private javax.swing.JButton UndoButton;
     private javax.swing.JTextPane completeField;
+    private javax.swing.JTextPane difficultyField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1839,6 +1883,8 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane90;
     private javax.swing.JScrollPane jScrollPane91;
     private javax.swing.JScrollPane jScrollPane92;
+    private javax.swing.JScrollPane jScrollPane93;
+    private javax.swing.JScrollPane jScrollPane94;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextPane legalEight;
@@ -1851,6 +1897,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane legalThree;
     private javax.swing.JTextPane legalTwo;
     private javax.swing.JTextPane statusField;
+    private javax.swing.JTextPane timeField;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>
 }

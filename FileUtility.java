@@ -28,8 +28,9 @@ public class FileUtility {
      * the user's computer.
      *
      * @param p The Sudoku puzzle to save.
+     * @param difficulty The difficulty of the puzzle, ranked 1-5.
      */
-    protected static void saveGame(SudokuPuzzle p) {
+    protected static void saveGame(SudokuPuzzle p, int difficulty) {
 
         /* Puzzle is equal to null, return */
         if (p == null) {
@@ -44,7 +45,8 @@ public class FileUtility {
         /* Open the file to write to */
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(p.initialPuzzleState() + "\n");
-            writer.write(p.currentPuzzleState());
+            writer.write(p.currentPuzzleState() + "\n");
+            writer.write(Integer.toString(difficulty));
             writer.close();
         } catch (Exception e) {
             WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
@@ -84,6 +86,10 @@ public class FileUtility {
                     board[i][j] = Integer.parseInt(Character.toString(line.charAt(k++)));
                 }
             }
+
+            /* Sets the puzzle's difficulty */
+            line = reader.readLine();
+            p.setDifficulty(Integer.parseInt(line));
 
             /* Sets the board to the read board, return the puzzle */
             p.setArray(board);

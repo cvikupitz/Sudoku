@@ -9,22 +9,32 @@ package sudoku;
 
 /* Imports */
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 public class LevelFrame extends JFrame {
 
-    /**
-     * Creates new form GameLevel
-     */
-    public LevelFrame() {
+    /* Default constructor */
+    public LevelFrame(int x, int y) {
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setTitle("Sudoku");
-        this.setLocation(360, 30);
+        this.setLocation(x, y);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        /* Asks user if they're sure when closing the window. */
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent we) {
+                if (WindowUtility.askYesNo("Are you sure you want to quit?",
+                        "Quitting")) {
+                    System.exit(0);
+                }
+            }
+        });
+        
         this.setVisible(true);
     }
 
@@ -37,40 +47,25 @@ public class LevelFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        noviceButton = new javax.swing.JButton();
-        easyButton = new javax.swing.JButton();
-        mediumButton = new javax.swing.JButton();
         hardButton = new javax.swing.JButton();
         expertButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        noviceButton = new javax.swing.JButton();
+        easyButton = new javax.swing.JButton();
+        mediumButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Choose Game Difficulty");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
-        noviceButton.setText("Novice");
-        noviceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                noviceButtonActionPerformed(evt);
-            }
-        });
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Choose a Difficulty");
 
-        easyButton.setText("Easy");
-        easyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                easyButtonActionPerformed(evt);
-            }
-        });
-
-        mediumButton.setText("Medium");
-        mediumButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mediumButtonActionPerformed(evt);
-            }
-        });
-
+        hardButton.setBackground(new java.awt.Color(255, 153, 51));
+        hardButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         hardButton.setText("Hard");
         hardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +73,8 @@ public class LevelFrame extends JFrame {
             }
         });
 
+        expertButton.setBackground(new java.awt.Color(255, 51, 51));
+        expertButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         expertButton.setText("Expert");
         expertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,6 +82,8 @@ public class LevelFrame extends JFrame {
             }
         });
 
+        backButton.setBackground(new java.awt.Color(153, 153, 153));
+        backButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,45 +91,82 @@ public class LevelFrame extends JFrame {
             }
         });
 
+        noviceButton.setBackground(new java.awt.Color(51, 204, 255));
+        noviceButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        noviceButton.setText("Novice");
+        noviceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noviceButtonActionPerformed(evt);
+            }
+        });
+
+        easyButton.setBackground(new java.awt.Color(51, 255, 51));
+        easyButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        easyButton.setText("Easy");
+        easyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                easyButtonActionPerformed(evt);
+            }
+        });
+
+        mediumButton.setBackground(new java.awt.Color(204, 255, 0));
+        mediumButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        mediumButton.setText("Medium");
+        mediumButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mediumButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(noviceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(easyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(expertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mediumButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel1)))
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(30, 30, 30)
+                .addComponent(noviceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(easyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(mediumButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(hardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(expertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mediumButton)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(noviceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(easyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(hardButton)
-                            .addComponent(expertButton)
-                            .addComponent(backButton))))
-                .addContainerGap(69, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(noviceButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(easyButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mediumButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(hardButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(expertButton)
-                .addGap(18, 18, 18)
-                .addComponent(backButton)
-                .addContainerGap(83, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -140,25 +176,22 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(1);
-            SudokuFrame su = new SudokuFrame(p);
+            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LevelFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
     }//GEN-LAST:event_noviceButtonActionPerformed
 
     private void expertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expertButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(5);
-            SudokuFrame su = new SudokuFrame(p);
+            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {}
+        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
     }//GEN-LAST:event_expertButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
-        MainFrame m = new MainFrame();
+        MainFrame m = new MainFrame(this.getX(), this.getY());
         this.dispose();
         m.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
@@ -167,61 +200,29 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(2);
-            SudokuFrame su = new SudokuFrame(p);
+            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {}
+        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
     }//GEN-LAST:event_easyButtonActionPerformed
 
     private void mediumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediumButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(3);
-            SudokuFrame su = new SudokuFrame(p);
+            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {}
+        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
     }//GEN-LAST:event_mediumButtonActionPerformed
 
     private void hardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hardButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(4);
-            SudokuFrame su = new SudokuFrame(p);
+            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {}
+        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
     }//GEN-LAST:event_hardButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LevelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new LevelFrame().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
@@ -229,6 +230,7 @@ public class LevelFrame extends JFrame {
     private javax.swing.JButton expertButton;
     private javax.swing.JButton hardButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton mediumButton;
     private javax.swing.JButton noviceButton;
     // End of variables declaration//GEN-END:variables
