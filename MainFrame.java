@@ -182,17 +182,14 @@ public class MainFrame extends JFrame {
     private void puzzlesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_puzzlesButtonActionPerformed
         WindowUtility.errorMessage("Not implemented yet.", "Error!");
     }//GEN-LAST:event_puzzlesButtonActionPerformed
-
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting"))
             System.exit(0);
     }//GEN-LAST:event_quitButtonActionPerformed
-
     private void statsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButtonActionPerformed
         RankFrame f = new RankFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_statsButtonActionPerformed
-
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try {
             SudokuPuzzle p = FileUtility.loadGame();
@@ -204,7 +201,6 @@ public class MainFrame extends JFrame {
             }
         } catch (IOException ex) {/* Ignore Exceptions */}
     }//GEN-LAST:event_loadButtonActionPerformed
-
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         LevelFrame f = new LevelFrame(this.getX(), this.getY());
         this.dispose();

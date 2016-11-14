@@ -373,7 +373,7 @@ public class SudokuFrame extends JFrame {
             }
         }
     }
-
+    
 
     /**
      * Resets the game back to its initial state. Called when the user requests
