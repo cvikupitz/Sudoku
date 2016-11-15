@@ -14,16 +14,12 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-/**
- *
- * @author robolike
- */
 public class MainFrame extends JFrame {
 
-    /**
-     * Creates new form Starpage
-     */
+    /* Default constructor */
     public MainFrame(int x, int y) {
+
+        /* Default constructor */
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setTitle("Sudoku");

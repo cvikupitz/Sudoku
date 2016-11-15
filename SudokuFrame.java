@@ -373,7 +373,7 @@ public class SudokuFrame extends JFrame {
             }
         }
     }
-    
+
 
     /**
      * Resets the game back to its initial state. Called when the user requests
@@ -397,6 +397,7 @@ public class SudokuFrame extends JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane22 = new javax.swing.JScrollPane();
         C4 = new javax.swing.JTextPane();
@@ -606,6 +607,9 @@ public class SudokuFrame extends JFrame {
 
         jMenu3.setText("Edit");
         jMenuBar2.add(jMenu3);
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sudoku");
@@ -1784,6 +1788,7 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JButton UndoButton;
     private javax.swing.JTextPane completeField;
     private javax.swing.JTextPane difficultyField;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

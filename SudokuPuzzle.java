@@ -13,7 +13,7 @@ public class SudokuPuzzle {
 
     /* Declare private members */
     private int difficulty;
-    private final String config;
+    private final String initialState;
     private int[][] board;
 
     /* Default constructor */
@@ -22,11 +22,11 @@ public class SudokuPuzzle {
     }
 
     /* Default constructor */
-    public SudokuPuzzle(String config) {
+    public SudokuPuzzle(String init) {
         this.difficulty = 0;
-        this.config = config;
+        this.initialState = init;
         this.board = new int[9][9];
-        char[] chars = config.toCharArray();
+        char[] chars = init.toCharArray();
         int temp, index = 0;
 
         for (int i = 0; i < 9; i++) {
@@ -175,7 +175,7 @@ public class SudokuPuzzle {
      */
     public void resetPuzzle() {
         this.board = new int[9][9];
-        char[] chars = this.config.toCharArray();
+        char[] chars = this.initialState.toCharArray();
         int temp, index = 0;
 
         for (int i = 0; i < 9; i++) {
@@ -253,7 +253,7 @@ public class SudokuPuzzle {
      * @return A string representing the initial state of the Sudoku puzzle.
      */
     protected String initialPuzzleState() {
-        return this.config;
+        return this.initialState;
     }
 
 
