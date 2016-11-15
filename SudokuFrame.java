@@ -42,12 +42,19 @@ public class SudokuFrame extends JFrame {
     private final JTextPane[] legalBoxes;
     private boolean[][] editable;
     private SudokuPuzzle puzzle;
+    private SudokuSolver solution;
     private int highlighted;
 
     public SudokuFrame(SudokuPuzzle p, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
+        this.solution = new SudokuSolver(this.puzzle);
+        ///////////////////////////////////////////////////
+        System.out.println("Solved: " + this.solution.isSolvable());
+        if (this.solution.isSolvable())
+            this.solution.getSolution().print();
+        //////////////////////////////////////////////////
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(this.BACKGROUND);

@@ -2,7 +2,7 @@
  * SudokuPuzzle.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * Class that represents a sudoku puzzle. A string is passed into the constructor
+ * Class that represents a Sudoku puzzle. A string is passed into the constructor
  * containing 81 characters/numbers, and the board is constructed from that.
  * The board is represetned as a 9x9 2-dimensional integer array.
  */
@@ -46,7 +46,7 @@ public class SudokuPuzzle {
      * coordinates. If the number inserted was a legal number, true is returned,
      * or false if not.
      *
-     * @param val The number to insert into the sudoku board, must be 1-9.
+     * @param val The number to insert into the Sudoku board, must be 1-9.
      * @param i The row to insert the number into.
      * @param j The column to insert the number into.
      * @return True if the number insertion was legal, false if not.
@@ -98,8 +98,8 @@ public class SudokuPuzzle {
      * 1 represents a 2, and so forth. True indicates that the number is legal,
      * and false indicates it is not.
      *
-     * @param i The row the square is in.
-     * @param j The column the square is in.
+     * @param i The row the tile is in.
+     * @param j The column the tile is in.
      * @return A list of booleans representing the legal moves to make.
      */
     public boolean[] getLegalMoves(int i, int j) {
@@ -111,7 +111,14 @@ public class SudokuPuzzle {
     }
 
 
-    /***/
+    /**
+     * Returns the number held at the specified tile on the board. If the tile
+     * is empty, 0 is returned.
+     *
+     * @param r The row to get the value at.
+     * @param c The column to get the value at.
+     * @return The number in the specified tile, or 0 if it's empty.
+     */
     public int getValue(int r, int c) {
         return this.board[r][c];
     }
@@ -151,7 +158,8 @@ public class SudokuPuzzle {
 
 
     /**
-     * Prints out the sudoku puzzle in the command prompt.
+     * Prints out the sudoku puzzle in the command prompt. Used for testing
+     * purposes.
      */
     public void print() {
         for (int i = 0; i < 9; i++) {
@@ -171,7 +179,8 @@ public class SudokuPuzzle {
 
 
     /**
-     * Resets the Sudoku puzzle back to it's initial starting state.
+     * Resets the Sudoku puzzle back to it's initial starting state. Invoked
+     * when the user resets the game.
      */
     public void resetPuzzle() {
         this.board = new int[9][9];
@@ -190,7 +199,12 @@ public class SudokuPuzzle {
     }
 
 
-    /***/
+    /**
+     * Returns the number of filled tiles in the puzzle. A tile is filled if it
+     * holds a number 1-9.
+     *
+     * @return The number of tiles filled on the Sudoku puzzle, from 0-81.
+     */
     protected int getNumberFilled() {
         int amt = 0;
         for (int i = 0; i < 9; i++) {
@@ -198,25 +212,25 @@ public class SudokuPuzzle {
                 if (this.board[i][j] != 0)
                     amt++;
             }
-        } return amt;
+        }
+        return amt;
     }
 
 
     /**
-     * Returns a copy of this sudoku puzzle.
+     * Returns a copy of this Sudoku puzzle.
      *
-     * @return A copy of this sudoku puzzle.
+     * @return A copy of this Sudoku puzzle.
      */
     public SudokuPuzzle getCopy() {
-        SudokuPuzzle p = this;
-        return p;
+        return this;
     }
 
 
     /**
-     * Returns a 2-d integer array representing the sudoku board.
+     * Returns a 2-d integer array representing the Sudoku board.
      *
-     * @return The 2-d array representing the sudoku board.
+     * @return The 2-d array representing the Sudoku board.
      */
     public int[][] toArray() {
         return this.board;
@@ -224,8 +238,8 @@ public class SudokuPuzzle {
 
 
     /**
-     * Sets the sudoku board to the specified 2-d integer array. Used after
-     * being passed through the sudoku solver and loading from a file.
+     * Sets the Sudoku board to the specified 2-d integer array. Used after
+     * being passed through the Sudoku solver and loading from a file.
      *
      * @param b The array to set the sudoku board to.
      */
@@ -234,13 +248,23 @@ public class SudokuPuzzle {
     }
 
 
-    /***/
+    /**
+     * Returns the puzzle's difficulty, ranging 1 to 5 from easiest to hardest.
+     * Used to display the difficulty in the Sudoku JFrame.
+     *
+     * @return The puzzle's dificulty, from 1-5.
+     */
     protected int getDifficulty() {
         return this.difficulty;
     }
 
 
-    /***/
+    /**
+     * Sets the puzzle's difficulty to the specified number. Used to display the
+     * difficulty in the Sudoku JFrame.
+     *
+     * @param d The number to set the puzzle difficulty to.
+     */
     protected void setDifficulty(int d) {
         this.difficulty = d;
     }
@@ -284,7 +308,8 @@ public class SudokuPuzzle {
     //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle checking functions ">
 
     /**
-     * FIXME
+     * Returns true if the specified row is complete, as in, it contains all
+     * numbers 1-9, or false if not.
      */
     private boolean rowIsComplete(int r) {
         boolean[] row = {false, false, false, false, false, false, false, false, false};
@@ -300,7 +325,8 @@ public class SudokuPuzzle {
     }
 
     /**
-     * FIXME
+     * Returns true if the specified column is complete, as in, it contains all
+     * numbers 1-9, or false if not.
      */
     private boolean columnIsComplete(int c) {
         boolean[] row = {false, false, false, false, false, false, false, false, false};
@@ -316,7 +342,8 @@ public class SudokuPuzzle {
     }
 
     /**
-     * FIXME
+     * Returns true if the subgrid at the specified location is complete, as in,
+     * it contains all numbers 1-9, or false if not.
      */
     private boolean subGridIsComplete(int r, int c) {
         boolean[] grid = {false, false, false, false, false, false, false, false, false};
@@ -347,7 +374,8 @@ public class SudokuPuzzle {
     //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle illegal checker functions ">
 
     /**
-     * FIXME
+     * Returns a string of coordinates of the tiles in the row that conflict
+     * with the specified tile.
      */
     private String getConflictingRow(int r, int c, String squares) {
 
@@ -363,7 +391,8 @@ public class SudokuPuzzle {
 
 
     /**
-     * FIXME
+     * Returns a string of coordinates of the tiles in the column that conflict
+     * with the specified tile.
      */
     private String getConflictingColumn(int c, int r, String squares) {
         for (int k = 0; k < 9; k++) {
@@ -377,7 +406,8 @@ public class SudokuPuzzle {
 
 
     /**
-     * FIXME
+     * Returns a string of coordinates of the tiles in the subgrid that conflict
+     * with the specified tile.
      */
     private String getConflictingSubGrid(int r, int c, String squares) {
          for (int i = 0; i < 3; i++) {
@@ -392,7 +422,6 @@ public class SudokuPuzzle {
         }
         return squares;
     }
-
     //</editor-fold>
 
     ////////////////////////////////////////////////////////
@@ -405,7 +434,7 @@ public class SudokuPuzzle {
     //<editor-fold defaultstate="collapsed" desc=" Sudoku puzzle legal moves checker functions ">
 
     /**
-     * FIXME
+     * Returns an array of moves that are legal within the specified row.
      */
     private boolean[] legalMovesInRow(int r, int c, boolean[] list) {
         for (int i = 0; i < 9; i++) {
@@ -418,7 +447,7 @@ public class SudokuPuzzle {
     }
 
     /**
-     * FIXME
+     * Returns an array of moves that are legal within the specified column.
      */
     private boolean[] legalMovesInColumn(int c, int r, boolean[] list) {
         for (int i = 0; i < 9; i++) {
@@ -431,7 +460,7 @@ public class SudokuPuzzle {
     }
 
     /**
-     * FIXME
+     * Returns an array of moves that are legal within the specified subgrid.
      */
     private boolean[] legalMovesInSubGrid(int r, int c, boolean[] list) {
         for (int i = 0; i < 3; i++) {

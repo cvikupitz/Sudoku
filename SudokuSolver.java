@@ -2,7 +2,7 @@
  * SudokuSolver.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * Class that takes a sudoku puzzle , solves and returns the solved puzzle.
+ * Class that takes a Sudoku puzzle, solves and returns the solved puzzle.
  */
 package sudoku;
 
@@ -11,10 +11,12 @@ public class SudokuSolver {
 
     /* Declare private members */
     private final SudokuPuzzle puzzle;
+    private final boolean solvable;
 
     /* Default constructor */
     public SudokuSolver(SudokuPuzzle p) {
         this.puzzle = p;
+        this.solvable = this.solve();
     }
 
 
@@ -23,15 +25,24 @@ public class SudokuSolver {
      *
      * @return The solved sudoku puzzle.
      */
-    public boolean getSolution() {
+    private boolean solve() {
+
         int[][] board = this.puzzle.toArray();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (board[i][j] == 0) {
+
                     for (int k = 1; k <= 9; k++) {
+                        if (!this.puzzle.insert(k, i, j)) {
+                            this.puzzle.insert(0, i, j);
+                            continue;
+                        }
+
                         board[i][j] = k;
-                        if (isValid(board, i, j) && solver(board)) {
-                            SudokuPuzzle.setArray(board);
+                        this.puzzle.setArray(board);
+                        if (this.solve()) {
+                            //SudokuPuzzle.setArray(board);
                             return true;
                         }
                         else {
@@ -42,50 +53,19 @@ public class SudokuSolver {
                 }
             }
         }
-        SudokuPuzzle.setArray(board);
+        this.puzzle.setArray(board);
+        //SudokuPuzzle.setArray(board);
         return true;
     }
 
-    public boolean isValid(int[][] board, int r, int c) {
-        //Row check
-        boolean[] row = new boolean[9];
-        for (int i = 0; i < 9; i++) {
-            if board[r][i] >= 1 && board[r][i] <= 9) {
-                if (row[board[r][i] - 1] == false) {
-                    row[board[r][i] - 1] = true;
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        //Column check
-        boolean col = new boolean[9];
-        for (int i = 0; i < 9; i++) {
-            if (board[i][c] >= 1 && board[i][c] <= 9) {
-                if (col[board[i][c] - 1] == false) {
-                    col[board[i][c] - 1] = true;
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        //3x3 box check
-        boolean[] box = new boolean[9];
-        for (int i = (r/3) * 3; i < (r/3) * 3 + 3; i++) {
-            for (int j = (c/3) * 3; j < (c/3) * 3 + 3; j++) {
-                if (board[i][j] >= 1 && board[i][j] <= j) {
-                    if (box[board[i][j] - 1] == false) {
-                        box[board[i][j] - 1] = true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+    public boolean isSolvable() {
+        return this.solvable;
+    }
+
+    public SudokuPuzzle getSolution() {
+        if (!this.solvable)
+            return null;
+        return this.puzzle;
     }
 
 } // End SudokuSolver class
