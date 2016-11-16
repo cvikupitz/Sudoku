@@ -50,11 +50,6 @@ public class SudokuFrame extends JFrame {
         /* Sets up the window components and design */
         this.puzzle = p;
         this.solution = new SudokuSolver(this.puzzle);
-        ///////////////////////////////////////////////////
-        System.out.println("Solved: " + this.solution.isSolvable());
-        if (this.solution.isSolvable())
-            this.solution.getSolution().print();
-        //////////////////////////////////////////////////
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(this.BACKGROUND);
@@ -275,21 +270,14 @@ public class SudokuFrame extends JFrame {
 
 
     /**
-     * Returns the current sudoku puzzle in a 2-d integer array format. Used to
-     * check the puzzle for completeness.
+     * FIXME
      */
-    private int[][] exportBoard() {
-        int[][] board = new int[9][9];
+    private void importBoard(int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                try {
-                    board[i][j] = Integer.parseInt(this.fields[i][j].getText());
-                } catch (Exception e) {
-                    board[i][j] = 0;
-                }
+                this.fields[i][j].setText(Integer.toString(board[i][j]));
             }
         }
-        return board;
     }
 
 
@@ -1606,6 +1594,11 @@ public class SudokuFrame extends JFrame {
         HelpMenu.add(jSeparator2);
 
         SolveOption.setText("Solve Puzzle");
+        SolveOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SolveOptionActionPerformed(evt);
+            }
+        });
         HelpMenu.add(SolveOption);
 
         jMenuBar1.add(HelpMenu);
@@ -1699,6 +1692,13 @@ public class SudokuFrame extends JFrame {
     private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
         /* FIXME */
     }//GEN-LAST:event_UndoButtonActionPerformed
+
+    private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
+        this.importBoard(this.solution.getSolution().toArray());
+        this.repaint();
+        this.puzzle = this.solution.getSolution();
+        this.updateStatus();
+    }//GEN-LAST:event_SolveOptionActionPerformed
 
     /* UI component variable declarations */
     //<editor-fold defaultstate="collapsed" desc=" Component declarations (optional) ">

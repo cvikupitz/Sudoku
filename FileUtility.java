@@ -20,8 +20,8 @@ public class FileUtility {
 
     /* File path where the user's saved game/fastest times are stored */
     private static final String USER = System.getProperty("user.home");
-    protected static final String PATH = (FileUtility.USER + "\\Sudoku\\");
-
+    //protected static final String PATH = (FileUtility.USER + "\\Sudoku\\");
+    protected static final String PATH = "C:/Sudoku/";
 
     /**
      * Saves the specified sudoku puzzle in a text file named 'saved.txt' into

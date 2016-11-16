@@ -49,7 +49,17 @@ public class Main {
         if (!dir.exists())
             dir.mkdir();
 
+        /* Creates a new Window */
         MainFrame f = new MainFrame(360, 30);
+
+//        BufferedReader br = new BufferedReader(new FileReader("1.txt"));
+//        for (int i = 0; i < 10000; i++) {
+//            String line = br.readLine();
+//            SudokuPuzzle p = new SudokuPuzzle(line);
+//            SudokuSolver s = new SudokuSolver(p);
+//            if (!s.isSolvable())
+//                System.out.println("ERROR!!! - " + i);
+//        }
     }
 
 
