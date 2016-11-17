@@ -18,10 +18,9 @@ import java.io.IOException;
 
 public class FileUtility {
 
-    /* File path where the user's saved game/fastest times are stored */
-    private static final String USER = System.getProperty("user.home");
-    //protected static final String PATH = (FileUtility.USER + "\\Sudoku\\");
+    /* File paths where the user's saved game, fastest times, and puzzles are stored */
     protected static final String PATH = "C:/Sudoku/";
+    protected static final String MY_PUZZLES_PATH = FileUtility.PATH + "My Puzzles/";
 
     /**
      * Saves the specified sudoku puzzle in a text file named 'saved.txt' into
@@ -99,11 +98,9 @@ public class FileUtility {
     }
 
 
-
-
-    /* ***** FIXME ***** */
-
-
-
+    /**
+     * FIXME
+     */
+    protected static boolean nameIsValid(String s) {return false;}
 
 } // End FileUtility class

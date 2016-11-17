@@ -42,14 +42,12 @@ public class SudokuFrame extends JFrame {
     private final JTextPane[] legalBoxes;
     private boolean[][] editable;
     private SudokuPuzzle puzzle;
-    private SudokuSolver solution;
     private int highlighted;
 
     public SudokuFrame(SudokuPuzzle p, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
-        this.solution = new SudokuSolver(this.puzzle);
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(this.BACKGROUND);
@@ -1694,10 +1692,10 @@ public class SudokuFrame extends JFrame {
     }//GEN-LAST:event_UndoButtonActionPerformed
 
     private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
-        this.importBoard(this.solution.getSolution().toArray());
-        this.repaint();
-        this.puzzle = this.solution.getSolution();
-        this.updateStatus();
+//        this.importBoard(this.solution.getSolution().toArray());
+//        this.repaint();
+//        this.puzzle = this.solution.getSolution();
+//        this.updateStatus();
     }//GEN-LAST:event_SolveOptionActionPerformed
 
     /* UI component variable declarations */

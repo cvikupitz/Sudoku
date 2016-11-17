@@ -176,7 +176,8 @@ public class MainFrame extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void puzzlesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_puzzlesButtonActionPerformed
-        WindowUtility.errorMessage("Not implemented yet.", "Error!");
+        PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
+        this.dispose();
     }//GEN-LAST:event_puzzlesButtonActionPerformed
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting"))
