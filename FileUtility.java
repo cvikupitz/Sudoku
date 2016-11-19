@@ -101,6 +101,42 @@ public class FileUtility {
     /**
      * FIXME
      */
-    protected static boolean nameIsValid(String s) {return false;}
+    protected static boolean fileNameValid(String s) {
+        return s.matches("^[a-zA-Z0-9][a-zA-Z0-9\\s_/-]*([^\\s_/-])$");
+    }
+
+
+    /**
+     * FIXME
+     */
+    protected static boolean nameIsUnique(String s, String path) {
+
+        /* Obtain all saved address books from the folder */
+        File folder = new File(path);
+        File[] fileList = folder.listFiles();
+
+        /* Scan each file name, make sure it isn't the same */
+        for (File file : fileList) {
+            if (file.isFile() && file.toString().endsWith(".txt") &&
+                    file.getName().toLowerCase().equals(s.toLowerCase()))
+                return false;
+        }
+        return true;
+    }
+
+
+    /***/
+    protected static File getFile(String n, String path) {
+
+        File folder = new File(path);
+        File[] fileList = folder.listFiles();
+
+        for (File file : fileList) {
+            if (file.isFile() && file.toString().endsWith(".txt") &&
+                    file.getName().toLowerCase().equals(n.toLowerCase()))
+                return file;
+        }
+        return null;
+    }
 
 } // End FileUtility class
