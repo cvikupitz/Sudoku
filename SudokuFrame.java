@@ -308,6 +308,7 @@ public class SudokuFrame extends JFrame {
             this.completeField.setForeground(this.DARK_GREEN);
             this.completeField.setText("Complete!");
             WindowUtility.displayInfo("You solved the puzzle!", "Congratulations!");
+            this.newGame();
         } else {
             this.completeField.setForeground(this.RED);
             this.completeField.setText("Incomplete");
@@ -365,6 +366,23 @@ public class SudokuFrame extends JFrame {
                     this.fields[i][j].setForeground(this.BLUE);
             }
         }
+    }
+
+
+    /***/
+    private void newGame() {
+
+        try {
+            this.puzzle = Main.getPuzzle(this.puzzle.getDifficulty());
+        } catch (FileNotFoundException ex) {
+            /* Ignore exceptions */
+            return;
+        }
+        if (this.completeField.getForeground() != this.DARK_GREEN) {
+            if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game"))
+                this.initializeTable();
+        } else
+            this.initializeTable();
     }
 
 
@@ -1663,18 +1681,7 @@ public class SudokuFrame extends JFrame {
 
 
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
-        try {
-            this.puzzle = Main.getPuzzle(this.puzzle.getDifficulty());
-        } catch (FileNotFoundException ex) {
-            /* Ignore exceptions */
-            return;
-        }
-
-        if (this.completeField.getForeground() != this.DARK_GREEN) {
-            if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game"))
-                    this.initializeTable();
-        } else
-            this.initializeTable();
+        this.newGame();
     }//GEN-LAST:event_NewGameOptionActionPerformed
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Resetting"))

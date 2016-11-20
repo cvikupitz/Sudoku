@@ -8,16 +8,24 @@ package sudoku;
 
 
 /* Imports */
+import java.awt.Color;
+import java.awt.FileDialog;
+import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.UIDefaults;
 
 public class PuzzlesFrame extends JFrame {
+
+    private final Color BACKGROUND = new Color(255, 255, 204);
 
     /* Default constructor */
     public PuzzlesFrame(int x, int y) {
@@ -35,6 +43,34 @@ public class PuzzlesFrame extends JFrame {
             dir.mkdir();
         this.bindIntoTable();
 
+        /* Sets the status text's background color */
+        UIDefaults defaults = new UIDefaults();
+        defaults.put("TextPane[Enabled].backgroundPainter", this.BACKGROUND);
+        this.puzzleDate.putClientProperty("Nimbus.Overrides", defaults);
+        this.puzzleDate.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+        this.puzzleDate.setBackground(this.BACKGROUND);
+
+        /* Sets the button icons */
+        try {
+            Image searchImg = ImageIO.read(getClass().getResource("search.png"));
+            Image clearImg = ImageIO.read(getClass().getResource("clear.png"));
+            searchButton.setIcon(new ImageIcon(searchImg));
+            clearButton.setIcon(new ImageIcon(clearImg));
+        } catch (IOException ex) {/* Ignore exceptions */}
+
+        /* Allow user to press enter to search in search text field */
+        this.searchField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {/* No implementation needed */}
+            @Override
+            public void keyPressed(KeyEvent e) {/* No implementation needed */}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                    search();
+            }
+        });
+
         /* Asks user if they're sure when closing the window. */
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -43,13 +79,6 @@ public class PuzzlesFrame extends JFrame {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting"))
                     System.exit(0);
-            }
-        });
-
-        this.puzzleList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                
             }
         });
 
@@ -75,7 +104,6 @@ public class PuzzlesFrame extends JFrame {
         /* Display all puzzles into menu */
         String[] list = txtFiles.toArray(new String[txtFiles.size()]);
         this.puzzleList.setListData(list);
-        this.puzzleCount.setText("Finished loading files, " + list.length + " puzzle(s) found.");
     }
 
 
@@ -97,7 +125,7 @@ public class PuzzlesFrame extends JFrame {
                         "Error!");
                 return;
             }
-        } else { return; }
+        } else {return;}
 
         /* Create the new file, opens a new puzzle */
         name += ".txt";
@@ -110,7 +138,8 @@ public class PuzzlesFrame extends JFrame {
             return;
         }
         this.bindIntoTable();
-        ////////BookFrame addressBook = new BookFrame(name);
+        PuzzleEditorFrame f = new PuzzleEditorFrame(this.getX(), this.getY());
+        this.dispose();
     }
 
 
@@ -119,7 +148,8 @@ public class PuzzlesFrame extends JFrame {
         if (this.puzzleList.getSelectedValue() == null) {
             WindowUtility.displayInfo("You must select a puzzle to edit.", "Note!");
         } else {
-            WindowUtility.displayInfo("FIXME!!!!", "FIXME!!!");
+            PuzzleEditorFrame f = new PuzzleEditorFrame(this.getX(), this.getY());
+            this.dispose();
         }
     }
 
@@ -137,8 +167,73 @@ public class PuzzlesFrame extends JFrame {
                     WindowUtility.errorMessage("Failed to delete the puzzle.",
                             "Error!");
                 this.bindIntoTable();
+                this.puzzleDate.setText("");
             }
         }
+    }
+
+
+    /***/
+    private void importPuzzle() {
+        FileDialog fd = new FileDialog(this, "Import", FileDialog.LOAD);
+        fd.setVisible(true);
+        String filePath = fd.getDirectory();
+        String fileName = fd.getFile();
+        if (filePath == null || fileName == null)
+            return;
+        if (!FileUtility.copyFile(filePath + fileName, FileUtility.MY_PUZZLES_PATH + fileName))
+            WindowUtility.errorMessage("Failed to export the puzzle.",
+                        "Error!");
+        this.bindIntoTable();
+    }
+
+
+    /***/
+    private void exportPuzzle() {
+        String old = this.puzzleList.getSelectedValue();
+        if (old == null) {return;}
+        FileDialog fd = new FileDialog(this, "Export", FileDialog.SAVE);
+        fd.setFile(old);
+        fd.setVisible(true);
+        String filePath = fd.getDirectory();
+        String fileName = fd.getFile();
+        if (filePath == null || fileName == null)
+            return;
+        if (!(FileUtility.fileNameValid(fileName))) {
+            WindowUtility.errorMessage("The name you entered is an illegal name.",
+                        "Error!");
+            return;
+        }
+        if (!(FileUtility.nameIsUnique(fileName + ".txt", filePath))) {
+            WindowUtility.errorMessage("There already exists file with this name."
+                        + "\nChoose a different name.",
+                        "Error!");
+            return;
+        }
+        if (!fileName.endsWith(".txt"))
+            fileName += ".txt";
+        if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + old + ".txt", filePath + fileName))
+            WindowUtility.errorMessage("Failed to export the puzzle.",
+                        "Error!");
+    }
+
+
+    /***/
+    private void search() {
+        this.puzzleList.clearSelection();
+        ArrayList<String> txtFiles = new ArrayList<String>();
+        File folder = new File(FileUtility.MY_PUZZLES_PATH);
+        File[] fileList = folder.listFiles();
+
+        for (File file : fileList) {
+            String s = file.getName().toLowerCase().substring(0, file.getName().length()-4);
+            if (file.isFile() && file.toString().endsWith(".txt") &&
+                    s.contains(this.searchField.getText()))
+                txtFiles.add(file.getName().substring(0, file.getName().length()-4));
+        }
+
+        String[] list = txtFiles.toArray(new String[txtFiles.size()]);
+        this.puzzleList.setListData(list);
     }
 
 
@@ -159,8 +254,24 @@ public class PuzzlesFrame extends JFrame {
         newButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        puzzleCount = new javax.swing.JTextField();
         playButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        puzzleDate = new javax.swing.JTextPane();
+        jLabel2 = new javax.swing.JLabel();
+        searchField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        newOption = new javax.swing.JMenuItem();
+        editOption = new javax.swing.JMenuItem();
+        deleteOption = new javax.swing.JMenuItem();
+        playOption = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        importOption = new javax.swing.JMenuItem();
+        exportOption = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        backOption = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -209,12 +320,6 @@ public class PuzzlesFrame extends JFrame {
             }
         });
 
-        puzzleCount.setEditable(false);
-        puzzleCount.setBackground(new java.awt.Color(255, 255, 204));
-        puzzleCount.setEnabled(false);
-        puzzleCount.setFocusable(false);
-        puzzleCount.setHighlighter(null);
-
         playButton.setBackground(new java.awt.Color(255, 102, 255));
         playButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         playButton.setText("Play");
@@ -224,30 +329,58 @@ public class PuzzlesFrame extends JFrame {
             }
         });
 
+        puzzleDate.setEditable(false);
+        puzzleDate.setFocusable(false);
+        puzzleDate.setHighlighter(null);
+        jScrollPane3.setViewportView(puzzleDate);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Search");
+
+        searchButton.setBackground(new java.awt.Color(185, 185, 255));
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        clearButton.setBackground(new java.awt.Color(185, 185, 255));
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(newButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(playButton))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                            .addComponent(puzzleCount)
-                            .addComponent(backButton)))
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(newButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addComponent(playButton))
+                    .addComponent(jScrollPane1)
+                    .addComponent(backButton)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(jLabel1)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,19 +388,95 @@ public class PuzzlesFrame extends JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(puzzleCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
+
+        jMenu1.setText("File");
+
+        newOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newOption.setText("New");
+        newOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(newOption);
+
+        editOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        editOption.setText("Edit");
+        editOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(editOption);
+
+        deleteOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        deleteOption.setText("Delete");
+        deleteOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(deleteOption);
+
+        playOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        playOption.setText("Play");
+        playOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(playOption);
+        jMenu1.add(jSeparator1);
+
+        importOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        importOption.setText("Import");
+        importOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(importOption);
+
+        exportOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        exportOption.setText("Export");
+        exportOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exportOption);
+        jMenu1.add(jSeparator2);
+
+        backOption.setText("Go Back");
+        backOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backOptionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(backOption);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,17 +486,15 @@ public class PuzzlesFrame extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /* Button Actions */
+
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        MainFrame m = new MainFrame(this.getX(), this.getY());
+        MainFrame f = new MainFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
@@ -299,23 +506,67 @@ public class PuzzlesFrame extends JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         this.deletePuzzle();
     }//GEN-LAST:event_deleteButtonActionPerformed
-
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        // TODO add your handling code here:
+        WindowUtility.displayInfo("Coming Soon...", "Halt!");
     }//GEN-LAST:event_playButtonActionPerformed
+    private void newOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOptionActionPerformed
+        this.newPuzzle();
+    }//GEN-LAST:event_newOptionActionPerformed
+    private void editOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editOptionActionPerformed
+        this.editPuzzle();
+    }//GEN-LAST:event_editOptionActionPerformed
+    private void deleteOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteOptionActionPerformed
+        this.deletePuzzle();
+    }//GEN-LAST:event_deleteOptionActionPerformed
+    private void playOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playOptionActionPerformed
+        WindowUtility.displayInfo("Coming Soon...", "Halt!");
+    }//GEN-LAST:event_playOptionActionPerformed
+    private void importOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importOptionActionPerformed
+        this.importPuzzle();
+    }//GEN-LAST:event_importOptionActionPerformed
+    private void exportOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportOptionActionPerformed
+        this.exportPuzzle();
+    }//GEN-LAST:event_exportOptionActionPerformed
+    private void backOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backOptionActionPerformed
+        MainFrame f = new MainFrame(this.getX(), this.getY());
+        this.dispose();
+    }//GEN-LAST:event_backOptionActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        this.search();
+    }//GEN-LAST:event_searchButtonActionPerformed
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        this.searchField.setText("");
+        this.search();
+    }//GEN-LAST:event_clearButtonActionPerformed
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JMenuItem backOption;
+    private javax.swing.JButton clearButton;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JMenuItem deleteOption;
     private javax.swing.JButton editButton;
+    private javax.swing.JMenuItem editOption;
+    private javax.swing.JMenuItem exportOption;
+    private javax.swing.JMenuItem importOption;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JButton newButton;
+    private javax.swing.JMenuItem newOption;
     private javax.swing.JButton playButton;
-    private javax.swing.JTextField puzzleCount;
+    private javax.swing.JMenuItem playOption;
+    private javax.swing.JTextPane puzzleDate;
     private javax.swing.JList<String> puzzleList;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 
