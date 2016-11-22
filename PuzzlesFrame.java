@@ -61,14 +61,18 @@ public class PuzzlesFrame extends JFrame {
             clearButton.setIcon(new ImageIcon(clearImg));
         } catch (IOException ex) {/* Ignore exceptions */}
 
+        /* Code to update the text displaying the last modified date of a selected puzzle */
+        this.puzzleDate.setText("Last Modified: ");
         this.puzzleList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String f = puzzleList.getSelectedValue();
                 if (f != null) {
                     File file = FileUtility.getFile(f + ".txt", FileUtility.MY_PUZZLES_PATH);
-                    SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm aaa");
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy  h:mm a");
                     puzzleDate.setText("Last Modified: " + sdf.format(file.lastModified()));
+                } else {
+                    puzzleDate.setText("Last Modified: ");
                 }
             }
         });
@@ -198,13 +202,16 @@ public class PuzzlesFrame extends JFrame {
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
+        System.out.println(filePath + fileName);
         if (!FileUtility.nameIsUnique(fileName, filePath)) {
-            WindowUtility.errorMessage("Failed to import the puzzle.",
+            WindowUtility.errorMessage("Failed to import the puzzle."
+                    + "\nAnother puzzle already exists with that name.",
                         "Error!");
             return;
         }
         if (!FileUtility.copyFile(filePath + fileName, FileUtility.MY_PUZZLES_PATH + fileName))
-            WindowUtility.errorMessage("Failed to import the puzzle.",
+            WindowUtility.errorMessage("Failed to import the puzzle."
+                    + "\nCould not copy the contents of the file.",
                         "Error!");
         this.bindIntoTable();
     }
@@ -257,7 +264,7 @@ public class PuzzlesFrame extends JFrame {
         for (File file : fileList) {
             String s = file.getName().toLowerCase().substring(0, file.getName().length()-4);
             if (file.isFile() && file.toString().endsWith(".txt") &&
-                    s.toLowerCase().contains(this.searchField.getText()))
+                    s.toLowerCase().contains(this.searchField.getText().toLowerCase()))
                 txtFiles.add(file.getName().substring(0, file.getName().length()-4));
         }
 
@@ -308,6 +315,7 @@ public class PuzzlesFrame extends JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
         puzzleList.setBorder(new javax.swing.border.MatteBorder(null));
+        puzzleList.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jScrollPane1.setViewportView(puzzleList);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -366,6 +374,8 @@ public class PuzzlesFrame extends JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Search");
+
+        searchField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         searchButton.setBackground(new java.awt.Color(185, 185, 255));
         searchButton.addActionListener(new java.awt.event.ActionListener() {

@@ -149,20 +149,20 @@ public class FileUtility {
             File sourceFile = new File(path);
             File destinationFile = new File(dest);
 
-        FileInputStream fileInputStream = new FileInputStream(sourceFile);
-        FileOutputStream fileOutputStream = new FileOutputStream(
-                destinationFile);
+            FileInputStream fileInputStream = new FileInputStream(sourceFile);
+            FileOutputStream fileOutputStream = new FileOutputStream(
+                    destinationFile);
 
-        int bufferSize;
-        byte[] bufffer = new byte[512];
-        while ((bufferSize = fileInputStream.read(bufffer)) > 0) {
-            fileOutputStream.write(bufffer, 0, bufferSize);
-        }
-        fileInputStream.close();
-        fileOutputStream.close();
-        return true;
+            int bufferSize;
+            byte[] bufffer = new byte[512];
+            while ((bufferSize = fileInputStream.read(bufffer)) > 0) {
+                fileOutputStream.write(bufffer, 0, bufferSize);
+            }
+
+            fileInputStream.close();
+            fileOutputStream.close();
+            return true;
         } catch (Exception e) {return false;}
-
     }
 
 } // End FileUtility class

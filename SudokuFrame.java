@@ -572,7 +572,6 @@ public class SudokuFrame extends JFrame {
         C3 = new javax.swing.JTextPane();
         jScrollPane43 = new javax.swing.JScrollPane();
         E7 = new javax.swing.JTextPane();
-        UndoButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane86 = new javax.swing.JScrollPane();
         legalTwo = new javax.swing.JTextPane();
@@ -1421,13 +1420,6 @@ public class SudokuFrame extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        UndoButton.setText("Undo");
-        UndoButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UndoButtonActionPerformed(evt);
-            }
-        });
-
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
         legalTwo.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -1633,10 +1625,7 @@ public class SudokuFrame extends JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane91, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(UndoButton))
+                            .addComponent(jScrollPane91, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(TimeLabel1)
@@ -1668,9 +1657,7 @@ public class SudokuFrame extends JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(UndoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane91, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane91, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane92, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -1694,9 +1681,6 @@ public class SudokuFrame extends JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_QuitOptionActionPerformed
-    private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
-        /* FIXME */
-    }//GEN-LAST:event_UndoButtonActionPerformed
 
     private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
 //        this.importBoard(this.solution.getSolution().toArray());
@@ -1797,7 +1781,6 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JMenuItem ResetGameOption;
     private javax.swing.JMenuItem SolveOption;
     private javax.swing.JLabel TimeLabel1;
-    private javax.swing.JButton UndoButton;
     private javax.swing.JTextPane completeField;
     private javax.swing.JTextPane difficultyField;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;

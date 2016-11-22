@@ -25,30 +25,30 @@ public class RankFrame extends JFrame {
 
         /* FIXME */
         this.noviceTable.getTableHeader().setReorderingAllowed(false);
-        this.noviceTable.getColumn("Rank").setMinWidth(100);
-        this.noviceTable.getColumn("Rank").setMaxWidth(100);
-        this.noviceTable.getColumn("Date").setMinWidth(200);
-        this.noviceTable.getColumn("Date").setMaxWidth(200);
+        this.noviceTable.getColumn("Rank").setMinWidth(75);
+        this.noviceTable.getColumn("Rank").setMaxWidth(75);
+        this.noviceTable.getColumn("Date").setMinWidth(225);
+        this.noviceTable.getColumn("Date").setMaxWidth(225);
         this.easyTable.getTableHeader().setReorderingAllowed(false);
-        this.easyTable.getColumn("Rank").setMinWidth(100);
-        this.easyTable.getColumn("Rank").setMaxWidth(100);
-        this.easyTable.getColumn("Date").setMinWidth(200);
-        this.easyTable.getColumn("Date").setMaxWidth(200);
+        this.easyTable.getColumn("Rank").setMinWidth(75);
+        this.easyTable.getColumn("Rank").setMaxWidth(75);
+        this.easyTable.getColumn("Date").setMinWidth(225);
+        this.easyTable.getColumn("Date").setMaxWidth(225);
         this.mediumTable.getTableHeader().setReorderingAllowed(false);
-        this.mediumTable.getColumn("Rank").setMinWidth(100);
-        this.mediumTable.getColumn("Rank").setMaxWidth(100);
-        this.mediumTable.getColumn("Date").setMinWidth(200);
-        this.mediumTable.getColumn("Date").setMaxWidth(200);
+        this.mediumTable.getColumn("Rank").setMinWidth(75);
+        this.mediumTable.getColumn("Rank").setMaxWidth(75);
+        this.mediumTable.getColumn("Date").setMinWidth(225);
+        this.mediumTable.getColumn("Date").setMaxWidth(225);
         this.hardTable.getTableHeader().setReorderingAllowed(false);
-        this.hardTable.getColumn("Rank").setMinWidth(100);
-        this.hardTable.getColumn("Rank").setMaxWidth(100);
-        this.hardTable.getColumn("Date").setMinWidth(200);
-        this.hardTable.getColumn("Date").setMaxWidth(200);
+        this.hardTable.getColumn("Rank").setMinWidth(75);
+        this.hardTable.getColumn("Rank").setMaxWidth(75);
+        this.hardTable.getColumn("Date").setMinWidth(225);
+        this.hardTable.getColumn("Date").setMaxWidth(225);
         this.expertTable.getTableHeader().setReorderingAllowed(false);
-        this.expertTable.getColumn("Rank").setMinWidth(100);
-        this.expertTable.getColumn("Rank").setMaxWidth(100);
-        this.expertTable.getColumn("Date").setMinWidth(200);
-        this.expertTable.getColumn("Date").setMaxWidth(200);
+        this.expertTable.getColumn("Rank").setMinWidth(75);
+        this.expertTable.getColumn("Rank").setMaxWidth(75);
+        this.expertTable.getColumn("Date").setMinWidth(225);
+        this.expertTable.getColumn("Date").setMaxWidth(225);
 
         /* Asks user if they're sure when closing the window. */
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
