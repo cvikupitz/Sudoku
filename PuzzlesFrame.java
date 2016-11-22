@@ -14,9 +14,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -58,16 +61,15 @@ public class PuzzlesFrame extends JFrame {
             clearButton.setIcon(new ImageIcon(clearImg));
         } catch (IOException ex) {/* Ignore exceptions */}
 
-        /* Allow user to press enter to search in search text field */
-        this.searchField.addKeyListener(new KeyListener() {
+        this.puzzleList.addMouseListener(new MouseAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {/* No implementation needed */}
-            @Override
-            public void keyPressed(KeyEvent e) {/* No implementation needed */}
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                    search();
+            public void mouseClicked(MouseEvent e) {
+                String f = puzzleList.getSelectedValue();
+                if (f != null) {
+                    File file = FileUtility.getFile(f + ".txt", FileUtility.MY_PUZZLES_PATH);
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm aaa");
+                    puzzleDate.setText("Last Modified: " + sdf.format(file.lastModified()));
+                }
             }
         });
 
@@ -86,7 +88,10 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Updates the table in the frame. Displays all the puzzles inside the 'My Puzzles'
+     * directory into the list.
+     */
     private void bindIntoTable() {
 
         /* Obtain all saved puzzles from the folder */
@@ -107,8 +112,13 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Invoked when the user wants to create a new puzzle. Asks for the name of
+     * the puzzle, creates the file, then opens the new puzzle in the editing
+     * window.
+     */
     private void newPuzzle() {
+
         /* Gets a new file name from the user, validates the name */
         String name = WindowUtility.getEntry("Enter the name of your new puzzle.");
         if (name != null) {
@@ -143,7 +153,9 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Opens the selected puzzle in the editing frame.
+     */
     private void editPuzzle() {
         if (this.puzzleList.getSelectedValue() == null) {
             WindowUtility.displayInfo("You must select a puzzle to edit.", "Note!");
@@ -154,7 +166,10 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Deletes the selected puzzle. Asks the user if they're sure, and deletes the
+     * file from the 'My Puzzles' directory if confirmed.
+     */
     private void deletePuzzle() {
         if (this.puzzleList.getSelectedValue() == null) {
             WindowUtility.displayInfo("You must select a puzzle to delete.", "Note!");
@@ -173,7 +188,9 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * FIXME
+     */
     private void importPuzzle() {
         FileDialog fd = new FileDialog(this, "Import", FileDialog.LOAD);
         fd.setVisible(true);
@@ -181,17 +198,27 @@ public class PuzzlesFrame extends JFrame {
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
+        if (!FileUtility.nameIsUnique(fileName, filePath)) {
+            WindowUtility.errorMessage("Failed to import the puzzle.",
+                        "Error!");
+            return;
+        }
         if (!FileUtility.copyFile(filePath + fileName, FileUtility.MY_PUZZLES_PATH + fileName))
-            WindowUtility.errorMessage("Failed to export the puzzle.",
+            WindowUtility.errorMessage("Failed to import the puzzle.",
                         "Error!");
         this.bindIntoTable();
     }
 
 
-    /***/
+    /**
+     * FIXME
+     */
     private void exportPuzzle() {
         String old = this.puzzleList.getSelectedValue();
-        if (old == null) {return;}
+        if (old == null) {
+            WindowUtility.displayInfo("You must select a puzzle to export.", "Note!");
+            return;
+        }
         FileDialog fd = new FileDialog(this, "Export", FileDialog.SAVE);
         fd.setFile(old);
         fd.setVisible(true);
@@ -218,7 +245,9 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * FIXME
+     */
     private void search() {
         this.puzzleList.clearSelection();
         ArrayList<String> txtFiles = new ArrayList<String>();
@@ -228,7 +257,7 @@ public class PuzzlesFrame extends JFrame {
         for (File file : fileList) {
             String s = file.getName().toLowerCase().substring(0, file.getName().length()-4);
             if (file.isFile() && file.toString().endsWith(".txt") &&
-                    s.contains(this.searchField.getText()))
+                    s.toLowerCase().contains(this.searchField.getText()))
                 txtFiles.add(file.getName().substring(0, file.getName().length()-4));
         }
 
@@ -330,6 +359,7 @@ public class PuzzlesFrame extends JFrame {
         });
 
         puzzleDate.setEditable(false);
+        puzzleDate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         puzzleDate.setFocusable(false);
         puzzleDate.setHighlighter(null);
         jScrollPane3.setViewportView(puzzleDate);
@@ -388,11 +418,12 @@ public class PuzzlesFrame extends JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

@@ -217,8 +217,12 @@ public class PuzzleEditorFrame extends JFrame {
         jButton1 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileTab = new javax.swing.JMenu();
+        saveOption = new javax.swing.JMenuItem();
+        saveAsOption = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        quitOption = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -970,13 +974,23 @@ public class PuzzleEditorFrame extends JFrame {
 
         fileTab.setText("File");
 
-        jMenuItem2.setText("Quit");
+        saveOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveOption.setText("Save");
+        fileTab.add(saveOption);
+
+        saveAsOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsOption.setText("Save As");
+        fileTab.add(saveAsOption);
+        fileTab.add(jSeparator2);
+
+        jMenuItem2.setText("Check For Solution");
         fileTab.add(jMenuItem2);
+        fileTab.add(jSeparator1);
+
+        quitOption.setText("Quit");
+        fileTab.add(quitOption);
 
         menuBar.add(fileTab);
-
-        jMenu2.setText("Edit");
-        menuBar.add(jMenu2);
 
         setJMenuBar(menuBar);
 
@@ -998,7 +1012,11 @@ public class PuzzleEditorFrame extends JFrame {
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+    /*
 
+
+
+    */
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1085,7 +1103,6 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JTextPane I9;
     private javax.swing.JMenu fileTab;
     private javax.swing.JButton jButton1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
@@ -1170,7 +1187,12 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane97;
     private javax.swing.JScrollPane jScrollPane98;
     private javax.swing.JScrollPane jScrollPane99;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem quitOption;
+    private javax.swing.JMenuItem saveAsOption;
+    private javax.swing.JMenuItem saveOption;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 

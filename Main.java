@@ -15,7 +15,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
+///////////////////////////////////////
 // functionality is not architectural
+/////////////////////////////////////////
 public class Main {
 
     /* Invoked at runtime, starts and runs the program. */
@@ -51,15 +53,6 @@ public class Main {
 
         /* Creates a new Window */
         MainFrame f = new MainFrame(360, 30);
-
-//        BufferedReader br = new BufferedReader(new FileReader("1.txt"));
-//        for (int i = 0; i < 10000; i++) {
-//            String line = br.readLine();
-//            SudokuPuzzle p = new SudokuPuzzle(line);
-//            SudokuSolver s = new SudokuSolver(p);
-//            if (!s.isSolvable())
-//                System.out.println("ERROR!!! - " + i);
-//        }
     }
 
 
@@ -100,12 +93,3 @@ public class Main {
     }
     //////////////////////////////////////////////////////////////////////////
 }
-
-
-/*
-0.txt - 45
-1.txt - 40
-2.txt - 35
-3.txt - 30
-5.txt - 25
-*/
