@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class SudokuSolverTest {
 
+    /* Ran very slowly (~7.5 minutes), but does work.*/
     public static void main(String[] args) throws IOException {
 
         BufferedReader br;

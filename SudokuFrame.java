@@ -42,12 +42,16 @@ public class SudokuFrame extends JFrame {
     private final JTextPane[] legalBoxes;
     private boolean[][] editable;
     private SudokuPuzzle puzzle;
+    private SudokuSolver solution;
+    private final int difficulty;
     private int highlighted;
 
     public SudokuFrame(SudokuPuzzle p, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
+        this.solution = new SudokuSolver(this.puzzle);
+        this.difficulty = p.getDifficulty();
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(this.BACKGROUND);
@@ -373,7 +377,8 @@ public class SudokuFrame extends JFrame {
     private void newGame() {
 
         try {
-            this.puzzle = Main.getPuzzle(this.puzzle.getDifficulty());
+            this.puzzle = Main.getPuzzle(this.difficulty);
+            this.solution = new SudokuSolver(this.puzzle);
         } catch (FileNotFoundException ex) {
             /* Ignore exceptions */
             return;
@@ -1598,6 +1603,11 @@ public class SudokuFrame extends JFrame {
         HelpMenu.setText("Help");
 
         GetHintOption.setText("Get Hint");
+        GetHintOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GetHintOptionActionPerformed(evt);
+            }
+        });
         HelpMenu.add(GetHintOption);
         HelpMenu.add(jSeparator2);
 
@@ -1681,13 +1691,28 @@ public class SudokuFrame extends JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_QuitOptionActionPerformed
-
     private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
-//        this.importBoard(this.solution.getSolution().toArray());
-//        this.repaint();
-//        this.puzzle = this.solution.getSolution();
-//        this.updateStatus();
+        if (!WindowUtility.askYesNo("Choosing to solve the puzzle will result in your time not being counted."
+                + "\nAre you sure you want to solve?", "Warning!"))
+            return;
+        this.importBoard(this.solution.getSolution().toArray());
+        this.repaint();
+        this.puzzle = this.solution.getSolution();
+        this.updateStatus();
     }//GEN-LAST:event_SolveOptionActionPerformed
+    private void GetHintOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetHintOptionActionPerformed
+        SudokuPuzzle p = this.solution.getSolution();
+        int[][] a = p.toArray();
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++)
+                if (this.puzzle.getValue(i, j) == 0) {
+                    this.puzzle.insert(a[i][j], i, j);
+                    this.fields[i][j].setText(Integer.toString(a[i][j]));
+                    this.repaint();
+                    this.updateStatus();
+                    return;
+                }
+    }//GEN-LAST:event_GetHintOptionActionPerformed
 
     /* UI component variable declarations */
     //<editor-fold defaultstate="collapsed" desc=" Component declarations (optional) ">

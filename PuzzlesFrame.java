@@ -12,8 +12,6 @@ import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -185,8 +183,7 @@ public class PuzzlesFrame extends JFrame {
                 if (!file.delete())
                     WindowUtility.errorMessage("Failed to delete the puzzle.",
                             "Error!");
-                this.bindIntoTable();
-                this.puzzleDate.setText("");
+                this.search();
             }
         }
     }

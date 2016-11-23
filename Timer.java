@@ -6,11 +6,7 @@
  */
 package sudoku;
 
-import java.awt.event.*;
-import javax.swing.*;
-
-
-public class Timer extends JFrame {
+public class Timer {
 
     public static void main(String[] args) {
 
