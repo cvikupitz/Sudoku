@@ -2,7 +2,10 @@
  * MainFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for the home menu. Here, user can start a new game,
+ * load a saved game, view their statistics, Go to their custom puzzles, or quit
+ * the program. Contains buttons that the user can click to access these different
+ * options.
  */
 package sudoku;
 
@@ -19,7 +22,7 @@ public class MainFrame extends JFrame {
     /* Default constructor */
     public MainFrame(int x, int y) {
 
-        /* Default constructor */
+        /* Initialize components */
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setTitle("Sudoku");
@@ -175,6 +178,7 @@ public class MainFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="Button Action Event Handling">
     private void puzzlesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_puzzlesButtonActionPerformed
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
         this.dispose();
@@ -202,8 +206,9 @@ public class MainFrame extends JFrame {
         LevelFrame f = new LevelFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_newButtonActionPerformed
+    // </editor-fold>
 
-
+    // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel image;
     private javax.swing.JLabel jLabel1;
@@ -214,4 +219,5 @@ public class MainFrame extends JFrame {
     private javax.swing.JButton quitButton;
     private javax.swing.JButton statsButton;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold>
 }

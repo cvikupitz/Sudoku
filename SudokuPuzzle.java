@@ -13,7 +13,7 @@ public class SudokuPuzzle {
 
     /* Declare private members */
     private int difficulty;
-    private final String initialState;
+    private String initialState;
     private int[][] board;
 
     /* Default constructor */
@@ -200,6 +200,18 @@ public class SudokuPuzzle {
 
 
     /**
+     * Completely resets the puzzle back to an empty state, and resets the
+     * puzzle states.
+     */
+    protected void hardReset() {
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++)
+                this.board[i][j] = 0;
+        this.initialState = this.currentPuzzleState();
+    }
+
+
+    /**
      * Returns the number of filled tiles in the puzzle. A tile is filled if it
      * holds a number 1-9.
      *
@@ -214,16 +226,6 @@ public class SudokuPuzzle {
             }
         }
         return amt;
-    }
-
-
-    /**
-     * Returns a copy of this Sudoku puzzle.
-     *
-     * @return A copy of this Sudoku puzzle.
-     */
-    public SudokuPuzzle getCopy() {
-        return this;
     }
 
 
@@ -278,6 +280,17 @@ public class SudokuPuzzle {
      */
     protected String initialPuzzleState() {
         return this.initialState;
+    }
+
+
+    /**
+     * Sets the Sudoku's initial state to the specified string. Used for saving
+     * modified custom puzzles.
+     *
+     * @param s The initial state to set the puzzle in.
+     */
+    protected void setInitialPuzzleState(String s) {
+        this.initialState = s;
     }
 
 

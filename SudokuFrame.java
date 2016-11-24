@@ -92,15 +92,6 @@ public class SudokuFrame extends JFrame {
                 this.difficultyField.setText("Expert");
         }
 
-///////////////////////////////////////////////
-//        this.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                System.out.printf("(%d, %d)\n", e.getX(), e.getY());
-//            }
-//        });
-//////////////////////////////////////////////////////
-
         /* Keep a 2-d list of the panels for easy accessing and checking */
         this.fields = new JTextPane[][]{
         {this.A1, this.A2, this.A3, this.A4, this.A5, this.A6, this.A7, this.A8, this.A9},
@@ -277,6 +268,12 @@ public class SudokuFrame extends JFrame {
     private void importBoard(int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                if (!this.editable[i][j])
+                    continue;
+                if (board[i][j] == this.highlighted)
+                    this.fields[i][j].setForeground(this.GREEN);
+                else
+                    this.fields[i][j].setForeground(this.BLUE);
                 this.fields[i][j].setText(Integer.toString(board[i][j]));
             }
         }
@@ -1714,8 +1711,7 @@ public class SudokuFrame extends JFrame {
                 }
     }//GEN-LAST:event_GetHintOptionActionPerformed
 
-    /* UI component variable declarations */
-    //<editor-fold defaultstate="collapsed" desc=" Component declarations (optional) ">
+    //<editor-fold defaultstate="collapsed" desc=" Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane A1;
     private javax.swing.JTextPane A2;

@@ -2,7 +2,10 @@
  * LevelFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for the difficulty selection screen. Appears when
+ * the user clicks the new game option from the home menu. Contains five buttons
+ * that the user can click for the corresponding difficulty, and also a back
+ * button that brings the user back to the home menu.
  */
 package sudoku;
 
@@ -10,20 +13,21 @@ package sudoku;
 /* Imports */
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
-import java.io.FileNotFoundException;
 import javax.swing.JFrame;
 
 public class LevelFrame extends JFrame {
 
     /* Default constructor */
     public LevelFrame(int x, int y) {
+
+        /* Initialize components */
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setTitle("Sudoku");
         this.setLocation(x, y);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        /* Asks user if they're sure when closing the window. */
+        /* Asks user if they're sure when closing the window */
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
@@ -172,58 +176,60 @@ public class LevelFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="Button Action Event Handling">
+    /* Invoked when the user clicks 'Novice'; starts a novice puzzle */
     private void noviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noviceButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(1);
-            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
+        } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_noviceButtonActionPerformed
-
-    private void expertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expertButtonActionPerformed
-        SudokuPuzzle p;
-        try {
-            p = Main.getPuzzle(5);
-            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
-            this.dispose();
-        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
-    }//GEN-LAST:event_expertButtonActionPerformed
-
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        MainFrame m = new MainFrame(this.getX(), this.getY());
-        this.dispose();
-        m.setVisible(true);
-    }//GEN-LAST:event_backButtonActionPerformed
-
+    /* Invoked when the user clicks 'Easy'; starts an easy puzzle */
     private void easyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_easyButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(2);
-            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
+        } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_easyButtonActionPerformed
-
+    /* Invoked when the user clicks 'Medium'; starts a medium puzzle */
     private void mediumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediumButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(3);
-            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
+        } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_mediumButtonActionPerformed
-
+    /* Invoked when the user clicks 'Hard'; starts a hard puzzle */
     private void hardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hardButtonActionPerformed
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(4);
-            SudokuFrame su = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
             this.dispose();
-        } catch (FileNotFoundException ex) {/* Ignore exceptions */}
+        } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_hardButtonActionPerformed
+    /* Invoked when the user clicks 'Expert'; starts an expert puzzle */
+    private void expertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expertButtonActionPerformed
+        SudokuPuzzle p;
+        try {
+            p = Main.getPuzzle(5);
+            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+            this.dispose();
+        } catch(Exception e) {/* Ignore exceptions */}
+    }//GEN-LAST:event_expertButtonActionPerformed
+    /* Invoked when the user clicks the back button, returns to the home menu */
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        MainFrame f = new MainFrame(this.getX(), this.getY());
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
+    // </editor-fold>
 
-
+    // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JButton easyButton;
@@ -234,4 +240,5 @@ public class LevelFrame extends JFrame {
     private javax.swing.JButton mediumButton;
     private javax.swing.JButton noviceButton;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold>
 }

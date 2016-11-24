@@ -150,7 +150,10 @@ public class PuzzlesFrame extends JFrame {
             return;
         }
         this.bindIntoTable();
-        PuzzleEditorFrame f = new PuzzleEditorFrame(this.getX(), this.getY());
+        SudokuPuzzle p = new SudokuPuzzle();
+        FileUtility.saveGame(p, 0, FileUtility.MY_PUZZLES_PATH + name);
+        PuzzleEditorFrame f = new PuzzleEditorFrame(p, name.substring(0, name.length()-4),
+                this.getX(), this.getY());
         this.dispose();
     }
 
@@ -162,8 +165,13 @@ public class PuzzlesFrame extends JFrame {
         if (this.puzzleList.getSelectedValue() == null) {
             WindowUtility.displayInfo("You must select a puzzle to edit.", "Note!");
         } else {
-            PuzzleEditorFrame f = new PuzzleEditorFrame(this.getX(), this.getY());
-            this.dispose();
+            try {
+                SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + this.puzzleList.getSelectedValue() + ".txt");
+                PuzzleEditorFrame f = new PuzzleEditorFrame(p, this.puzzleList.getSelectedValue(), this.getX(), this.getY());
+                this.dispose();
+            } catch (Exception ex) {/* Ignore exceptions */}
+
+
         }
     }
 
@@ -199,8 +207,7 @@ public class PuzzlesFrame extends JFrame {
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
-        System.out.println(filePath + fileName);
-        if (!FileUtility.nameIsUnique(fileName, filePath)) {
+        if (!FileUtility.nameIsUnique(fileName, FileUtility.MY_PUZZLES_PATH)) {
             WindowUtility.errorMessage("Failed to import the puzzle."
                     + "\nAnother puzzle already exists with that name.",
                         "Error!");
