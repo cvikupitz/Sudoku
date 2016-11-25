@@ -8,7 +8,6 @@ package sudoku;
 
 
 /* Imports */
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -17,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.UIDefaults;
@@ -27,14 +27,11 @@ import javax.swing.text.StyledDocument;
 public class PuzzleEditorFrame extends JFrame {
 
     /* Declare private members */
-    private final Color GREEN = new Color(51, 220, 51);
-    private final Color BLUE = new Color(0, 51, 190);
-    private final Color RED = new Color(255, 0, 0);
-    private final Color SELECTED = new Color(255, 255, 150);
     private final JTextPane[][] fields;
     private final JTextPane[] legalBoxes;
-    private final String title;
+    private String title;
     private int highlighted;
+    private boolean saved;
     private SudokuPuzzle puzzle;
 
     /* Default constructor */
@@ -44,16 +41,17 @@ public class PuzzleEditorFrame extends JFrame {
         this.puzzle = p;
         this.highlighted = 0;
         this.title = t;
+        this.saved = true;
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
-        this.setTitle("Sudoku - " + this.title);
+        this.setTitle(this.title);
         this.setLocation(x, y);
 
         UIDefaults defaults = new UIDefaults();
-        defaults.put("TextPane[Enabled].backgroundPainter", new Color(204, 204, 255));
+        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.BACKGROUND);
         this.statusField.putClientProperty("Nimbus.Overrides", defaults);
         this.statusField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-        this.statusField.setBackground(new Color(204, 204, 255));
+        this.statusField.setBackground(GUIColors.BACKGROUND);
 
         /* Keep a 2-d list of the panels for easy accessing and checking */
         this.fields = new JTextPane[][]{
@@ -97,20 +95,20 @@ public class PuzzleEditorFrame extends JFrame {
                     @Override
                     public void focusGained(FocusEvent e) {
                         UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", SELECTED);
+                        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.SELECTED);
                         pane.putClientProperty("Nimbus.Overrides", defaults);
                         pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        pane.setBackground(SELECTED);
+                        pane.setBackground(GUIColors.SELECTED);
                         updateLegalMoves(m, n);
                     }
 
                     @Override
                     public void focusLost(FocusEvent e) {
                         UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", Color.WHITE);
+                        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.WHITE);
                         pane.putClientProperty("Nimbus.Overrides", defaults);
                         pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        pane.setBackground(Color.WHITE);
+                        pane.setBackground(GUIColors.WHITE);
                     }
                 });
 
@@ -128,12 +126,12 @@ public class PuzzleEditorFrame extends JFrame {
                         } else {
                             int x = Integer.parseInt(Character.toString(e.getKeyChar()));
                             if (x == highlighted)
-                                pane.setForeground(GREEN);
+                                pane.setForeground(GUIColors.GREEN);
                             else
-                                pane.setForeground(BLUE);
+                                pane.setForeground(GUIColors.BLACK);
                             pane.setText(Integer.toString(x));
                             if (!puzzle.insert(x, m, n))
-                                pane.setForeground(RED);
+                                pane.setForeground(GUIColors.RED);
                         } updateStatus();
                     }
                     @Override
@@ -169,6 +167,7 @@ public class PuzzleEditorFrame extends JFrame {
         int k = 0;
         String s = this.puzzle.initialPuzzleState();
         String t = this.puzzle.currentPuzzleState();
+        this.puzzle.hardReset();
         for (int i = 0; i < 9; i++) {
 
             /* Sets the text alignment in each grid to centered */
@@ -185,7 +184,11 @@ public class PuzzleEditorFrame extends JFrame {
                 StyleConstants.setAlignment(f_center, StyleConstants.ALIGN_CENTER);
                 f_doc.setParagraphAttributes(0, f_doc.getLength(), f_center, false);
                 this.fields[i][j].setEditable(false);
-                this.fields[i][j].setForeground(this.BLUE);
+                int val = Integer.parseInt(Character.toString(s.charAt(k)));
+                if (!this.puzzle.insert(val, i, j))
+                    this.fields[i][j].setForeground(GUIColors.RED);
+                else
+                    this.fields[i][j].setForeground(GUIColors.BLACK);
 
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
                 if (s.charAt(k) != '0') {
@@ -234,7 +237,7 @@ public class PuzzleEditorFrame extends JFrame {
     private void highlight(JTextPane t) {
         try {
             this.highlighted = Integer.parseInt(t.getText());
-            if (t.getForeground() == this.GREEN) {
+            if (t.getForeground() == GUIColors.GREEN) {
                 this.resetColors();
                 this.highlighted = 0;
                 return;
@@ -244,7 +247,7 @@ public class PuzzleEditorFrame extends JFrame {
                 for (int j = 0; j < 9; j++) {
                     try {
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted)
-                            this.fields[i][j].setForeground(this.GREEN);
+                            this.fields[i][j].setForeground(GUIColors.GREEN);
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
             }
@@ -259,17 +262,51 @@ public class PuzzleEditorFrame extends JFrame {
     private void resetColors() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++)
-                this.fields[i][j].setForeground(this.BLUE);
+                this.fields[i][j].setForeground(GUIColors.BLACK);
         }
     }
 
 
+    /***/
     private void clear() {
-        for (int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++)
-                this.fields[i][j].setText("");
-        this.puzzle.hardReset();
-        this.updateStatus();
+        if (WindowUtility.askYesNo("Are you sure you want to clear the puzzle?", "Warning?")) {
+            for (int i = 0; i < 9; i++)
+                for (int j = 0; j < 9; j++)
+                    this.fields[i][j].setText("");
+            this.puzzle.hardReset();
+            this.updateStatus();
+        }
+    }
+
+
+    /***/
+    private void save() {
+        this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
+        FileUtility.saveGame(puzzle, puzzle.getDifficulty(),
+                FileUtility.MY_PUZZLES_PATH + this.title + ".txt");
+    }
+
+
+    /***/
+    private void saveAs() {
+        String new_name = WindowUtility.getEntry("What would you like to rename this puzzle as?");
+        if (new_name == null)
+            return;
+        if (!FileUtility.fileNameValid(new_name)) {
+            WindowUtility.errorMessage("You entered an illegal name.", "Error!");
+            return;
+        }
+        if (!FileUtility.nameIsUnique(new_name + ".txt", FileUtility.MY_PUZZLES_PATH)) {
+            WindowUtility.errorMessage("There already exists a puzzle with that name.", "Error");
+            return;
+        }
+        this.save();
+        if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + this.title + ".txt",
+                FileUtility.MY_PUZZLES_PATH + new_name + ".txt")) {
+            WindowUtility.errorMessage("Failed to save the puzzle.", "Error!");
+            return;
+        }
+        /**/
     }
 
 
@@ -1316,7 +1353,9 @@ public class PuzzleEditorFrame extends JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Check For Solution");
 
+        statusField.setEditable(false);
         statusField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        statusField.setFocusable(false);
         statusField.setHighlighter(null);
         jScrollPane19.setViewportView(statusField);
 
@@ -1331,6 +1370,11 @@ public class PuzzleEditorFrame extends JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton2)
+                                    .addComponent(jButton3)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(41, 41, 41)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1353,12 +1397,7 @@ public class PuzzleEditorFrame extends JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel1))
-                                .addGap(0, 16, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton3))))))
+                                .addGap(0, 16, Short.MAX_VALUE)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -1387,16 +1426,14 @@ public class PuzzleEditorFrame extends JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
         flieTab.setText("File");
 
-        saveOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveOption.setText("Save");
         saveOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1405,7 +1442,6 @@ public class PuzzleEditorFrame extends JFrame {
         });
         flieTab.add(saveOption);
 
-        saveAsOption.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         saveAsOption.setText("Save As");
         saveAsOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1446,14 +1482,15 @@ public class PuzzleEditorFrame extends JFrame {
 
 
     private void saveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveOptionActionPerformed
-        this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
-        FileUtility.saveGame(puzzle, puzzle.getDifficulty(),
-                FileUtility.MY_PUZZLES_PATH + this.title + ".txt");
+        this.save();
     }//GEN-LAST:event_saveOptionActionPerformed
     private void saveAsOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsOptionActionPerformed
-        // FIXME
+        this.saveAs();
     }//GEN-LAST:event_saveAsOptionActionPerformed
     private void quitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitOptionActionPerformed
+        if (!this.saved)
+            if (!WindowUtility.askYesNo("You have unsaved changes. are you sure you want to quit?", "Warning!"))
+                return;
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_quitOptionActionPerformed

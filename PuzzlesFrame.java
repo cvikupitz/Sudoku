@@ -8,7 +8,6 @@ package sudoku;
 
 
 /* Imports */
-import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -25,8 +24,6 @@ import javax.swing.JFrame;
 import javax.swing.UIDefaults;
 
 public class PuzzlesFrame extends JFrame {
-
-    private final Color BACKGROUND = new Color(255, 255, 204);
 
     /* Default constructor */
     public PuzzlesFrame(int x, int y) {
@@ -46,10 +43,10 @@ public class PuzzlesFrame extends JFrame {
 
         /* Sets the status text's background color */
         UIDefaults defaults = new UIDefaults();
-        defaults.put("TextPane[Enabled].backgroundPainter", this.BACKGROUND);
+        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.MENU_BACKGROUND);
         this.puzzleDate.putClientProperty("Nimbus.Overrides", defaults);
         this.puzzleDate.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-        this.puzzleDate.setBackground(this.BACKGROUND);
+        this.puzzleDate.setBackground(GUIColors.MENU_BACKGROUND);
 
         /* Sets the button icons */
         try {
@@ -170,8 +167,6 @@ public class PuzzlesFrame extends JFrame {
                 PuzzleEditorFrame f = new PuzzleEditorFrame(p, this.puzzleList.getSelectedValue(), this.getX(), this.getY());
                 this.dispose();
             } catch (Exception ex) {/* Ignore exceptions */}
-
-
         }
     }
 

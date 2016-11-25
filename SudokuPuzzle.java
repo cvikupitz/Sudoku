@@ -47,29 +47,29 @@ public class SudokuPuzzle {
      * or false if not.
      *
      * @param val The number to insert into the Sudoku board, must be 1-9.
-     * @param i The row to insert the number into.
-     * @param j The column to insert the number into.
+     * @param r The row to insert the number into.
+     * @param c The column to insert the number into.
      * @return True if the number insertion was legal, false if not.
      */
-    public boolean insert(int val, int i, int j) {
-        if (1 > val || val > 9 || 0 > i || i > 8 || 0 > j || j > 8)
+    public boolean insert(int val, int r, int c) {
+        if (1 > val || val > 9 || 0 > r || r > 8 || 0 > c || c > 8)
             return false;
-        this.board[i][j] = val;
-        boolean[] legalMoves = this.getLegalMoves(i, j);
-        return legalMoves[this.board[i][j]-1];
+        this.board[r][c] = val;
+        boolean[] legalMoves = this.getLegalMoves(r, c);
+        return legalMoves[this.board[r][c]-1];
     }
 
 
     /**
      * Removes the value at the specified coordinates from the Sudoku board.
      *
-     * @param i The row the value is in to be deleted.
-     * @param j The column the value is in to be deleted.
+     * @param r The row the value is in to be deleted.
+     * @param c The column the value is in to be deleted.
      */
-    public void remove(int i, int j) {
-        if (0 > i || i > 8 || 0 > j || j > 8)
+    public void remove(int r, int c) {
+        if (0 > r || r > 8 || 0 > c || c > 8)
             return;
-        this.board[i][j] = 0;
+        this.board[r][c] = 0;
     }
 
 
@@ -78,16 +78,16 @@ public class SudokuPuzzle {
      * in the specified coordinate in the Sudoku board. Used for highlighting these
      * conflicting squares in red during gameplay.
      *
-     * @param i The row to scan from.
-     * @param j The column to scan from
+     * @param r The row to scan from.
+     * @param c The column to scan from.
      * @return A string representing the conflicting squares in the form:
      *      "(i j) (i j) ..." where i is the row and j is the column.
      */
-    protected String getConflictingSquares(int i, int j) {
+    protected String getConflictingSquares(int r, int c) {
         String squares = "";
-        squares = this.getConflictingRow(i, j, squares);
-        squares = this.getConflictingColumn(j, i, squares);
-        squares = this.getConflictingSubGrid(i, j, squares);
+        squares = this.getConflictingRow(r, c, squares);
+        squares = this.getConflictingColumn(c, r, squares);
+        squares = this.getConflictingSubGrid(r, c, squares);
         return squares;
     }
 
@@ -98,15 +98,15 @@ public class SudokuPuzzle {
      * 1 represents a 2, and so forth. True indicates that the number is legal,
      * and false indicates it is not.
      *
-     * @param i The row the tile is in.
-     * @param j The column the tile is in.
+     * @param r The row the tile is in.
+     * @param c The column the tile is in.
      * @return A list of booleans representing the legal moves to make.
      */
-    public boolean[] getLegalMoves(int i, int j) {
+    public boolean[] getLegalMoves(int r, int c) {
         boolean[] legalMoves = {true, true, true, true, true, true, true, true, true};
-        legalMoves = this.legalMovesInRow(i, j, legalMoves);
-        legalMoves = this.legalMovesInColumn(j, i, legalMoves);
-        legalMoves = this.legalMovesInSubGrid(i, j, legalMoves);
+        legalMoves = this.legalMovesInRow(r, c, legalMoves);
+        legalMoves = this.legalMovesInColumn(c, r, legalMoves);
+        legalMoves = this.legalMovesInSubGrid(r, c, legalMoves);
         return legalMoves;
     }
 

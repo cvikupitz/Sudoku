@@ -9,7 +9,6 @@ package sudoku;
 
 /* Imports */
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -32,12 +31,6 @@ import javax.swing.text.StyledDocument;
 public class SudokuFrame extends JFrame {
 
     /* Initialize private members */
-    private final Color GREEN = new Color(51, 220, 51);
-    private final Color DARK_GREEN = new Color(0, 175, 0);
-    private final Color BLUE = new Color(0, 51, 190);
-    private final Color RED = new Color(255, 0, 0);
-    private final Color SELECTED = new Color(255, 255, 150);
-    private final Color BACKGROUND = new Color(204, 204, 255);
     private final JTextPane[][] fields;
     private final JTextPane[] legalBoxes;
     private boolean[][] editable;
@@ -54,25 +47,25 @@ public class SudokuFrame extends JFrame {
         this.difficulty = p.getDifficulty();
         this.highlighted = 0;
         this.initComponents();
-        this.getContentPane().setBackground(this.BACKGROUND);
+        this.getContentPane().setBackground(GUIColors.BACKGROUND);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setLocation(x, y);
 
         /* Sets the background color of the status fields */
         UIDefaults defaults = new UIDefaults();
-        defaults.put("TextPane[Enabled].backgroundPainter", this.BACKGROUND);
+        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.BACKGROUND);
         this.timeField.putClientProperty("Nimbus.Overrides", defaults);
         this.timeField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-        this.timeField.setBackground(this.BACKGROUND);
+        this.timeField.setBackground(GUIColors.BACKGROUND);
         this.difficultyField.putClientProperty("Nimbus.Overrides", defaults);
         this.difficultyField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-        this.difficultyField.setBackground(this.BACKGROUND);
+        this.difficultyField.setBackground(GUIColors.BACKGROUND);
         this.statusField.putClientProperty("Nimbus.Overrides", defaults);
         this.statusField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-        this.statusField.setBackground(this.BACKGROUND);
+        this.statusField.setBackground(GUIColors.BACKGROUND);
         this.completeField.putClientProperty("Nimbus.Overrides", defaults);
         this.completeField.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-        this.completeField.setBackground(this.BACKGROUND);
+        this.completeField.setBackground(GUIColors.BACKGROUND);
 
         /* Sets the difficulty text in the frame */
         switch (this.puzzle.getDifficulty()) {
@@ -136,20 +129,20 @@ public class SudokuFrame extends JFrame {
                     @Override
                     public void focusGained(FocusEvent e) {
                         UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", SELECTED);
+                        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.SELECTED);
                         pane.putClientProperty("Nimbus.Overrides", defaults);
                         pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        pane.setBackground(SELECTED);
+                        pane.setBackground(GUIColors.SELECTED);
                         updateLegalMoves(m, n);
                     }
 
                     @Override
                     public void focusLost(FocusEvent e) {
                         UIDefaults defaults = new UIDefaults();
-                        defaults.put("TextPane[Enabled].backgroundPainter", Color.WHITE);
+                        defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.WHITE);
                         pane.putClientProperty("Nimbus.Overrides", defaults);
                         pane.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-                        pane.setBackground(Color.WHITE);
+                        pane.setBackground(GUIColors.WHITE);
                     }
                 });
 
@@ -169,9 +162,9 @@ public class SudokuFrame extends JFrame {
                         } else {
                             int x = Integer.parseInt(Character.toString(e.getKeyChar()));
                             if (x == highlighted)
-                                pane.setForeground(GREEN);
+                                pane.setForeground(GUIColors.GREEN);
                             else
-                                pane.setForeground(BLUE);
+                                pane.setForeground(GUIColors.BLUE);
                             pane.setText(Integer.toString(x));
                             puzzle.insert(x, m, n);
                         } updateStatus();
@@ -245,11 +238,11 @@ public class SudokuFrame extends JFrame {
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
                 if (s.charAt(k) != '0') {
                     this.editable[i][j] = false;
-                    this.fields[i][j].setForeground(Color.BLACK);
+                    this.fields[i][j].setForeground(GUIColors.BLACK);
                     this.fields[i][j].setText(Character.toString(s.charAt(k)));
                 } else {
                     this.editable[i][j] = true;
-                    this.fields[i][j].setForeground(this.BLUE);
+                    this.fields[i][j].setForeground(GUIColors.BLUE);
                     if (t.charAt(k) != '0')
                         this.fields[i][j].setText(Character.toString(t.charAt(k)));
                     else
@@ -271,9 +264,9 @@ public class SudokuFrame extends JFrame {
                 if (!this.editable[i][j])
                     continue;
                 if (board[i][j] == this.highlighted)
-                    this.fields[i][j].setForeground(this.GREEN);
+                    this.fields[i][j].setForeground(GUIColors.GREEN);
                 else
-                    this.fields[i][j].setForeground(this.BLUE);
+                    this.fields[i][j].setForeground(GUIColors.BLUE);
                 this.fields[i][j].setText(Integer.toString(board[i][j]));
             }
         }
@@ -306,12 +299,12 @@ public class SudokuFrame extends JFrame {
         int j = (int)(((float)i / 81) * 100);
         this.statusField.setText(String.format("Tiles Filled: %d/81 (%d%%)", i, j));
         if (i == 81 && this.puzzle.isComplete()) {
-            this.completeField.setForeground(this.DARK_GREEN);
+            this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
             WindowUtility.displayInfo("You solved the puzzle!", "Congratulations!");
             this.newGame();
         } else {
-            this.completeField.setForeground(this.RED);
+            this.completeField.setForeground(GUIColors.RED);
             this.completeField.setText("Incomplete");
         }
     }
@@ -324,7 +317,7 @@ public class SudokuFrame extends JFrame {
     private void highlight(JTextPane t) {
         try {
             this.highlighted = Integer.parseInt(t.getText());
-            if (t.getForeground() == this.GREEN) {
+            if (t.getForeground() == GUIColors.GREEN) {
                 this.resetColors();
                 this.highlighted = 0;
                 return;
@@ -334,7 +327,7 @@ public class SudokuFrame extends JFrame {
                 for (int j = 0; j < 9; j++) {
                     try {
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted) {
-                            this.fields[i][j].setForeground(this.GREEN);
+                            this.fields[i][j].setForeground(GUIColors.GREEN);
                         }
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
@@ -349,7 +342,7 @@ public class SudokuFrame extends JFrame {
             String str = conflicts.substring(i, i + 6);
             int r = Integer.parseInt(Character.toString(str.charAt(1)));
             int c = Integer.parseInt(Character.toString(str.charAt(3)));
-            this.fields[r][c].setForeground(this.RED);
+            this.fields[r][c].setForeground(GUIColors.RED);
         }
     }
 
@@ -362,9 +355,9 @@ public class SudokuFrame extends JFrame {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!this.editable[i][j])
-                    this.fields[i][j].setForeground(Color.BLACK);
+                    this.fields[i][j].setForeground(GUIColors.BLACK);
                 else
-                    this.fields[i][j].setForeground(this.BLUE);
+                    this.fields[i][j].setForeground(GUIColors.BLUE);
             }
         }
     }
@@ -380,7 +373,7 @@ public class SudokuFrame extends JFrame {
             /* Ignore exceptions */
             return;
         }
-        if (this.completeField.getForeground() != this.DARK_GREEN) {
+        if (this.completeField.getForeground() != GUIColors.DARK_GREEN) {
             if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game"))
                 this.initializeTable();
         } else
