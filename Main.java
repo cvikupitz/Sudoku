@@ -68,19 +68,19 @@ public class Main {
             BufferedReader br;
             switch (difficulty) {
                 case 1:
-                    br = new BufferedReader(new FileReader("1.txt"));
+                    br = new BufferedReader(new FileReader("src/sudoku/1.txt"));
                     break;
                 case 2:
-                    br = new BufferedReader(new FileReader("2.txt"));
+                    br = new BufferedReader(new FileReader("src/sudoku/2.txt"));
                     break;
                 case 3:
-                    br = new BufferedReader(new FileReader("3.txt"));
+                    br = new BufferedReader(new FileReader("src/sudoku/3.txt"));
                     break;
                 case 4:
-                    br = new BufferedReader(new FileReader("4.txt"));
+                    br = new BufferedReader(new FileReader("src/sudoku/4.txt"));
                     break;
                 default:
-                    br = new BufferedReader(new FileReader("5.txt"));
+                    br = new BufferedReader(new FileReader("src/sudoku/5.txt"));
             }
 
 

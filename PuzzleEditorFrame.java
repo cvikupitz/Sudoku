@@ -132,7 +132,9 @@ public class PuzzleEditorFrame extends JFrame {
                             pane.setText(Integer.toString(x));
                             if (!puzzle.insert(x, m, n))
                                 pane.setForeground(GUIColors.RED);
-                        } updateStatus();
+                        }
+                        updateStatus();
+                        setSaved(false);
                     }
                     @Override
                     public void keyPressed(KeyEvent e) {/* No implementation needed */}
@@ -209,6 +211,18 @@ public class PuzzleEditorFrame extends JFrame {
     /**
      * FIXME
      */
+    private void setSaved(boolean flag) {
+        this.saved = flag;
+        if (this.saved)
+            this.setTitle(this.title);
+        else
+            this.setTitle(this.title + "*");
+    }
+
+
+    /**
+     * FIXME
+     */
     private void updateLegalMoves(int i, int j) {
         boolean[] legalMoves = this.puzzle.getLegalMoves(i, j);
         for (int k = 0; k < 9; k++) {
@@ -275,6 +289,7 @@ public class PuzzleEditorFrame extends JFrame {
                     this.fields[i][j].setText("");
             this.puzzle.hardReset();
             this.updateStatus();
+            this.setSaved(false);
         }
     }
 
@@ -284,6 +299,7 @@ public class PuzzleEditorFrame extends JFrame {
         this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
         FileUtility.saveGame(puzzle, puzzle.getDifficulty(),
                 FileUtility.MY_PUZZLES_PATH + this.title + ".txt");
+        this.setSaved(true);
     }
 
 
@@ -306,6 +322,7 @@ public class PuzzleEditorFrame extends JFrame {
             WindowUtility.errorMessage("Failed to save the puzzle.", "Error!");
             return;
         }
+        this.setSaved(true);
         /**/
     }
 
@@ -1489,7 +1506,7 @@ public class PuzzleEditorFrame extends JFrame {
     }//GEN-LAST:event_saveAsOptionActionPerformed
     private void quitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitOptionActionPerformed
         if (!this.saved)
-            if (!WindowUtility.askYesNo("You have unsaved changes. are you sure you want to quit?", "Warning!"))
+            if (!WindowUtility.askYesNo("You have unsaved changes.\nAre you sure you want to quit?", "Warning!"))
                 return;
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
         this.dispose();
