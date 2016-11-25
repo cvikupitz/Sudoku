@@ -51,6 +51,9 @@ public class Main {
         if (!dir.exists())
             dir.mkdir();
 
+        /* Load the settings */
+        FileUtility.loadSettings();
+
         /* Creates a new Window */
         MainFrame f = new MainFrame(360, 30);
     }

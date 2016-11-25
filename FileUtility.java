@@ -267,4 +267,51 @@ public class FileUtility {
         } catch (Exception e) {return false;}
     }
 
+
+    /***/
+    protected static void loadSettings() {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FileUtility.PATH + "settings.txt"))) {
+
+            if (reader.readLine().equals("true"))
+                Settings.showTimer(true);
+            else
+                Settings.showTimer(false);
+            if (reader.readLine().equals("true"))
+                Settings.showLegal(true);
+            else
+                Settings.showLegal(false);
+            if (reader.readLine().equals("true"))
+                Settings.showHighlighted(true);
+            else
+                Settings.showHighlighted(false);
+            if (reader.readLine().equals("true"))
+                Settings.showConflictingNumbers(true);
+            else
+                Settings.showConflictingNumbers(false);
+            reader.close();
+        } catch (Exception e) {return;}
+
+    }
+
+
+    /***/
+    protected static void saveSettings() {
+
+        /* Create a new file */
+        File file = new File(FileUtility.PATH + "settings.txt");
+
+        /* Open the file to write to */
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(Boolean.toString(Settings.showTimer()) + "\n");
+            writer.write(Boolean.toString(Settings.showLegal()) + "\n");
+            writer.write(Boolean.toString(Settings.showHighlighted()) + "\n");
+            writer.write(Boolean.toString(Settings.showConflictingNumbers()));
+            writer.close();
+        } catch (Exception e) {
+            WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
+                    "Error Saving Puzzle");
+        }
+    }
+
 } // End FileUtility class
