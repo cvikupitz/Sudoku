@@ -14,6 +14,8 @@ public class Settings {
     private static boolean showLegal = true;
     private static boolean highlight = true;
     private static boolean conflictingNumbers = true;
+    private static boolean hints = true;
+    private static boolean solutions = true;
 
 
     /***/
@@ -37,6 +39,16 @@ public class Settings {
     }
 
     /***/
+    protected static boolean showHints() {
+        return Settings.hints;
+    }
+
+    /***/
+    protected static boolean showSolutions() {
+        return Settings.solutions;
+    }
+
+    /***/
     protected static void showTimer(boolean flag) {
         Settings.showTimer = flag;
     }
@@ -54,5 +66,15 @@ public class Settings {
     /***/
     protected static void showConflictingNumbers(boolean flag) {
         Settings.conflictingNumbers = flag;
+    }
+
+    /***/
+    protected static void showHints(boolean flag) {
+        Settings.hints = flag;
+    }
+
+    /***/
+    protected static void showSolutions(boolean flag) {
+        Settings.solutions = flag;
     }
 }

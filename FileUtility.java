@@ -289,8 +289,16 @@ public class FileUtility {
                 Settings.showConflictingNumbers(true);
             else
                 Settings.showConflictingNumbers(false);
+            if (reader.readLine().equals("true"))
+                Settings.showHints(true);
+            else
+                Settings.showHints(false);
+            if (reader.readLine().equals("true"))
+                Settings.showSolutions(true);
+            else
+                Settings.showSolutions(false);
             reader.close();
-        } catch (Exception e) {return;}
+        } catch (Exception e) {/* Ignore exceptions */}
 
     }
 
@@ -306,7 +314,9 @@ public class FileUtility {
             writer.write(Boolean.toString(Settings.showTimer()) + "\n");
             writer.write(Boolean.toString(Settings.showLegal()) + "\n");
             writer.write(Boolean.toString(Settings.showHighlighted()) + "\n");
-            writer.write(Boolean.toString(Settings.showConflictingNumbers()));
+            writer.write(Boolean.toString(Settings.showConflictingNumbers()) + "\n");
+            writer.write(Boolean.toString(Settings.showHints()) + "\n");
+            writer.write(Boolean.toString(Settings.showSolutions()));
             writer.close();
         } catch (Exception e) {
             WindowUtility.errorMessage("An error occured while trying to save the puzzle.",

@@ -15,7 +15,8 @@ import javax.swing.JFrame;
 
 public class SettingsFrame extends JFrame {
 
-    ButtonGroup timerGroup, legalMovesGroup, highlighterGroup, conflictGroup;
+    ButtonGroup timerGroup, legalMovesGroup, highlighterGroup, conflictGroup,
+            hintsGroup, solutionsgroup;
 
     /* Default constructors */
     public SettingsFrame(int x, int y) {
@@ -40,6 +41,12 @@ public class SettingsFrame extends JFrame {
         this.conflictGroup = new ButtonGroup();
         this.conflictGroup.add(this.conflictOn);
         this.conflictGroup.add(this.conflictOff);
+        this.hintsGroup = new ButtonGroup();
+        this.hintsGroup.add(this.hintsOn);
+        this.hintsGroup.add(this.hintsOff);
+        this.solutionsgroup = new ButtonGroup();
+        this.solutionsgroup.add(this.solutionsOn);
+        this.solutionsgroup.add(this.solutionsOff);
         this.initializeSettings();
 
         /* Asks user if they're sure when closing the window */
@@ -78,6 +85,14 @@ public class SettingsFrame extends JFrame {
             this.conflictOn.setSelected(true);
         else
             this.conflictOff.setSelected(true);
+        if (Settings.showHints())
+            this.hintsOn.setSelected(true);
+        else
+            this.hintsOff.setSelected(true);
+        if (Settings.showSolutions())
+            this.solutionsOn.setSelected(true);
+        else
+            this.solutionsOff.setSelected(true);
     }
 
 
@@ -106,6 +121,12 @@ public class SettingsFrame extends JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        hintsOn = new javax.swing.JRadioButton();
+        hintsOff = new javax.swing.JRadioButton();
+        solutionsOn = new javax.swing.JRadioButton();
+        solutionsOff = new javax.swing.JRadioButton();
 
         jLabel4.setText("jLabel4");
 
@@ -202,41 +223,95 @@ public class SettingsFrame extends JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Show Conflicting Numbers:");
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Enable Hints:");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Enable Solutions:");
+
+        hintsOn.setBackground(new java.awt.Color(255, 255, 204));
+        hintsOn.setText("On");
+        hintsOn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hintsOnActionPerformed(evt);
+            }
+        });
+
+        hintsOff.setBackground(new java.awt.Color(255, 255, 204));
+        hintsOff.setText("Off");
+        hintsOff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hintsOffActionPerformed(evt);
+            }
+        });
+
+        solutionsOn.setBackground(new java.awt.Color(255, 255, 204));
+        solutionsOn.setText("On");
+        solutionsOn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solutionsOnActionPerformed(evt);
+            }
+        });
+
+        solutionsOff.setBackground(new java.awt.Color(255, 255, 204));
+        solutionsOff.setText("Off");
+        solutionsOff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solutionsOffActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel5)
-                    .addComponent(backButton)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(conflictOn)
-                        .addGap(18, 18, 18)
-                        .addComponent(conflictOff))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(timerOn)
-                        .addGap(18, 18, 18)
-                        .addComponent(timerOff))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(highlighterOn)
-                        .addGap(18, 18, 18)
-                        .addComponent(highlighterOff))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(legalMovesOn)
-                        .addGap(18, 18, 18)
-                        .addComponent(legalMovesOff)))
-                .addGap(26, 26, 26))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(144, 144, 144)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)
+                            .addComponent(backButton)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(conflictOn)
+                                .addGap(18, 18, 18)
+                                .addComponent(conflictOff))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(timerOn)
+                                .addGap(18, 18, 18)
+                                .addComponent(timerOff))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(highlighterOn)
+                                .addGap(18, 18, 18)
+                                .addComponent(highlighterOff))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(legalMovesOn)
+                                .addGap(18, 18, 18)
+                                .addComponent(legalMovesOff))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(solutionsOn))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(hintsOn)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(hintsOff)
+                            .addComponent(solutionsOff))))
+                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,7 +342,17 @@ public class SettingsFrame extends JFrame {
                     .addComponent(conflictOn)
                     .addComponent(conflictOff)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(hintsOn)
+                    .addComponent(hintsOff))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(solutionsOn)
+                    .addComponent(solutionsOff))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -315,6 +400,18 @@ public class SettingsFrame extends JFrame {
     private void conflictOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conflictOffActionPerformed
         Settings.showConflictingNumbers(false);
     }//GEN-LAST:event_conflictOffActionPerformed
+    private void hintsOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintsOnActionPerformed
+        Settings.showHints(true);
+    }//GEN-LAST:event_hintsOnActionPerformed
+    private void hintsOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintsOffActionPerformed
+        Settings.showHints(false);
+    }//GEN-LAST:event_hintsOffActionPerformed
+    private void solutionsOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solutionsOnActionPerformed
+        Settings.showSolutions(true);
+    }//GEN-LAST:event_solutionsOnActionPerformed
+    private void solutionsOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solutionsOffActionPerformed
+        Settings.showSolutions(false);
+    }//GEN-LAST:event_solutionsOffActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -323,15 +420,21 @@ public class SettingsFrame extends JFrame {
     private javax.swing.JRadioButton conflictOn;
     private javax.swing.JRadioButton highlighterOff;
     private javax.swing.JRadioButton highlighterOn;
+    private javax.swing.JRadioButton hintsOff;
+    private javax.swing.JRadioButton hintsOn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton legalMovesOff;
     private javax.swing.JRadioButton legalMovesOn;
+    private javax.swing.JRadioButton solutionsOff;
+    private javax.swing.JRadioButton solutionsOn;
     private javax.swing.JRadioButton timerOff;
     private javax.swing.JRadioButton timerOn;
     // End of variables declaration//GEN-END:variables
