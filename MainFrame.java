@@ -13,7 +13,6 @@ package sudoku;
 /* Imports */
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
-import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -207,14 +206,15 @@ public class MainFrame extends JFrame {
     }//GEN-LAST:event_statsButtonActionPerformed
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try {
-            SudokuPuzzle p = FileUtility.loadGame();
+            SudokuPuzzle p = FileUtility.loadGame(FileUtility.PATH + "saved.txt");
             if (p == null)
             WindowUtility.displayInfo("There is no saved game available.", "No Saved Game");
             else {
-                SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+                SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                        this.getX(), this.getY());
                 this.dispose();
             }
-        } catch (IOException ex) {/* Ignore Exceptions */}
+        } catch (Exception e) {/* Ignore Exceptions */}
     }//GEN-LAST:event_loadButtonActionPerformed
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         LevelFrame f = new LevelFrame(this.getX(), this.getY());

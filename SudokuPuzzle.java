@@ -74,25 +74,6 @@ public class SudokuPuzzle {
 
 
     /**
-     * Returns a string containing all the coordinates that conflict with the value
-     * in the specified coordinate in the Sudoku board. Used for highlighting these
-     * conflicting squares in red during gameplay.
-     *
-     * @param r The row to scan from.
-     * @param c The column to scan from.
-     * @return A string representing the conflicting squares in the form:
-     *      "(i j) (i j) ..." where i is the row and j is the column.
-     */
-    protected String getConflictingSquares(int r, int c) {
-        String squares = "";
-        squares = this.getConflictingRow(r, c, squares);
-        squares = this.getConflictingColumn(c, r, squares);
-        squares = this.getConflictingSubGrid(r, c, squares);
-        return squares;
-    }
-
-
-    /**
      * Returns a list of booleans representing the list of legal numbers that
      * can be inserted into the specified square. Index 0 represents a 1, index
      * 1 represents a 2, and so forth. True indicates that the number is legal,
@@ -158,8 +139,7 @@ public class SudokuPuzzle {
 
 
     /**
-     * Prints out the sudoku puzzle in the command prompt. Used for testing
-     * purposes.
+     * Prints out the sudoku puzzle in the command prompt.
      */
     public void print() {
         for (int i = 0; i < 9; i++) {

@@ -183,7 +183,8 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(1);
-            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                    this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_noviceButtonActionPerformed
@@ -192,7 +193,8 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(2);
-            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                    this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_easyButtonActionPerformed
@@ -201,7 +203,8 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(3);
-            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                    this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_mediumButtonActionPerformed
@@ -210,7 +213,8 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(4);
-            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                    this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_hardButtonActionPerformed
@@ -219,7 +223,8 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(5);
-            SudokuFrame f = new SudokuFrame(p, this.getX(), this.getY());
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                    this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
     }//GEN-LAST:event_expertButtonActionPerformed

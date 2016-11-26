@@ -192,6 +192,25 @@ public class PuzzlesFrame extends JFrame {
     }
 
 
+    /***/
+    private void play() {
+        String name = this.puzzleList.getSelectedValue();
+        if (name == null) {
+            WindowUtility.displayInfo("You must select a puzzle to play.", "Note!");
+            return;
+        }
+        SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + name + ".txt");
+        SudokuSolver s = new SudokuSolver(p);
+        if (!s.isSolvable()) {
+            WindowUtility.displayInfo("This puzzle is currently unsolvable.", "Note!");
+            return;
+        }
+        SudokuFrame f = new SudokuFrame(p, false,
+                FileUtility.MY_PUZZLES_PATH + name + ".txt", this.getX(), this.getY());
+        this.dispose();
+    }
+
+
     /**
      * FIXME
      */
@@ -202,6 +221,10 @@ public class PuzzlesFrame extends JFrame {
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
+        if (!fileName.endsWith(".txt")) {
+            WindowUtility.errorMessage("Invalid file type.", "Error!");
+            return;
+        }
         if (!FileUtility.nameIsUnique(fileName, FileUtility.MY_PUZZLES_PATH)) {
             WindowUtility.errorMessage("Failed to import the puzzle."
                     + "\nAnother puzzle already exists with that name.",
@@ -547,7 +570,7 @@ public class PuzzlesFrame extends JFrame {
         this.deletePuzzle();
     }//GEN-LAST:event_deleteButtonActionPerformed
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        WindowUtility.displayInfo("Coming Soon...", "Halt!");
+        this.play();
     }//GEN-LAST:event_playButtonActionPerformed
     private void newOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOptionActionPerformed
         this.newPuzzle();

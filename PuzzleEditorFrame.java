@@ -168,7 +168,6 @@ public class PuzzleEditorFrame extends JFrame {
         this.highlighted = 0;
         int k = 0;
         String s = this.puzzle.initialPuzzleState();
-        String t = this.puzzle.currentPuzzleState();
         this.puzzle.hardReset();
         for (int i = 0; i < 9; i++) {
 
@@ -187,21 +186,16 @@ public class PuzzleEditorFrame extends JFrame {
                 f_doc.setParagraphAttributes(0, f_doc.getLength(), f_center, false);
                 this.fields[i][j].setEditable(false);
                 int val = Integer.parseInt(Character.toString(s.charAt(k)));
+
                 if (!this.puzzle.insert(val, i, j))
                     this.fields[i][j].setForeground(GUIColors.RED);
                 else
                     this.fields[i][j].setForeground(GUIColors.BLACK);
 
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
-                if (s.charAt(k) != '0') {
+                if (s.charAt(k) != '0')
                     this.fields[i][j].setText(Character.toString(s.charAt(k)));
-                } else {
-
-                    if (t.charAt(k) != '0')
-                        this.fields[i][j].setText(Character.toString(t.charAt(k)));
-                    else
-                        this.fields[i][j].setText("");
-                } k++;
+                k++;
             }
         }
         this.updateStatus();
@@ -250,18 +244,20 @@ public class PuzzleEditorFrame extends JFrame {
      */
     private void highlight(JTextPane t) {
         try {
-            this.highlighted = Integer.parseInt(t.getText());
-            if (t.getForeground() == GUIColors.GREEN) {
+            int k = Integer.parseInt(t.getText());
+            if (t.getForeground() == GUIColors.GREEN || this.highlighted == k) {
                 this.resetColors();
                 this.highlighted = 0;
                 return;
             }
+            this.highlighted = k;
             this.resetColors();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     try {
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted)
-                            this.fields[i][j].setForeground(GUIColors.GREEN);
+                            if (this.fields[i][j].getForeground() != GUIColors.RED)
+                                this.fields[i][j].setForeground(GUIColors.GREEN);
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
             }
@@ -276,7 +272,8 @@ public class PuzzleEditorFrame extends JFrame {
     private void resetColors() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++)
-                this.fields[i][j].setForeground(GUIColors.BLACK);
+                if (this.fields[i][j].getForeground() != GUIColors.RED)
+                    this.fields[i][j].setForeground(GUIColors.BLACK);
         }
     }
 
@@ -532,14 +529,13 @@ public class PuzzleEditorFrame extends JFrame {
         jScrollPane18 = new javax.swing.JScrollPane();
         legalNine = new javax.swing.JTextPane();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jScrollPane19 = new javax.swing.JScrollPane();
         statusField = new javax.swing.JTextPane();
         jMenuBar3 = new javax.swing.JMenuBar();
         flieTab = new javax.swing.JMenu();
         saveOption = new javax.swing.JMenuItem();
         saveAsOption = new javax.swing.JMenuItem();
+        clearOption = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         quitOption = new javax.swing.JMenuItem();
         optionsTab = new javax.swing.JMenu();
@@ -1363,19 +1359,6 @@ public class PuzzleEditorFrame extends JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Legal Moves");
 
-        jButton2.setBackground(new java.awt.Color(255, 102, 102));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setText("Clear Puzzle");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setBackground(new java.awt.Color(153, 255, 153));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Check For Solution");
-
         statusField.setEditable(false);
         statusField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         statusField.setFocusable(false);
@@ -1389,39 +1372,33 @@ public class PuzzleEditorFrame extends JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton3)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel1))
-                                .addGap(0, 16, Short.MAX_VALUE)))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))
+                        .addContainerGap(41, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(478, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1444,11 +1421,7 @@ public class PuzzleEditorFrame extends JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1457,7 +1430,7 @@ public class PuzzleEditorFrame extends JFrame {
 
         flieTab.setText("File");
 
-        saveOption.setText("Save");
+        saveOption.setText("Save Puzzle");
         saveOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveOptionActionPerformed(evt);
@@ -1465,13 +1438,21 @@ public class PuzzleEditorFrame extends JFrame {
         });
         flieTab.add(saveOption);
 
-        saveAsOption.setText("Save As");
+        saveAsOption.setText("Rename Puzzle");
         saveAsOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveAsOptionActionPerformed(evt);
             }
         });
         flieTab.add(saveAsOption);
+
+        clearOption.setText("Clear Puzzle");
+        clearOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearOptionActionPerformed(evt);
+            }
+        });
+        flieTab.add(clearOption);
         flieTab.add(jSeparator1);
 
         quitOption.setText("Quit");
@@ -1517,10 +1498,9 @@ public class PuzzleEditorFrame extends JFrame {
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_quitOptionActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void clearOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearOptionActionPerformed
         this.clear();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_clearOptionActionPerformed
 
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
@@ -1606,9 +1586,8 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JTextPane I7;
     private javax.swing.JTextPane I8;
     private javax.swing.JTextPane I9;
+    private javax.swing.JMenuItem clearOption;
     private javax.swing.JMenu flieTab;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

@@ -17,7 +17,7 @@ public class SudokuSolver {
 
     /* Default constructor */
     public SudokuSolver(SudokuPuzzle p) {
-        this.puzzle = new SudokuPuzzle(p.currentPuzzleState());
+        this.puzzle = new SudokuPuzzle(p.initialPuzzleState());
         this.board = this.puzzle.toArray();
         this.solvable = this.solve();
     }

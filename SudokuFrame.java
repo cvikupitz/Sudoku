@@ -37,14 +37,18 @@ public class SudokuFrame extends JFrame {
     private SudokuPuzzle puzzle;
     private SudokuSolver solution;
     private final int difficulty;
+    private final boolean loop;
+    private final String path;
     private int highlighted;
 
-    public SudokuFrame(SudokuPuzzle p, int x, int y) {
+    public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
         this.solution = new SudokuSolver(this.puzzle);
         this.difficulty = p.getDifficulty();
+        this.loop = loop;
+        this.path = path;
         this.highlighted = 0;
         this.initComponents();
         this.getContentPane().setBackground(GUIColors.BACKGROUND);
@@ -187,7 +191,7 @@ public class SudokuFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
-                    FileUtility.saveGame(puzzle, puzzle.getDifficulty());
+                    FileUtility.saveGame(puzzle, puzzle.getDifficulty(), path);
                     System.exit(0);
                 }
             }
@@ -330,34 +334,25 @@ public class SudokuFrame extends JFrame {
      */
     private void highlight(JTextPane t) {
         try {
-            this.highlighted = Integer.parseInt(t.getText());
-            if (t.getForeground() == GUIColors.GREEN) {
+            int k = Integer.parseInt(t.getText());
+            if (t.getForeground() == GUIColors.GREEN || this.highlighted == k) {
                 this.resetColors();
                 this.highlighted = 0;
                 return;
             }
+            this.highlighted = k;
             this.resetColors();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     try {
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted) {
-                            this.fields[i][j].setForeground(GUIColors.GREEN);
+                            if (this.fields[i][j].getForeground() != GUIColors.RED)
+                                this.fields[i][j].setForeground(GUIColors.GREEN);
                         }
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
             }
         } catch (Exception e) {/* Ignore exceptions */}
-    }
-
-
-    /***/
-    private void mark(String conflicts) {
-        for (int i = 0; i < conflicts.length(); i += 6) {
-            String str = conflicts.substring(i, i + 6);
-            int r = Integer.parseInt(Character.toString(str.charAt(1)));
-            int c = Integer.parseInt(Character.toString(str.charAt(3)));
-            this.fields[r][c].setForeground(GUIColors.RED);
-        }
     }
 
 
@@ -368,6 +363,8 @@ public class SudokuFrame extends JFrame {
     private void resetColors() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                if (this.fields[i][j].getForeground() == GUIColors.RED)
+                    continue;
                 if (!this.editable[i][j])
                     this.fields[i][j].setForeground(GUIColors.BLACK);
                 else
@@ -380,6 +377,8 @@ public class SudokuFrame extends JFrame {
     /***/
     private void newGame() {
 
+        if (!this.loop)
+            return;
         try {
             this.puzzle = Main.getPuzzle(this.difficulty);
             this.solution = new SudokuSolver(this.puzzle);
@@ -402,6 +401,20 @@ public class SudokuFrame extends JFrame {
     private void resetGame() {
         this.puzzle.resetPuzzle();
         this.initializeTable();
+    }
+
+
+    /***/
+    private void quit() {
+        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting")) {
+            FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
+            if (this.loop) {
+                MainFrame f = new MainFrame(this.getX(), this.getY());
+            } else {
+                PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
+            }
+            this.dispose();
+        }
     }
 
 
@@ -1687,11 +1700,7 @@ public class SudokuFrame extends JFrame {
             this.resetGame();
     }//GEN-LAST:event_ResetGameOptionActionPerformed
     private void QuitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitOptionActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting")) {
-            FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty());
-            MainFrame f = new MainFrame(this.getX(), this.getY());
-            this.dispose();
-        }
+        this.quit();
     }//GEN-LAST:event_QuitOptionActionPerformed
     private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
         if (!Settings.showSolutions())
