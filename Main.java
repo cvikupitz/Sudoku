@@ -54,7 +54,7 @@ public class Main {
         /* Load the settings */
         FileUtility.loadSettings();
 
-        /* Creates a new Window */
+        /* Creates a new window */
         MainFrame f = new MainFrame(360, 30);
     }
 

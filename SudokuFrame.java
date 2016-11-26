@@ -1945,4 +1945,5 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane timeField;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>
+    
 }

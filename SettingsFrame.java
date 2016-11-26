@@ -438,4 +438,5 @@ public class SettingsFrame extends JFrame {
     private javax.swing.JRadioButton timerOff;
     private javax.swing.JRadioButton timerOn;
     // End of variables declaration//GEN-END:variables
+
 }

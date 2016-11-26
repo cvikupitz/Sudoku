@@ -239,4 +239,5 @@ public class MainFrame extends JFrame {
     private javax.swing.JButton statsButton;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
+    
 }

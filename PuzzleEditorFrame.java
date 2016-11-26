@@ -1539,7 +1539,6 @@ public class PuzzleEditorFrame extends JFrame {
     }//GEN-LAST:event_quitButtonActionPerformed
 
 
-
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane A1;

@@ -320,11 +320,11 @@ public class RankFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainFrame m = new MainFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
-
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_resetButtonActionPerformed
@@ -347,4 +347,5 @@ public class RankFrame extends JFrame {
     private javax.swing.JTable noviceTable;
     private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables
+
 }
