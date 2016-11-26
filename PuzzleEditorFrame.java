@@ -306,6 +306,7 @@ public class PuzzleEditorFrame extends JFrame {
     /***/
     private void saveAs() {
         String new_name = WindowUtility.getEntry("What would you like to rename this puzzle as?");
+        String old = this.title;
         if (new_name == null)
             return;
         if (!FileUtility.fileNameValid(new_name)) {
@@ -316,14 +317,19 @@ public class PuzzleEditorFrame extends JFrame {
             WindowUtility.errorMessage("There already exists a puzzle with that name.", "Error");
             return;
         }
-        this.save();
         if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + this.title + ".txt",
                 FileUtility.MY_PUZZLES_PATH + new_name + ".txt")) {
             WindowUtility.errorMessage("Failed to save the puzzle.", "Error!");
             return;
         }
+        File file = FileUtility.getFile(old + ".txt", FileUtility.MY_PUZZLES_PATH);
+        if (!file.delete()) {
+            WindowUtility.errorMessage("Failed to delete the old file.", "Error!");
+            return;
+        }
+        this.title = new_name;
+        this.save();
         this.setSaved(true);
-        /**/
     }
 
 
