@@ -2,7 +2,10 @@
  * RankFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for displaying the user's best puzzle completion times.
+ * Contains a table that organizes the top 10 times by puzzle difficulty. Also
+ * contains a button for clearing the best times, and a back button for returning
+ * to the MainFrame.
  */
 package sudoku;
 
@@ -14,16 +17,17 @@ import javax.swing.JFrame;
 
 public class RankFrame extends JFrame {
 
+    /* Default constructor */
     public RankFrame(int x, int y) {
 
-        /* FIXME */
+        /* Initialize components */
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
         this.setTitle("Sudoku");
         this.setLocation(x, y);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        /* FIXME */
+        /* Sets the table's headers and column width sizes */
         this.noviceTable.getTableHeader().setReorderingAllowed(false);
         this.noviceTable.getColumn("Rank").setMinWidth(75);
         this.noviceTable.getColumn("Rank").setMaxWidth(75);
@@ -60,6 +64,7 @@ public class RankFrame extends JFrame {
                     System.exit(0);
             }
         });
+
         this.setVisible(true);
     }
 
@@ -320,16 +325,19 @@ public class RankFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    // <editor-fold defaultstate="collapsed" desc="Button Action Event Handlers">
+    /* Returns to the main menu */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainFrame m = new MainFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
+    /* Resets the data in the table */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_resetButtonActionPerformed
+    // </editor-fold>
 
-
+    // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JTable easyTable;
@@ -347,5 +355,6 @@ public class RankFrame extends JFrame {
     private javax.swing.JTable noviceTable;
     private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold>
 
-}
+} // End RankFrame class

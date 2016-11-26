@@ -2,7 +2,8 @@
  * SudokuGenerator.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a method for obtaining a newly generated Sudoku puzzle,
+ * given a specified difficulty labeled 1-5.
  */
 package sudoku;
 
@@ -26,4 +27,4 @@ public class SudokuGenerator {
         return null;
     }
 
-}
+} // End SudokuGenerator class

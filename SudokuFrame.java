@@ -2,7 +2,8 @@
  * SudokuFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for playing a game of Sudoku. Users can input numbers,
+ * start a new game, reset the game, get hints and solutions, and quit out.
  */
 package sudoku;
 
@@ -1697,17 +1698,21 @@ public class SudokuFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
+    // <editor-fold defaultstate="collapsed" desc="Menu Action Event Handlers">
+    /* Starts a new game */
     private void NewGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewGameOptionActionPerformed
         this.newGame();
     }//GEN-LAST:event_NewGameOptionActionPerformed
+    /* Resets the game back to its initial state */
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Resetting"))
             this.resetGame();
     }//GEN-LAST:event_ResetGameOptionActionPerformed
+    /* Quits out of the game */
     private void QuitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitOptionActionPerformed
         this.quit();
     }//GEN-LAST:event_QuitOptionActionPerformed
+    /* Invoked when the solution is requested */
     private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
         if (!Settings.showSolutions())
             return;
@@ -1719,6 +1724,7 @@ public class SudokuFrame extends JFrame {
         this.puzzle = this.solution.getSolution();
         this.updateStatus();
     }//GEN-LAST:event_SolveOptionActionPerformed
+    /* Invoked when a hint is requested */
     private void GetHintOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetHintOptionActionPerformed
         if (!Settings.showHints())
             return;
@@ -1734,6 +1740,7 @@ public class SudokuFrame extends JFrame {
                     return;
                 }
     }//GEN-LAST:event_GetHintOptionActionPerformed
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1945,5 +1952,5 @@ public class SudokuFrame extends JFrame {
     private javax.swing.JTextPane timeField;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>
-    
-}
+
+} // End SudokuFrame class

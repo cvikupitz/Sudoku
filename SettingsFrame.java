@@ -2,7 +2,9 @@
  * SettingsFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for the settings menu. Contains a back button that
+ * goes back to the MainFrame GUI, and radio buttons for enabling/disabling program
+ * settings and features.
  */
 package sudoku;
 
@@ -15,8 +17,9 @@ import javax.swing.JFrame;
 
 public class SettingsFrame extends JFrame {
 
-    ButtonGroup timerGroup, legalMovesGroup, highlighterGroup, conflictGroup,
-            hintsGroup, solutionsgroup;
+    /* Declare private members */
+    private final ButtonGroup timerGroup, legalMovesGroup, highlighterGroup,
+            conflictGroup, hintsGroup, solutionsgroup;
 
     /* Default constructors */
     public SettingsFrame(int x, int y) {
@@ -371,49 +374,64 @@ public class SettingsFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="Radio Button Aciton Event Handlers">
+    /* Goes back to the main menu */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         FileUtility.saveSettings();
         MainFrame f = new MainFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
+    /* Makes the timer visible */
     private void timerOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerOnActionPerformed
         Settings.showTimer(true);
     }//GEN-LAST:event_timerOnActionPerformed
+    /* Makes the timer invisible */
     private void timerOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerOffActionPerformed
         Settings.showTimer(false);
     }//GEN-LAST:event_timerOffActionPerformed
+    /* Makes legal moves pane visible */
     private void legalMovesOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_legalMovesOnActionPerformed
         Settings.showLegal(true);
     }//GEN-LAST:event_legalMovesOnActionPerformed
+    /* Makes legal moves pane invisible */
     private void legalMovesOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_legalMovesOffActionPerformed
         Settings.showLegal(false);
     }//GEN-LAST:event_legalMovesOffActionPerformed
+    /* Turns highlighter on */
     private void highlighterOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highlighterOnActionPerformed
         Settings.showHighlighted(true);
     }//GEN-LAST:event_highlighterOnActionPerformed
+    /* Turns highlighter off */
     private void highlighterOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highlighterOffActionPerformed
         Settings.showHighlighted(false);
     }//GEN-LAST:event_highlighterOffActionPerformed
+    /* Turns illegal number highlighter on */
     private void conflictOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conflictOnActionPerformed
         Settings.showConflictingNumbers(true);
     }//GEN-LAST:event_conflictOnActionPerformed
+    /* Turns illegal number highlighter off */
     private void conflictOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conflictOffActionPerformed
         Settings.showConflictingNumbers(false);
     }//GEN-LAST:event_conflictOffActionPerformed
+    /* Turns hints on */
     private void hintsOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintsOnActionPerformed
         Settings.showHints(true);
     }//GEN-LAST:event_hintsOnActionPerformed
+    /* Turns hints off */
     private void hintsOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintsOffActionPerformed
         Settings.showHints(false);
     }//GEN-LAST:event_hintsOffActionPerformed
+    /* Turns solutions on */
     private void solutionsOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solutionsOnActionPerformed
         Settings.showSolutions(true);
     }//GEN-LAST:event_solutionsOnActionPerformed
+    /* Turns solutions off */
     private void solutionsOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solutionsOffActionPerformed
         Settings.showSolutions(false);
     }//GEN-LAST:event_solutionsOffActionPerformed
+    // </editor-fold>
 
-
+    // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JRadioButton conflictOff;
@@ -438,5 +456,6 @@ public class SettingsFrame extends JFrame {
     private javax.swing.JRadioButton timerOff;
     private javax.swing.JRadioButton timerOn;
     // End of variables declaration//GEN-END:variables
-
-}
+    // </editor-fold>
+    
+} // End SettingsFrame class

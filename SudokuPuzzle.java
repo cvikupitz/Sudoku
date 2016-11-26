@@ -221,7 +221,7 @@ public class SudokuPuzzle {
 
     /**
      * Sets the Sudoku board to the specified 2-d integer array. Used after
-     * being passed through the Sudoku solver and loading from a file.
+     * being passed through the Sudoku solver and uploading to the UI.
      *
      * @param b The array to set the sudoku board to.
      */
@@ -470,4 +470,4 @@ public class SudokuPuzzle {
     }
     //</editor-fold>
 
-}
+} // End SudokuPuzzle class

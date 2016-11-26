@@ -2,7 +2,8 @@
  * PuzzlesFrameFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for editing a custom puzzle. User can input numbers,
+ * save the puzzle, rename the puzzle, clear the puzzle, and quit out.
  */
 package sudoku;
 
@@ -1525,19 +1526,24 @@ public class PuzzleEditorFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="Button Action Event Handlers">
+    /* Saves the puzzle */
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         this.save();
     }//GEN-LAST:event_saveButtonActionPerformed
+    /* Renames the puzzle file */
     private void renameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renameButtonActionPerformed
         this.saveAs();
     }//GEN-LAST:event_renameButtonActionPerformed
+    /* Clears out the puzzle */
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         this.clear();
     }//GEN-LAST:event_clearButtonActionPerformed
+    /* Returns back to the custom puzzles menu */
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
         this.quit();
     }//GEN-LAST:event_quitButtonActionPerformed
-
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1740,4 +1746,4 @@ public class PuzzleEditorFrame extends JFrame {
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 
-}
+} // End PuzzleEditorFrame class

@@ -149,4 +149,4 @@ public class Settings {
         Settings.solutions = flag;
     }
 
-}
+} // End Settings class

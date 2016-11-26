@@ -2,7 +2,8 @@
  * PuzzlesFrameFrame.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * FIXME
+ * Class that contains a GUI for the custom puzzles menu. Users can create new
+ * puzzle files, open and edit existing files, delete, and play saved puzzles.
  */
 package sudoku;
 
@@ -555,52 +556,67 @@ public class PuzzlesFrame extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
+    // <editor-fold defaultstate="collapsed" desc="Button & Menu Action Event Handlers">
+    /* Returns to the main menu */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainFrame f = new MainFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
+    /* Creates a new custom puzzle */
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         this.newPuzzle();
     }//GEN-LAST:event_newButtonActionPerformed
+    /* Opens the selected puzzle file for editing */
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         this.editPuzzle();
     }//GEN-LAST:event_editButtonActionPerformed
+    /* Deletes the selected file */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         this.deletePuzzle();
     }//GEN-LAST:event_deleteButtonActionPerformed
+    /* Opens the selected file to play */
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         this.play();
     }//GEN-LAST:event_playButtonActionPerformed
+    /* Creates a new custom puzzle */
     private void newOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOptionActionPerformed
         this.newPuzzle();
     }//GEN-LAST:event_newOptionActionPerformed
+    /* Opens the selected puzzle file for editing */
     private void editOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editOptionActionPerformed
         this.editPuzzle();
     }//GEN-LAST:event_editOptionActionPerformed
+    /* Deletes the selected file */
     private void deleteOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteOptionActionPerformed
         this.deletePuzzle();
     }//GEN-LAST:event_deleteOptionActionPerformed
+    /* Opens the selected file to play */
     private void playOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playOptionActionPerformed
-        WindowUtility.displayInfo("Coming Soon...", "Halt!");
+        this.play();
     }//GEN-LAST:event_playOptionActionPerformed
+    /* Imports a puzzle file */
     private void importOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importOptionActionPerformed
         this.importPuzzle();
     }//GEN-LAST:event_importOptionActionPerformed
+    /* Exports the selected puzzle file */
     private void exportOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportOptionActionPerformed
         this.exportPuzzle();
     }//GEN-LAST:event_exportOptionActionPerformed
+    /* Returns to the main menu */
     private void backOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backOptionActionPerformed
         MainFrame f = new MainFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_backOptionActionPerformed
+    /* Searches for files */
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         this.search();
     }//GEN-LAST:event_searchButtonActionPerformed
+    /* Undo a search */
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         this.searchField.setText("");
         this.search();
     }//GEN-LAST:event_clearButtonActionPerformed
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -633,4 +649,4 @@ public class PuzzlesFrame extends JFrame {
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 
-}
+} // End PuzzlesFrame class

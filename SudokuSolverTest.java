@@ -45,4 +45,5 @@ public class SudokuSolverTest {
         } System.out.println("Sudoku Solver Test Passed!");
         /* Display message when all tests passed */
     }
-}
+
+} // End SudokuSolverTest class
