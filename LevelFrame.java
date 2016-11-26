@@ -247,5 +247,5 @@ public class LevelFrame extends JFrame {
     private javax.swing.JButton noviceButton;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
-    
-}
+
+} // End LevelFrame class

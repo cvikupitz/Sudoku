@@ -192,18 +192,22 @@ public class MainFrame extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // <editor-fold defaultstate="collapsed" desc="Button Action Event Handling">
+    /* Go to 'My Puzzles' menu */
     private void puzzlesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_puzzlesButtonActionPerformed
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_puzzlesButtonActionPerformed
+    /* Quits the application */
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting"))
             System.exit(0);
     }//GEN-LAST:event_quitButtonActionPerformed
+    /* Go to 'Statistics' menu */
     private void statsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButtonActionPerformed
         RankFrame f = new RankFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_statsButtonActionPerformed
+    /* Load the saved game */
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try {
             SudokuPuzzle p = FileUtility.loadGame(FileUtility.PATH + "saved.txt");
@@ -216,10 +220,12 @@ public class MainFrame extends JFrame {
             }
         } catch (Exception e) {/* Ignore Exceptions */}
     }//GEN-LAST:event_loadButtonActionPerformed
+    /* Start a new game */
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         LevelFrame f = new LevelFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_newButtonActionPerformed
+    /* Go to the settings menu */
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
         SettingsFrame f = new SettingsFrame(this.getX(), this.getY());
         this.dispose();
@@ -239,5 +245,5 @@ public class MainFrame extends JFrame {
     private javax.swing.JButton statsButton;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
-    
-}
+
+} // End MainFrame class

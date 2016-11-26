@@ -25,7 +25,12 @@ public class FileUtility {
 
 
     /**
-     * FIXME
+     * Saves the Sudoku puzzle into a save file in the specified directory path,
+     * as well as its difficulty, for loading and resuming gameplay later.
+     *
+     * @param p The Sudoku puzzle to save.
+     * @param difficulty The puzzle difficulty.
+     * @param path The full path and file name to save the puzzle to.
      */
     protected static void saveGame(SudokuPuzzle p, int difficulty, String path) {
 
@@ -53,7 +58,11 @@ public class FileUtility {
 
 
     /**
-     * FIXME
+     * Loads a saved game from the given file and path, and returns the Sudoku
+     * puzzle saved in the specified file for game play.
+     *
+     * @param path The full path and file name of where to load the saved game from.
+     * @return The saved Sudoku puzzle from the specified path and file.
      */
     protected static SudokuPuzzle loadGame(String path) {
         String line;
@@ -192,7 +201,10 @@ public class FileUtility {
     }
 
 
-    /***/
+    /**
+     * Loads the program's settings from the save file 'settings.txt', sets the
+     * program's settings as specified.
+     */
     protected static void loadSettings() {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FileUtility.PATH + "settings.txt"))) {
@@ -227,7 +239,10 @@ public class FileUtility {
     }
 
 
-    /***/
+    /**
+     * Saves the program's current settings into a file called 'settings.txt', taken
+     * from the Settings.java class.
+     */
     protected static void saveSettings() {
 
         /* Create a new file */
@@ -248,4 +263,4 @@ public class FileUtility {
         }
     }
 
-}
+} // End FileUtility class
