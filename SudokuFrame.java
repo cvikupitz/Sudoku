@@ -320,6 +320,12 @@ public class SudokuFrame extends JFrame {
             this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
             WindowUtility.displayInfo("You solved the puzzle!", "Congratulations!");
+            if (!this.loop) {
+                this.puzzle.resetPuzzle();
+                FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
+                PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
+                this.dispose();
+            }
             this.newGame();
         } else {
             this.completeField.setForeground(GUIColors.RED);
@@ -1709,7 +1715,7 @@ public class SudokuFrame extends JFrame {
                 + "\nAre you sure you want to solve?", "Warning!"))
             return;
         this.importBoard(this.solution.getSolution().toArray());
-        this.repaint();
+        //this.repaint();
         this.puzzle = this.solution.getSolution();
         this.updateStatus();
     }//GEN-LAST:event_SolveOptionActionPerformed

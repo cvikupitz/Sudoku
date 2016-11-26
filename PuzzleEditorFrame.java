@@ -8,6 +8,9 @@ package sudoku;
 
 
 /* Imports */
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -16,6 +19,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
+import java.awt.geom.Line2D;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
@@ -161,6 +165,22 @@ public class PuzzleEditorFrame extends JFrame {
 
 
     /**
+     * Paints the lines in the window.
+     */
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(3));
+        super.paint(g);
+        g2d.drawRect(10, 30, 435, 440);
+        g2d.draw(new Line2D.Float(155, 30, 155, 467));
+        g2d.draw(new Line2D.Float(299, 30, 299, 467));
+        g2d.draw(new Line2D.Float(10, 176, 443, 176));
+        g2d.draw(new Line2D.Float(10, 322, 443, 322));
+    }
+
+
+    /**
      * Takes the puzzle given and sets up the board in the window for the user.
      */
     private void initializeTable() {
@@ -293,6 +313,17 @@ public class PuzzleEditorFrame extends JFrame {
 
     /***/
     private void save() {
+        int i = this.puzzle.getNumberFilled();
+        if (45 <= i)
+            this.puzzle.setDifficulty(1);
+        else if (39 <= i && i < 44)
+            this.puzzle.setDifficulty(2);
+        else if (32 <= i && i < 38)
+            this.puzzle.setDifficulty(3);
+        else if (26 <= i && i < 31)
+            this.puzzle.setDifficulty(4);
+        else
+            this.puzzle.setDifficulty(5);
         this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
         FileUtility.saveGame(puzzle, puzzle.getDifficulty(),
                 FileUtility.MY_PUZZLES_PATH + this.title + ".txt");
@@ -327,6 +358,16 @@ public class PuzzleEditorFrame extends JFrame {
         this.title = new_name;
         this.save();
         this.setSaved(true);
+    }
+
+
+    /***/
+    private void quit() {
+        if (!this.saved)
+            if (!WindowUtility.askYesNo("You have unsaved changes.\nAre you sure you want to quit?", "Warning!"))
+                return;
+        PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
+        this.dispose();
     }
 
 
@@ -531,14 +572,10 @@ public class PuzzleEditorFrame extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane19 = new javax.swing.JScrollPane();
         statusField = new javax.swing.JTextPane();
-        jMenuBar3 = new javax.swing.JMenuBar();
-        flieTab = new javax.swing.JMenu();
-        saveOption = new javax.swing.JMenuItem();
-        saveAsOption = new javax.swing.JMenuItem();
-        clearOption = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        quitOption = new javax.swing.JMenuItem();
-        optionsTab = new javax.swing.JMenu();
+        saveButton = new javax.swing.JButton();
+        renameButton = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
+        quitButton = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -1365,6 +1402,42 @@ public class PuzzleEditorFrame extends JFrame {
         statusField.setHighlighter(null);
         jScrollPane19.setViewportView(statusField);
 
+        saveButton.setBackground(new java.awt.Color(153, 255, 153));
+        saveButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        saveButton.setText("Save Puzzle");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        renameButton.setBackground(new java.awt.Color(255, 102, 255));
+        renameButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        renameButton.setText("Rename Puzzle");
+        renameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                renameButtonActionPerformed(evt);
+            }
+        });
+
+        clearButton.setBackground(new java.awt.Color(255, 102, 102));
+        clearButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        clearButton.setText("Clear Puzzle");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+
+        quitButton.setBackground(new java.awt.Color(153, 153, 153));
+        quitButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        quitButton.setText("Quit");
+        quitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1394,11 +1467,13 @@ public class PuzzleEditorFrame extends JFrame {
                                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1))
-                        .addContainerGap(41, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(478, Short.MAX_VALUE))))
+                            .addComponent(jLabel1)
+                            .addComponent(saveButton)
+                            .addComponent(renameButton)
+                            .addComponent(clearButton)
+                            .addComponent(quitButton)))
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1421,54 +1496,20 @@ public class PuzzleEditorFrame extends JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
+                        .addComponent(saveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(renameButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(clearButton)
+                        .addGap(31, 31, 31)
+                        .addComponent(quitButton))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
-
-        flieTab.setText("File");
-
-        saveOption.setText("Save Puzzle");
-        saveOption.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveOptionActionPerformed(evt);
-            }
-        });
-        flieTab.add(saveOption);
-
-        saveAsOption.setText("Rename Puzzle");
-        saveAsOption.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveAsOptionActionPerformed(evt);
-            }
-        });
-        flieTab.add(saveAsOption);
-
-        clearOption.setText("Clear Puzzle");
-        clearOption.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearOptionActionPerformed(evt);
-            }
-        });
-        flieTab.add(clearOption);
-        flieTab.add(jSeparator1);
-
-        quitOption.setText("Quit");
-        quitOption.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quitOptionActionPerformed(evt);
-            }
-        });
-        flieTab.add(quitOption);
-
-        jMenuBar3.add(flieTab);
-
-        optionsTab.setText("Options");
-        jMenuBar3.add(optionsTab);
-
-        setJMenuBar(jMenuBar3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1478,29 +1519,25 @@ public class PuzzleEditorFrame extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-    private void saveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveOptionActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         this.save();
-    }//GEN-LAST:event_saveOptionActionPerformed
-    private void saveAsOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsOptionActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
+    private void renameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renameButtonActionPerformed
         this.saveAs();
-    }//GEN-LAST:event_saveAsOptionActionPerformed
-    private void quitOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitOptionActionPerformed
-        if (!this.saved)
-            if (!WindowUtility.askYesNo("You have unsaved changes.\nAre you sure you want to quit?", "Warning!"))
-                return;
-        PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
-        this.dispose();
-    }//GEN-LAST:event_quitOptionActionPerformed
-    private void clearOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearOptionActionPerformed
+    }//GEN-LAST:event_renameButtonActionPerformed
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         this.clear();
-    }//GEN-LAST:event_clearOptionActionPerformed
+    }//GEN-LAST:event_clearButtonActionPerformed
+    private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
+        this.quit();
+    }//GEN-LAST:event_quitButtonActionPerformed
+
 
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
@@ -1586,8 +1623,7 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JTextPane I7;
     private javax.swing.JTextPane I8;
     private javax.swing.JTextPane I9;
-    private javax.swing.JMenuItem clearOption;
-    private javax.swing.JMenu flieTab;
+    private javax.swing.JButton clearButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -1595,7 +1631,6 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1690,7 +1725,6 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JScrollPane jScrollPane97;
     private javax.swing.JScrollPane jScrollPane98;
     private javax.swing.JScrollPane jScrollPane99;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextPane legalEight;
     private javax.swing.JTextPane legalFive;
     private javax.swing.JTextPane legalFour;
@@ -1700,10 +1734,9 @@ public class PuzzleEditorFrame extends JFrame {
     private javax.swing.JTextPane legalSix;
     private javax.swing.JTextPane legalThree;
     private javax.swing.JTextPane legalTwo;
-    private javax.swing.JMenu optionsTab;
-    private javax.swing.JMenuItem quitOption;
-    private javax.swing.JMenuItem saveAsOption;
-    private javax.swing.JMenuItem saveOption;
+    private javax.swing.JButton quitButton;
+    private javax.swing.JButton renameButton;
+    private javax.swing.JButton saveButton;
     private javax.swing.JTextPane statusField;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
