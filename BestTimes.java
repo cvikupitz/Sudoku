@@ -35,6 +35,8 @@ public class BestTimes {
     protected static String[] expertBestDates = {null, null, null,
                                     null, null, null, null, null, null, null};
 
+
+    /***/
     protected static boolean insertBestTime(int time, int difficulty) {
 
         if (difficulty == 1)
@@ -49,9 +51,24 @@ public class BestTimes {
             return BestTimes.insertExpert(time);
     }
 
+
+    /***/
+    protected static String timeToString(int time) {
+        int sec = (time % 60);
+        int min = (time / 60);
+        int hrs = ((time / 60) / 60);
+
+        if (hrs == 0)
+            return String.format("%02d:%02d", min, sec);
+        else
+            return String.format("%d:%02d:%02d", hrs, min, sec);
+    }
+
+
+    /***/
     private static boolean insertNovice(int time) {
         for (int i = 0; i < 10; i++) {
-            if (BestTimes.noviceBestTimes[i] == -1 || (time < BestTimes.noviceBestTimes[i])) {
+            if (BestTimes.noviceBestTimes[i] == -1 ) {
                 BestTimes.noviceBestTimes[i] = time;
                 BestTimes.noviceBestDates[i] =
                         new SimpleDateFormat("MM/dd/yyyy  h:mm a").format(new Date());
@@ -61,6 +78,8 @@ public class BestTimes {
         return false;
     }
 
+
+    /***/
     private static boolean insertEasy(int time) {
         for (int i = 0; i < 10; i++) {
             if (BestTimes.easyBestTimes[i] == -1 || (time < BestTimes.easyBestTimes[i])) {
@@ -73,6 +92,8 @@ public class BestTimes {
         return false;
     }
 
+
+    /***/
     private static boolean insertMedium(int time) {
         for (int i = 0; i < 10; i++) {
             if (BestTimes.mediumBestTimes[i] == -1 || (time < BestTimes.mediumBestTimes[i])) {
@@ -85,6 +106,8 @@ public class BestTimes {
         return false;
     }
 
+
+    /***/
     private static boolean insertHard(int time) {
         for (int i = 0; i < 10; i++) {
             if (BestTimes.hardBestTimes[i] == -1 || (time < BestTimes.hardBestTimes[i])) {
@@ -97,6 +120,8 @@ public class BestTimes {
         return false;
     }
 
+
+    /***/
     private static boolean insertExpert(int time) {
         for (int i = 0; i < 10; i++) {
             if (BestTimes.expertBestTimes[i] == -1 || (time < BestTimes.expertBestTimes[i])) {

@@ -352,8 +352,11 @@ public class SudokuFrame extends JFrame {
             this.timer.cancel();
             this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
-            WindowUtility.displayInfo("You solved the puzzle!\nTime: " + this.timeToString(),
-                    "Congratulations!");
+            String s = "";
+            if (BestTimes.insertBestTime(this.seconds, this.difficulty))
+                s += "\nNew Best Time!";
+            WindowUtility.displayInfo("You solved the puzzle!\nTime: " +
+                    this.timeToString() + s, "Congratulations!");
             if (!this.loop) {
                 this.puzzle.resetPuzzle();
                 FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);

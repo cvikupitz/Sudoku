@@ -268,4 +268,12 @@ public class FileUtility {
         }
     }
 
+
+    /***/
+    protected static void loadBestTimes() {}
+
+
+    /***/
+    protected static void saveBestTimes() {}
+
 } // End FileUtility class

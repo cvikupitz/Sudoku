@@ -14,6 +14,7 @@ package sudoku;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 public class RankFrame extends JFrame {
 
@@ -65,8 +66,43 @@ public class RankFrame extends JFrame {
             }
         });
 
+        this.bindToTable();
         this.setVisible(true);
     }
+
+
+    /***/
+    private void bindToTable() {
+        for (int i = 0; i < 10; i++) {
+            if (BestTimes.noviceBestTimes[i] != -1) {
+                this.noviceTable.setValueAt(BestTimes.timeToString(BestTimes.noviceBestTimes[i]), i, 1);
+                this.noviceTable.setValueAt(BestTimes.noviceBestDates[i], i, 2);
+            }
+            if (BestTimes.easyBestTimes[i] != -1) {
+                this.easyTable.setValueAt(BestTimes.timeToString(BestTimes.easyBestTimes[i]), i, 1);
+                this.easyTable.setValueAt(BestTimes.easyBestDates[i], i, 2);
+            }
+            if (BestTimes.mediumBestTimes[i] != -1) {
+                this.mediumTable.setValueAt(BestTimes.timeToString(BestTimes.mediumBestTimes[i]), i, 1);
+                this.mediumTable.setValueAt(BestTimes.mediumBestDates[i], i, 2);
+            }
+            if (BestTimes.hardBestTimes[i] != -1) {
+                this.hardTable.setValueAt(BestTimes.timeToString(BestTimes.hardBestTimes[i]), i, 1);
+                this.hardTable.setValueAt(BestTimes.hardBestDates[i], i, 2);
+            }
+            if (BestTimes.expertBestTimes[i] != -1) {
+                this.expertTable.setValueAt(BestTimes.timeToString(BestTimes.expertBestTimes[i]), i, 1);
+                this.expertTable.setValueAt(BestTimes.expertBestDates[i], i, 2);
+            }
+        }
+    }
+
+
+    /***/
+    private void reset() {
+
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -333,7 +369,7 @@ public class RankFrame extends JFrame {
     }//GEN-LAST:event_backButtonActionPerformed
     /* Resets the data in the table */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        // TODO add your handling code here:
+        this.reset();
     }//GEN-LAST:event_resetButtonActionPerformed
     // </editor-fold>
 
