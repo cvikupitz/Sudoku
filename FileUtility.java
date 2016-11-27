@@ -262,10 +262,7 @@ public class FileUtility {
             writer.write(Boolean.toString(Settings.showHints()) + "\n");
             writer.write(Boolean.toString(Settings.showSolutions()));
             writer.close();
-        } catch (Exception e) {
-            WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
-                    "Error Saving Puzzle");
-        }
+        } catch (Exception e) {/* Ignore exceptions */}
     }
 
 

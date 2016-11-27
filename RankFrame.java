@@ -14,7 +14,6 @@ package sudoku;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel;
 
 public class RankFrame extends JFrame {
 
@@ -73,27 +72,35 @@ public class RankFrame extends JFrame {
 
     /***/
     private void bindToTable() {
-        for (int i = 0; i < 10; i++) {
-            if (BestTimes.noviceBestTimes[i] != -1) {
-                this.noviceTable.setValueAt(BestTimes.timeToString(BestTimes.noviceBestTimes[i]), i, 1);
-                this.noviceTable.setValueAt(BestTimes.noviceBestDates[i], i, 2);
-            }
-            if (BestTimes.easyBestTimes[i] != -1) {
-                this.easyTable.setValueAt(BestTimes.timeToString(BestTimes.easyBestTimes[i]), i, 1);
-                this.easyTable.setValueAt(BestTimes.easyBestDates[i], i, 2);
-            }
-            if (BestTimes.mediumBestTimes[i] != -1) {
-                this.mediumTable.setValueAt(BestTimes.timeToString(BestTimes.mediumBestTimes[i]), i, 1);
-                this.mediumTable.setValueAt(BestTimes.mediumBestDates[i], i, 2);
-            }
-            if (BestTimes.hardBestTimes[i] != -1) {
-                this.hardTable.setValueAt(BestTimes.timeToString(BestTimes.hardBestTimes[i]), i, 1);
-                this.hardTable.setValueAt(BestTimes.hardBestDates[i], i, 2);
-            }
-            if (BestTimes.expertBestTimes[i] != -1) {
-                this.expertTable.setValueAt(BestTimes.timeToString(BestTimes.expertBestTimes[i]), i, 1);
-                this.expertTable.setValueAt(BestTimes.expertBestDates[i], i, 2);
-            }
+        int i = 0;
+        for (HighScoreNode n : BestTimes.novice) {
+            this.noviceTable.setValueAt(n.getScore(), i, 1);
+            this.noviceTable.setValueAt(n.getDate(), i, 2);
+            i++;
+        }
+        i = 0;
+        for (HighScoreNode n : BestTimes.easy) {
+            this.easyTable.setValueAt(n.getScore(), i, 1);
+            this.easyTable.setValueAt(n.getDate(), i, 2);
+            i++;
+        }
+        i = 0;
+        for (HighScoreNode n : BestTimes.medium) {
+            this.mediumTable.setValueAt(n.getScore(), i, 1);
+            this.mediumTable.setValueAt(n.getDate(), i, 2);
+            i++;
+        }
+        i = 0;
+        for (HighScoreNode n : BestTimes.hard) {
+            this.hardTable.setValueAt(n.getScore(), i, 1);
+            this.hardTable.setValueAt(n.getDate(), i, 2);
+            i++;
+        }
+        i = 0;
+        for (HighScoreNode n : BestTimes.expert) {
+            this.expertTable.setValueAt(n.getScore(), i, 1);
+            this.expertTable.setValueAt(n.getDate(), i, 2);
+            i++;
         }
     }
 

@@ -7,48 +7,39 @@
 package sudoku;
 
 
-/* Imports */
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class BestTimes {
 
+    /**/
     protected static int time = 0;
-    protected static int[] noviceBestTimes = {-1, -1, -1, -1, -1,
-                                                -1, -1, -1, -1, -1};
-    protected static String[] noviceBestDates = {null, null, null,
-                                    null, null, null, null, null, null, null};
-    protected static int[] easyBestTimes = {-1, -1, -1, -1, -1,
-                                                -1, -1, -1, -1, -1};
-    protected static String[] easyBestDates = {null, null, null,
-                                    null, null, null, null, null, null, null};
-    protected static int[] mediumBestTimes = {-1, -1, -1, -1, -1,
-                                                -1, -1, -1, -1, -1};
-    protected static String[] mediumBestDates = {null, null, null,
-                                    null, null, null, null, null, null, null};
-    protected static int[] hardBestTimes = {-1, -1, -1, -1, -1,
-                                                -1, -1, -1, -1, -1};
-    protected static String[] hardBestDates = {null, null, null,
-                                    null, null, null, null, null, null, null};
-    protected static int[] expertBestTimes = {-1, -1, -1, -1, -1,
-                                                -1, -1, -1, -1, -1};
-    protected static String[] expertBestDates = {null, null, null,
-                                    null, null, null, null, null, null, null};
 
+    /**/
+    protected static HighScoreList novice = new HighScoreList();
+
+    /**/
+    protected static HighScoreList easy = new HighScoreList();
+
+    /**/
+    protected static HighScoreList medium = new HighScoreList();
+
+    /**/
+    protected static HighScoreList hard = new HighScoreList();
+
+    /**/
+    protected static HighScoreList expert = new HighScoreList();
 
     /***/
     protected static boolean insertBestTime(int time, int difficulty) {
 
         if (difficulty == 1)
-            return BestTimes.insertNovice(time);
+            return BestTimes.novice.insertScore(time);
         if (difficulty == 2)
-            return BestTimes.insertEasy(time);
+            return BestTimes.easy.insertScore(time);
         if (difficulty == 3)
-            return BestTimes.insertMedium(time);
+            return BestTimes.medium.insertScore(time);
         if (difficulty == 4)
-            return BestTimes.insertHard(time);
+            return BestTimes.hard.insertScore(time);
         else
-            return BestTimes.insertExpert(time);
+            return BestTimes.expert.insertScore(time);
     }
 
 
@@ -59,11 +50,9 @@ public class BestTimes {
         int hrs = ((time / 60) / 60);
 
         if (hrs == 0)
-            return String.format("%02d:%02d", min, sec);
+            return String.format("%d:%02d", min, sec);
         else
             return String.format("%d:%02d:%02d", hrs, min, sec);
     }
 
-
-    
 } // End BestTimes class

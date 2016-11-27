@@ -8,37 +8,13 @@ package sudoku;
 
 
 /* Imports */
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class HighScoreList implements Iterable {
+public class HighScoreList implements Iterable<HighScoreNode> {
 
-    private Node head, tail;
+    private HighScoreNode head, tail;
     private int size, capacity;
-
-
-    /* Internal class to represent a node in the list, stores the score and date. */
-    private class Node {
-
-        int score;
-        String date;
-        Node prev, next;
-
-        Node(int score) {
-            this.score = score;
-            this.date = new SimpleDateFormat("MM/dd/yyyy  h:mm a").format(new Date());
-            this.next = this.prev = null;
-        }
-
-        int getScore() {
-            return this.score;
-        }
-        String getDate() {
-            return this.date;
-        }
-    }
-
 
     /* Default constructor */
     public HighScoreList() {
@@ -56,15 +32,14 @@ public class HighScoreList implements Iterable {
 
     /***/
     public boolean insertScore(int score) {
-
-        Node node = new Node(score);
-        Node curr = this.head;
-
-
+        return true;
     }
 
 
-    private void update() {}
+    /***/
+    private void update() {
+
+    }
 
 
     /***/
@@ -82,16 +57,30 @@ public class HighScoreList implements Iterable {
 
     private class HighScoreListIterator implements Iterator {
 
-        public HighScoreListIterator() {}
+        private HighScoreNode curr;
+
+        public HighScoreListIterator() {
+            this.curr = head;
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return (this.curr == null);
         }
 
         @Override
-        public Object next() {
-            return null;
+        public HighScoreNode next() throws NoSuchElementException {
+            if (this.curr == null)
+                throw new NoSuchElementException("No more elements in iteration.");
+            HighScoreNode node = this.curr;
+            this.curr = this.curr.getNext();
+            return node;
         }
+    }
+
+
+    public static void main(String[] args) {
+        HighScoreList h = new HighScoreList();
+
     }
 }
