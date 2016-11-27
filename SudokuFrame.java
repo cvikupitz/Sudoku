@@ -46,7 +46,7 @@ public class SudokuFrame extends JFrame {
     private final Timer timer;
     private final TimerTask task;
 
-    public SudokuFrame(SudokuPuzzle p, int sec, boolean loop, String path, int x, int y) {
+    public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
@@ -55,7 +55,7 @@ public class SudokuFrame extends JFrame {
         this.loop = loop;
         this.path = path;
         this.highlighted = 0;
-        this.seconds = (0 + sec);
+        this.seconds = (0 + BestTimes.time);
         this.initComponents();
         this.getContentPane().setBackground(GUIColors.BACKGROUND);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
@@ -197,6 +197,7 @@ public class SudokuFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
+                    BestTimes.time = seconds;
                     FileUtility.saveGame(puzzle, puzzle.getDifficulty(), path);
                     System.exit(0);
                 }
@@ -348,15 +349,18 @@ public class SudokuFrame extends JFrame {
         int j = (int)(((float)i / 81) * 100);
         this.statusField.setText(String.format("Tiles Filled: %d/81 (%d%%)", i, j));
         if (i == 81 && this.puzzle.isComplete()) {
+            this.timer.cancel();
             this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
-            WindowUtility.displayInfo("You solved the puzzle!", "Congratulations!");
+            WindowUtility.displayInfo("You solved the puzzle!\nTime: " + this.timeToString(),
+                    "Congratulations!");
             if (!this.loop) {
                 this.puzzle.resetPuzzle();
                 FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
                 PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
                 this.dispose();
             }
+            this.seconds = 0;
             this.newGame();
         } else {
             this.completeField.setForeground(GUIColors.RED);
@@ -437,6 +441,7 @@ public class SudokuFrame extends JFrame {
      */
     private void resetGame() {
         this.puzzle.resetPuzzle();
+        this.seconds = 0;
         this.initializeTable();
     }
 
@@ -444,6 +449,7 @@ public class SudokuFrame extends JFrame {
     /***/
     private void quit() {
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting")) {
+            BestTimes.time = this.seconds;
             FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
             if (this.loop) {
                 MainFrame f = new MainFrame(this.getX(), this.getY());

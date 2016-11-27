@@ -214,7 +214,7 @@ public class MainFrame extends JFrame {
             if (p == null)
             WindowUtility.displayInfo("There is no saved game available.", "No Saved Game");
             else {
-                SudokuFrame f = new SudokuFrame(p, 0, true, FileUtility.PATH + "saved.txt",
+                SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
                         this.getX(), this.getY());
                 this.dispose();
             }

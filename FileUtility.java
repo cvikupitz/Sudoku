@@ -48,7 +48,8 @@ public class FileUtility {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(p.initialPuzzleState() + "\n");
             writer.write(p.currentPuzzleState() + "\n");
-            writer.write(Integer.toString(difficulty));
+            writer.write(Integer.toString(difficulty) + "\n");
+            writer.write(Integer.toString(BestTimes.time));
             writer.close();
         } catch (Exception e) {
             WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
@@ -92,6 +93,10 @@ public class FileUtility {
             /* Sets the puzzle's difficulty */
             line = reader.readLine();
             p.setDifficulty(Integer.parseInt(line));
+
+            /* Sets the timer to the saved time */
+            line = reader.readLine();
+            BestTimes.time = Integer.parseInt(line);
 
             /* Sets the board to the read board, return the puzzle */
             p.setArray(board);
