@@ -22,6 +22,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.geom.Line2D;
 import java.io.FileNotFoundException;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.UIDefaults;
@@ -40,9 +42,11 @@ public class SudokuFrame extends JFrame {
     private final int difficulty;
     private final boolean loop;
     private final String path;
-    private int highlighted;
+    private int highlighted, seconds;
+    private final Timer timer;
+    private final TimerTask task;
 
-    public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
+    public SudokuFrame(SudokuPuzzle p, int sec, boolean loop, String path, int x, int y) {
 
         /* Sets up the window components and design */
         this.puzzle = p;
@@ -51,6 +55,7 @@ public class SudokuFrame extends JFrame {
         this.loop = loop;
         this.path = path;
         this.highlighted = 0;
+        this.seconds = (0 + sec);
         this.initComponents();
         this.getContentPane().setBackground(GUIColors.BACKGROUND);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
@@ -204,6 +209,18 @@ public class SudokuFrame extends JFrame {
         if (!Settings.showTimer())
             timeField.setVisible(false);
 
+        /* -------------------------------- */
+        this.timeField.setText(this.timeToString());
+        this.timer = new Timer();
+        this.task = new TimerTask() {
+            @Override
+            public void run() {
+                seconds++;
+                timeField.setText(timeToString());
+            }
+        };
+        this.timer.scheduleAtFixedRate(this.task, 1000, 1000);
+
         this.setVisible(true);
     }
 
@@ -271,6 +288,19 @@ public class SudokuFrame extends JFrame {
         }
         this.updateStatus();
         this.repaint();
+    }
+
+
+    /***/
+    private String timeToString() {
+        int sec = (this.seconds % 60);
+        int min = (this.seconds / 60);
+        int hrs = ((this.seconds / 60) / 60);
+
+        if (hrs == 0)
+            return String.format("%02d:%02d", min, sec);
+        else
+            return String.format("%d:%02d:%02d", hrs, min, sec);
     }
 
 
@@ -1586,7 +1616,7 @@ public class SudokuFrame extends JFrame {
         jScrollPane92.setViewportView(completeField);
 
         timeField.setEditable(false);
-        timeField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        timeField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         timeField.setFocusable(false);
         timeField.setHighlighter(null);
         jScrollPane94.setViewportView(timeField);

@@ -206,7 +206,7 @@ public class PuzzlesFrame extends JFrame {
             WindowUtility.displayInfo("This puzzle is currently unsolvable.", "Note!");
             return;
         }
-        SudokuFrame f = new SudokuFrame(p, false,
+        SudokuFrame f = new SudokuFrame(p, 0, false,
                 FileUtility.MY_PUZZLES_PATH + name + ".txt", this.getX(), this.getY());
         this.dispose();
     }
