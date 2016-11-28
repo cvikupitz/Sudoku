@@ -452,7 +452,7 @@ public class SudokuFrame extends JFrame {
 
     /***/
     private void quit() {
-        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting")) {
+        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Warning!")) {
             BestTimes.time = this.seconds;
             FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
             if (this.loop) {
@@ -462,6 +462,44 @@ public class SudokuFrame extends JFrame {
             }
             this.dispose();
         }
+    }
+
+
+    /***/
+    private void getHint() {
+        if (!Settings.showHints())
+            return;
+        SudokuPuzzle p = this.solution.getSolution();
+        int[][] a = p.toArray();
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++)
+                if (this.puzzle.getValue(i, j) != a[i][j]) {
+                    this.puzzle.insert(a[i][j], i, j);
+                    this.fields[i][j].setText(Integer.toString(a[i][j]));
+                    this.editable[i][j] = false;
+                    if (this.highlighted == a[i][j])
+                        this.fields[i][j].setForeground(GUIColors.GREEN);
+                    else
+                        this.fields[i][j].setForeground(GUIColors.BLACK);
+                    this.repaint();
+                    this.seconds += 15;
+                    this.updateStatus();
+                    return;
+                }
+    }
+
+
+    /***/
+    private void getSolution() {
+        if (!Settings.showSolutions())
+            return;
+        if (!WindowUtility.askYesNo("Choosing to display the solution will result in your time not being counted."
+                + "\nAre you sure you want to display the solution?", "Warning!"))
+            return;
+        this.importBoard(this.solution.getSolution().toArray());
+        //this.repaint();
+        this.puzzle = this.solution.getSolution();
+        this.updateStatus();
     }
 
 
@@ -1754,31 +1792,11 @@ public class SudokuFrame extends JFrame {
     }//GEN-LAST:event_QuitOptionActionPerformed
     /* Invoked when the solution is requested */
     private void SolveOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveOptionActionPerformed
-        if (!Settings.showSolutions())
-            return;
-        if (!WindowUtility.askYesNo("Choosing to solve the puzzle will result in your time not being counted."
-                + "\nAre you sure you want to solve?", "Warning!"))
-            return;
-        this.importBoard(this.solution.getSolution().toArray());
-        //this.repaint();
-        this.puzzle = this.solution.getSolution();
-        this.updateStatus();
+        this.getSolution();
     }//GEN-LAST:event_SolveOptionActionPerformed
     /* Invoked when a hint is requested */
     private void GetHintOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetHintOptionActionPerformed
-        if (!Settings.showHints())
-            return;
-        SudokuPuzzle p = this.solution.getSolution();
-        int[][] a = p.toArray();
-        for (int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++)
-                if (this.puzzle.getValue(i, j) == 0) {
-                    this.puzzle.insert(a[i][j], i, j);
-                    this.fields[i][j].setText(Integer.toString(a[i][j]));
-                    this.repaint();
-                    this.updateStatus();
-                    return;
-                }
+        this.getHint();
     }//GEN-LAST:event_GetHintOptionActionPerformed
     // </editor-fold>
 

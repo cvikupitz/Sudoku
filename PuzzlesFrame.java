@@ -124,7 +124,8 @@ public class PuzzlesFrame extends JFrame {
         if (name != null) {
             /* Verify that the file name is valid */
             if (!(FileUtility.fileNameValid(name))) {
-                WindowUtility.errorMessage("The name you entered is an illegal name.",
+                WindowUtility.errorMessage("The name you entered is an illegal name.\n"
+                        + "Choose a different name.",
                         "Error!");
                 return;
             }
@@ -223,7 +224,8 @@ public class PuzzlesFrame extends JFrame {
         if (filePath == null || fileName == null)
             return;
         if (!fileName.endsWith(".txt")) {
-            WindowUtility.errorMessage("Invalid file type.", "Error!");
+            WindowUtility.errorMessage("The file selected is illegal.\n"
+                    + "You may only import files with a .txt extension.", "Error!");
             return;
         }
         if (!FileUtility.nameIsUnique(fileName, FileUtility.MY_PUZZLES_PATH)) {

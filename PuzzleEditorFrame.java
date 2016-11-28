@@ -301,7 +301,7 @@ public class PuzzleEditorFrame extends JFrame {
 
     /***/
     private void clear() {
-        if (WindowUtility.askYesNo("Are you sure you want to clear the puzzle?", "Warning?")) {
+        if (WindowUtility.askYesNo("Are you sure you want to clear the puzzle?", "Warning!")) {
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
                     this.fields[i][j].setText("");

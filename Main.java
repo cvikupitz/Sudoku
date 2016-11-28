@@ -53,6 +53,7 @@ public class Main {
 
         /* Load the settings */
         FileUtility.loadSettings();
+        FileUtility.loadBestTimes();
 
         /* Creates a new window */
         MainFrame f = new MainFrame(360, 30);
