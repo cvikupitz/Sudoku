@@ -221,7 +221,6 @@ public class SudokuFrame extends JFrame {
             }
         };
         this.timer.scheduleAtFixedRate(this.task, 1000, 1000);
-
         this.setVisible(true);
     }
 
@@ -355,6 +354,7 @@ public class SudokuFrame extends JFrame {
             String s = "";
             if (BestTimes.insertBestTime(this.seconds, this.difficulty))
                 s += "\nNew Best Time!";
+            FileUtility.saveBestTimes();
             WindowUtility.displayInfo("You solved the puzzle!\nTime: " +
                     this.timeToString() + s, "Congratulations!");
             if (!this.loop) {
@@ -431,7 +431,8 @@ public class SudokuFrame extends JFrame {
             return;
         }
         if (this.completeField.getForeground() != GUIColors.DARK_GREEN) {
-            if (WindowUtility.askYesNo("Are you sure you want to start a new game?", "New Game"))
+            if (WindowUtility.askYesNo("You will lose your current progress on this puzzle.\n"
+                    + "Are you sure you want to start a new game?", "Warning!"))
                 this.initializeTable();
         } else
             this.initializeTable();
@@ -1744,7 +1745,7 @@ public class SudokuFrame extends JFrame {
     }//GEN-LAST:event_NewGameOptionActionPerformed
     /* Resets the game back to its initial state */
     private void ResetGameOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetGameOptionActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Resetting"))
+        if (WindowUtility.askYesNo("Are you sure you want to reset the game?", "Warning!"))
             this.resetGame();
     }//GEN-LAST:event_ResetGameOptionActionPerformed
     /* Quits out of the game */

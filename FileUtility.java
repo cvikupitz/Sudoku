@@ -11,11 +11,14 @@ package sudoku;
 /* Imports */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class FileUtility {
 
@@ -188,14 +191,13 @@ public class FileUtility {
             File sourceFile = new File(path);
             File destinationFile = new File(dest);
             FileInputStream fileInputStream = new FileInputStream(sourceFile);
-            FileOutputStream fileOutputStream = new FileOutputStream(
-                    destinationFile);
+            FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
 
             /* Copies file contents by line */
             int bufferSize;
-            byte[] bufffer = new byte[512];
-            while ((bufferSize = fileInputStream.read(bufffer)) > 0) {
-                fileOutputStream.write(bufffer, 0, bufferSize);
+            byte[] buffer = new byte[512];
+            while ((bufferSize = fileInputStream.read(buffer)) > 0) {
+                fileOutputStream.write(buffer, 0, bufferSize);
             }
 
             /* Close streams */
@@ -212,7 +214,8 @@ public class FileUtility {
      */
     protected static void loadSettings() {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(FileUtility.PATH + "settings.txt"))) {
+        try (BufferedReader reader =
+                new BufferedReader(new FileReader(FileUtility.PATH + "settings.txt"))) {
 
             if (reader.readLine().equals("true"))
                 Settings.showTimer(true);
@@ -267,10 +270,97 @@ public class FileUtility {
 
 
     /***/
-    protected static void loadBestTimes() {}
+    protected static void loadBestTimes() {
+        FileUtility.loadBestTimes("novice.dat");
+        FileUtility.loadBestTimes("easy.dat");
+        FileUtility.loadBestTimes("medium.dat");
+        FileUtility.loadBestTimes("hard.dat");
+        FileUtility.loadBestTimes("expert.dat");
+    }
 
 
     /***/
-    protected static void saveBestTimes() {}
+    private static void loadBestTimes(String s) {
+
+        try {
+            FileInputStream file = new FileInputStream(FileUtility.PATH + s);
+            DataInputStream input = new DataInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            HighScoreList list;
+            switch (s) {
+                case "novice.dat":
+                    list = BestTimes.novice;
+                    break;
+                case "easy.dat":
+                    list = BestTimes.easy;
+                    break;
+                case "medium.dat":
+                    list = BestTimes.medium;
+                    break;
+                case "hard.dat":
+                    list = BestTimes.hard;
+                    break;
+                default:
+                    list = BestTimes.expert;
+                    break;
+            }
+            String str = reader.readLine();
+            while (str != null) {
+                String[] data = str.split(",");
+                int score = Integer.parseInt(data[0]);
+                HighScoreNode node = new HighScoreNode(score);
+                node.setDate(data[1]);
+                list.insertScore(node);
+                str = reader.readLine();
+            } reader.close();
+        } catch (Exception e) {/* Ignore exceptions */}
+    }
+
+
+    /***/
+    protected static void saveBestTimes() {
+        FileUtility.saveBestTimes("novice.dat");
+        FileUtility.saveBestTimes("easy.dat");
+        FileUtility.saveBestTimes("medium.dat");
+        FileUtility.saveBestTimes("hard.dat");
+        FileUtility.saveBestTimes("expert.dat");
+    }
+
+
+    /***/
+    private static void saveBestTimes(String s) {
+
+        try {
+            File file = new File(FileUtility.PATH + s);
+            file.createNewFile();
+            PrintWriter writer = new PrintWriter(new FileWriter(FileUtility.PATH + s));
+            HighScoreList list;
+            switch (s) {
+                case "novice.dat":
+                    list = BestTimes.novice;
+                    break;
+                case "easy.dat":
+                    list = BestTimes.easy;
+                    break;
+                case "medium.dat":
+                    list = BestTimes.medium;
+                    break;
+                case "hard.dat":
+                    list = BestTimes.hard;
+                    break;
+                default:
+                    list = BestTimes.expert;
+                    break;
+            }
+            for (HighScoreNode node : list) {
+                writer.print(Integer.toString(node.getScore()));
+                writer.print(",");
+                writer.print(node.getDate());
+                writer.print("\n");
+            }
+            writer.close();
+
+        } catch (Exception e) {/* Ignore exceptions */}
+    }
 
 } // End FileUtility class

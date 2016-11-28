@@ -65,6 +65,7 @@ public class RankFrame extends JFrame {
             }
         });
 
+        FileUtility.loadBestTimes();
         this.bindToTable();
         this.setVisible(true);
     }
@@ -73,33 +74,43 @@ public class RankFrame extends JFrame {
     /***/
     private void bindToTable() {
         int i = 0;
+        System.out.println("*** NOVICE ***"); //////////////////////
         for (HighScoreNode n : BestTimes.novice) {
-            this.noviceTable.setValueAt(n.getScore(), i, 1);
+            this.noviceTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.noviceTable.setValueAt(n.getDate(), i, 2);
+            System.out.println(n.getScore() + " | " + n.getDate());//////////////////////
             i++;
         }
         i = 0;
+        System.out.println("*** EASY ***"); //////////////////////
         for (HighScoreNode n : BestTimes.easy) {
-            this.easyTable.setValueAt(n.getScore(), i, 1);
+            this.easyTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.easyTable.setValueAt(n.getDate(), i, 2);
+            System.out.println(n.getScore() + " | " + n.getDate());////////////////
             i++;
         }
         i = 0;
+        System.out.println("*** MEDIUM ***"); //////////////////////
         for (HighScoreNode n : BestTimes.medium) {
-            this.mediumTable.setValueAt(n.getScore(), i, 1);
+            this.mediumTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.mediumTable.setValueAt(n.getDate(), i, 2);
+            System.out.println(n.getScore() + " | " + n.getDate());/////////////////
             i++;
         }
         i = 0;
+        System.out.println("*** HARD ***"); //////////////////////
         for (HighScoreNode n : BestTimes.hard) {
-            this.hardTable.setValueAt(n.getScore(), i, 1);
+            this.hardTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.hardTable.setValueAt(n.getDate(), i, 2);
+            System.out.println(n.getScore() + " | " + n.getDate());/////////////////////
             i++;
         }
         i = 0;
+        System.out.println("*** EXPERT ***"); //////////////////////
         for (HighScoreNode n : BestTimes.expert) {
-            this.expertTable.setValueAt(n.getScore(), i, 1);
+            this.expertTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.expertTable.setValueAt(n.getDate(), i, 2);
+            System.out.println(n.getScore() + " | " + n.getDate());/////////////////////
             i++;
         }
     }
@@ -107,7 +118,22 @@ public class RankFrame extends JFrame {
 
     /***/
     private void reset() {
-
+        if (!WindowUtility.askYesNo("You are about to delete all your best times for this difficulty.\n"
+                + "Are your sure you want to reset?", "Warning!"))
+            return;
+        BestTimes.novice.clear();
+        for (int i = 0; i < 10; i++) {
+            this.noviceTable.setValueAt("", i, 1);
+            this.noviceTable.setValueAt("", i, 2);
+            this.easyTable.setValueAt("", i, 1);
+            this.easyTable.setValueAt("", i, 2);
+            this.mediumTable.setValueAt("", i, 1);
+            this.mediumTable.setValueAt("", i, 2);
+            this.hardTable.setValueAt("", i, 1);
+            this.hardTable.setValueAt("", i, 2);
+            this.expertTable.setValueAt("", i, 1);
+            this.expertTable.setValueAt("", i, 2);
+        }
     }
 
 
@@ -121,7 +147,7 @@ public class RankFrame extends JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        hardTabbedPane = new javax.swing.JTabbedPane();
+        timesTable = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         noviceTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -141,8 +167,8 @@ public class RankFrame extends JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
 
-        hardTabbedPane.setFocusable(false);
-        hardTabbedPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        timesTable.setFocusable(false);
+        timesTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         noviceTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         noviceTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -174,7 +200,7 @@ public class RankFrame extends JFrame {
         noviceTable.setFocusable(false);
         jScrollPane1.setViewportView(noviceTable);
 
-        hardTabbedPane.addTab("Novice", jScrollPane1);
+        timesTable.addTab("Novice", jScrollPane1);
 
         easyTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         easyTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -205,7 +231,7 @@ public class RankFrame extends JFrame {
         easyTable.setEnabled(false);
         jScrollPane2.setViewportView(easyTable);
 
-        hardTabbedPane.addTab("Easy", jScrollPane2);
+        timesTable.addTab("Easy", jScrollPane2);
 
         mediumTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         mediumTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -236,7 +262,7 @@ public class RankFrame extends JFrame {
         mediumTable.setEnabled(false);
         jScrollPane3.setViewportView(mediumTable);
 
-        hardTabbedPane.addTab("Medium", jScrollPane3);
+        timesTable.addTab("Medium", jScrollPane3);
 
         hardTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         hardTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -267,7 +293,7 @@ public class RankFrame extends JFrame {
         hardTable.setEnabled(false);
         jScrollPane4.setViewportView(hardTable);
 
-        hardTabbedPane.addTab("Hard", jScrollPane4);
+        timesTable.addTab("Hard", jScrollPane4);
 
         expertTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         expertTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -298,7 +324,7 @@ public class RankFrame extends JFrame {
         expertTable.setEnabled(false);
         jScrollPane5.setViewportView(expertTable);
 
-        hardTabbedPane.addTab("Expert", jScrollPane5);
+        timesTable.addTab("Expert", jScrollPane5);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Best Times");
@@ -337,7 +363,7 @@ public class RankFrame extends JFrame {
                                 .addComponent(backButton)
                                 .addGap(310, 310, 310)
                                 .addComponent(resetButton))
-                            .addComponent(hardTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(timesTable, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -346,7 +372,7 @@ public class RankFrame extends JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(hardTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(timesTable, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -385,7 +411,6 @@ public class RankFrame extends JFrame {
     private javax.swing.JButton backButton;
     private javax.swing.JTable easyTable;
     private javax.swing.JTable expertTable;
-    private javax.swing.JTabbedPane hardTabbedPane;
     private javax.swing.JTable hardTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
@@ -397,6 +422,7 @@ public class RankFrame extends JFrame {
     private javax.swing.JTable mediumTable;
     private javax.swing.JTable noviceTable;
     private javax.swing.JButton resetButton;
+    private javax.swing.JTabbedPane timesTable;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 

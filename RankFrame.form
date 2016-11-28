@@ -58,7 +58,7 @@
                                   <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
                                   <Component id="resetButton" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="hardTabbedPane" min="-2" pref="446" max="-2" attributes="0"/>
+                              <Component id="timesTable" min="-2" pref="446" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -72,7 +72,7 @@
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="hardTabbedPane" min="-2" pref="217" max="-2" attributes="0"/>
+                  <Component id="timesTable" min="-2" pref="217" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="resetButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -84,7 +84,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JTabbedPane" name="hardTabbedPane">
+        <Container class="javax.swing.JTabbedPane" name="timesTable">
           <Properties>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">

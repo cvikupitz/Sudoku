@@ -199,7 +199,7 @@ public class MainFrame extends JFrame {
     }//GEN-LAST:event_puzzlesButtonActionPerformed
     /* Quits the application */
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Quitting"))
+        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Warning!"))
             System.exit(0);
     }//GEN-LAST:event_quitButtonActionPerformed
     /* Go to 'Statistics' menu */
