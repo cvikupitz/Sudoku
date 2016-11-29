@@ -60,12 +60,13 @@ public class RankFrame extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
-                        "Quitting"))
+                        "Quitting")) {
+                    FileUtility.saveBestTimes();
                     System.exit(0);
+                }
             }
         });
 
-        FileUtility.loadBestTimes();
         this.bindToTable();
         this.setVisible(true);
     }
@@ -74,43 +75,43 @@ public class RankFrame extends JFrame {
     /***/
     private void bindToTable() {
         int i = 0;
-        System.out.println("*** NOVICE ***"); //////////////////////
+        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.novice) {
             this.noviceTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.noviceTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(n.getScore() + " | " + n.getDate());//////////////////////
+            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("*** EASY ***"); //////////////////////
+        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.easy) {
             this.easyTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.easyTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(n.getScore() + " | " + n.getDate());////////////////
+            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("*** MEDIUM ***"); //////////////////////
+        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.medium) {
             this.mediumTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.mediumTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(n.getScore() + " | " + n.getDate());/////////////////
+            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("*** HARD ***"); //////////////////////
+        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.hard) {
             this.hardTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.hardTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(n.getScore() + " | " + n.getDate());/////////////////////
+            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("*** EXPERT ***"); //////////////////////
+        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.expert) {
             this.expertTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.expertTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(n.getScore() + " | " + n.getDate());/////////////////////
+            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
     }

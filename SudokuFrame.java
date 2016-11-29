@@ -199,6 +199,7 @@ public class SudokuFrame extends JFrame {
                         "Quitting")) {
                     BestTimes.time = seconds;
                     FileUtility.saveGame(puzzle, puzzle.getDifficulty(), path);
+                    FileUtility.saveBestTimes();
                     System.exit(0);
                 }
             }
@@ -354,7 +355,6 @@ public class SudokuFrame extends JFrame {
             String s = "";
             if (BestTimes.insertBestTime(this.seconds, this.difficulty))
                 s += "\nNew Best Time!";
-            FileUtility.saveBestTimes();
             WindowUtility.displayInfo("You solved the puzzle!\nTime: " +
                     this.timeToString() + s, "Congratulations!");
             if (!this.loop) {

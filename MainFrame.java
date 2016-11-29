@@ -36,8 +36,10 @@ public class MainFrame extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
-                        "Quitting"))
+                        "Quitting")) {
+                    FileUtility.saveBestTimes();
                     System.exit(0);
+                }
             }
         });
 
@@ -199,8 +201,10 @@ public class MainFrame extends JFrame {
     }//GEN-LAST:event_puzzlesButtonActionPerformed
     /* Quits the application */
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
-        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Warning!"))
+        if (WindowUtility.askYesNo("Are you sure you want to quit?", "Warning!")) {
+            FileUtility.saveBestTimes();
             System.exit(0);
+        }
     }//GEN-LAST:event_quitButtonActionPerformed
     /* Go to 'Statistics' menu */
     private void statsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButtonActionPerformed

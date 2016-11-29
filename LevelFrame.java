@@ -34,6 +34,7 @@ public class LevelFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
+                    FileUtility.saveBestTimes();
                     System.exit(0);
                 }
             }

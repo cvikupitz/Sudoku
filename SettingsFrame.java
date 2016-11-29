@@ -60,6 +60,7 @@ public class SettingsFrame extends JFrame {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
                     FileUtility.saveSettings();
+                    FileUtility.saveBestTimes();
                     System.exit(0);
                 }
             }
@@ -457,5 +458,5 @@ public class SettingsFrame extends JFrame {
     private javax.swing.JRadioButton timerOn;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
-    
+
 } // End SettingsFrame class

@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class FileUtility {
 
@@ -286,7 +287,7 @@ public class FileUtility {
             FileInputStream file = new FileInputStream(FileUtility.PATH + s);
             DataInputStream input = new DataInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            HighScoreList list;
+            ArrayList<HighScoreNode> list;
             switch (s) {
                 case "novice.dat":
                     list = BestTimes.novice;
@@ -310,7 +311,7 @@ public class FileUtility {
                 int score = Integer.parseInt(data[0]);
                 HighScoreNode node = new HighScoreNode(score);
                 node.setDate(data[1]);
-                list.insertScore(node);
+                list.add(node);
                 str = reader.readLine();
             } reader.close();
         } catch (Exception e) {/* Ignore exceptions */}
@@ -334,7 +335,7 @@ public class FileUtility {
             File file = new File(FileUtility.PATH + s);
             file.createNewFile();
             PrintWriter writer = new PrintWriter(new FileWriter(FileUtility.PATH + s));
-            HighScoreList list;
+            ArrayList<HighScoreNode> list;
             switch (s) {
                 case "novice.dat":
                     list = BestTimes.novice;

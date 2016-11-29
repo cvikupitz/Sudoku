@@ -79,8 +79,10 @@ public class PuzzlesFrame extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
-                        "Quitting"))
+                        "Quitting")) {
+                    FileUtility.saveBestTimes();
                     System.exit(0);
+                }
             }
         });
 

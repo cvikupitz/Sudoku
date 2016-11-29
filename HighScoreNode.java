@@ -14,7 +14,7 @@ package sudoku;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HighScoreNode {
+public class HighScoreNode implements Comparable<HighScoreNode> {
 
     /* Declare private members */
     private final int score;
@@ -98,6 +98,15 @@ public class HighScoreNode {
      */
     public void setNext(HighScoreNode n) {
         this.next = n;
+    }
+
+    @Override
+    public int compareTo(HighScoreNode other) {
+        if (this.getScore() < other.getScore())
+            return -1;
+        else if (this.getScore() > other.getScore())
+            return 1;
+        else return 0;
     }
 
 } // End HighScoreNode class

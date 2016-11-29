@@ -12,25 +12,29 @@
 package sudoku;
 
 
+/* Imports */
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class BestTimes {
 
     /* Static variable to temporarily store a time for resuming/saving a game */
     protected static int time = 0;
 
     /* Linked list to store the best novice puzzle times */
-    protected static HighScoreList novice = new HighScoreList();
+    protected static ArrayList<HighScoreNode> novice = new ArrayList<HighScoreNode>();
 
     /* Linked list to store the best easy puzzle times */
-    protected static HighScoreList easy = new HighScoreList();
+    protected static ArrayList<HighScoreNode> easy = new ArrayList<HighScoreNode>();
 
     /* Linked list to store the best medium puzzle times */
-    protected static HighScoreList medium = new HighScoreList();
+    protected static ArrayList<HighScoreNode> medium = new ArrayList<HighScoreNode>();
 
     /* Linked list to store the best hard puzzle times */
-    protected static HighScoreList hard = new HighScoreList();
+    protected static ArrayList<HighScoreNode> hard = new ArrayList<HighScoreNode>();
 
     /* Linked list to store the best expert puzzle times */
-    protected static HighScoreList expert = new HighScoreList();
+    protected static ArrayList<HighScoreNode> expert = new ArrayList<HighScoreNode>();
 
     /**
      * Inserts the specified time into the corresponding list storing the best
@@ -45,16 +49,39 @@ public class BestTimes {
     protected static boolean insertBestTime(int time, int difficulty) {
 
         HighScoreNode node = new HighScoreNode(time);
-        if (difficulty == 1)
-            return BestTimes.novice.insertScore(node);
-        if (difficulty == 2)
-            return BestTimes.easy.insertScore(node);
-        if (difficulty == 3)
-            return BestTimes.medium.insertScore(node);
-        if (difficulty == 4)
-            return BestTimes.hard.insertScore(node);
-        else
-            return BestTimes.expert.insertScore(node);
+        switch (difficulty) {
+            case 1:
+                BestTimes.novice.add(node);
+                Collections.sort(BestTimes.novice);
+                if (BestTimes.novice.size() > 10)
+                    BestTimes.novice.remove(10);
+                return BestTimes.novice.contains(node);
+            case 2:
+                BestTimes.easy.add(node);
+                Collections.sort(BestTimes.easy);
+                if (BestTimes.easy.size() > 10)
+                    BestTimes.easy.remove(10);
+                return BestTimes.easy.contains(node);
+            case 3:
+                BestTimes.medium.add(node);
+                Collections.sort(BestTimes.medium);
+                if (BestTimes.medium.size() > 10)
+                    BestTimes.medium.remove(10);
+                return BestTimes.medium.contains(node);
+            case 4:
+                BestTimes.hard.add(node);
+                Collections.sort(BestTimes.hard);
+                if (BestTimes.hard.size() > 10)
+                    BestTimes.hard.remove(10);
+                return BestTimes.hard.contains(node);
+            default:
+                BestTimes.expert.add(node);
+                Collections.sort(BestTimes.expert);
+                if (BestTimes.expert.size() > 10)
+                    BestTimes.expert.remove(10);
+                return BestTimes.expert.contains(node);
+        }
+
     }
 
 
