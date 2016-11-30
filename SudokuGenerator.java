@@ -24,7 +24,7 @@ public class SudokuGenerator {
      * @return A new Sudoku puzzle of the specified difficulty.
      */
     public static SudokuPuzzle generatePuzzle(int i) {
-        return null;
+        return new SudokuPuzzle();
     }
 
 } // End SudokuGenerator class

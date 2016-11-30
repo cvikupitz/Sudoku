@@ -75,43 +75,32 @@ public class RankFrame extends JFrame {
     /***/
     private void bindToTable() {
         int i = 0;
-        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.novice) {
             this.noviceTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.noviceTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.easy) {
             this.easyTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.easyTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
-        i = 0;
-        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.medium) {
             this.mediumTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.mediumTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.hard) {
             this.hardTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.hardTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
         i = 0;
-        System.out.println("****************************");////////////////////
         for (HighScoreNode n : BestTimes.expert) {
             this.expertTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.expertTable.setValueAt(n.getDate(), i, 2);
-            System.out.println(BestTimes.timeToString(n.getScore()) + " | " + n.getDate());//////////
             i++;
         }
     }
@@ -122,18 +111,46 @@ public class RankFrame extends JFrame {
         if (!WindowUtility.askYesNo("You are about to delete all your best times for this difficulty.\n"
                 + "Are your sure you want to reset?", "Warning!"))
             return;
-        BestTimes.novice.clear();
-        for (int i = 0; i < 10; i++) {
-            this.noviceTable.setValueAt("", i, 1);
-            this.noviceTable.setValueAt("", i, 2);
-            this.easyTable.setValueAt("", i, 1);
-            this.easyTable.setValueAt("", i, 2);
-            this.mediumTable.setValueAt("", i, 1);
-            this.mediumTable.setValueAt("", i, 2);
-            this.hardTable.setValueAt("", i, 1);
-            this.hardTable.setValueAt("", i, 2);
-            this.expertTable.setValueAt("", i, 1);
-            this.expertTable.setValueAt("", i, 2);
+        int i = this.timesTable.getSelectedIndex();
+        if (i == -1)
+            return;
+
+        switch (i) {
+            case 0:
+                BestTimes.novice.clear();
+                for (int j = 0; j < 10; j++) {
+                    this.noviceTable.setValueAt("", j, 1);
+                    this.noviceTable.setValueAt("", j, 2);
+                }
+                break;
+            case 1:
+                BestTimes.easy.clear();
+                for (int j = 0; j < 10; j++) {
+                    this.easyTable.setValueAt("", j, 1);
+                    this.easyTable.setValueAt("", j, 2);
+                }
+                break;
+            case 2:
+                BestTimes.medium.clear();
+                for (int j = 0; j < 10; j++) {
+                    this.mediumTable.setValueAt("", j, 1);
+                    this.mediumTable.setValueAt("", j, 2);
+                }
+                break;
+            case 3:
+                BestTimes.hard.clear();
+                for (int j = 0; j < 10; j++) {
+                    this.hardTable.setValueAt("", j, 1);
+                    this.hardTable.setValueAt("", j, 2);
+                }
+                break;
+            default:
+                BestTimes.expert.clear();
+                for (int j = 0; j < 10; j++) {
+                    this.expertTable.setValueAt("", j, 1);
+                    this.expertTable.setValueAt("", j, 2);
+                }
+                break;
         }
     }
 
