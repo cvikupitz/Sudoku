@@ -43,8 +43,8 @@ public class SudokuFrame extends JFrame {
     private final boolean loop;
     private final String path;
     private int highlighted, seconds;
-    private final Timer timer;
-    private final TimerTask task;
+    private Timer timer;
+    private TimerTask task;
 
     public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
 
@@ -56,6 +56,7 @@ public class SudokuFrame extends JFrame {
         this.path = path;
         this.highlighted = 0;
         this.seconds = (0 + BestTimes.time);
+        BestTimes.time = 0;
         this.initComponents();
         this.getContentPane().setBackground(GUIColors.BACKGROUND);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
@@ -211,7 +212,7 @@ public class SudokuFrame extends JFrame {
         if (!Settings.showTimer())
             timeField.setVisible(false);
 
-        /* -------------------------------- */
+        /* Sets the timer up, display the GUI */
         this.timeField.setText(this.timeToString());
         this.timer = new Timer();
         this.task = new TimerTask() {
@@ -292,7 +293,10 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Returns a string representation of the current time, used for displaying
+     * in the time field text box.
+     */
     private String timeToString() {
         int sec = (this.seconds % 60);
         int min = (this.seconds / 60);
@@ -306,7 +310,8 @@ public class SudokuFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Sets the GUI's puzzle board to the specified int[][]. Used when the user
+     * requests the solution.
      */
     private void importBoard(int[][] board) {
         for (int i = 0; i < 9; i++) {
@@ -324,7 +329,8 @@ public class SudokuFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Updates and displays all legal moves allowed inside the currently
+     * focused box.
      */
     private void updateLegalMoves(int i, int j) {
         boolean[] legalMoves = this.puzzle.getLegalMoves(i, j);
@@ -342,7 +348,8 @@ public class SudokuFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Updates the percentage of tiles filled, and checks if the puzzle is
+     * filled of not. Starts a new game if completed, or resumes game if not.
      */
     private void updateStatus() {
         int i = this.puzzle.getNumberFilled();
@@ -432,10 +439,14 @@ public class SudokuFrame extends JFrame {
         }
         if (this.completeField.getForeground() != GUIColors.DARK_GREEN) {
             if (WindowUtility.askYesNo("You will lose your current progress on this puzzle.\n"
-                    + "Are you sure you want to start a new game?", "Warning!"))
+                    + "Are you sure you want to start a new game?", "Warning!")) {
                 this.initializeTable();
-        } else
+                this.resetTimer();
+            }
+        } else {
             this.initializeTable();
+            this.resetTimer();
+        }
     }
 
 
@@ -445,7 +456,7 @@ public class SudokuFrame extends JFrame {
      */
     private void resetGame() {
         this.puzzle.resetPuzzle();
-        this.seconds = 0;
+        this.resetTimer();
         this.initializeTable();
     }
 
@@ -455,6 +466,8 @@ public class SudokuFrame extends JFrame {
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Warning!")) {
             BestTimes.time = this.seconds;
             FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
+            this.timer.cancel();
+            this.timer.purge();
             if (this.loop) {
                 MainFrame f = new MainFrame(this.getX(), this.getY());
             } else {
@@ -497,9 +510,27 @@ public class SudokuFrame extends JFrame {
                 + "\nAre you sure you want to display the solution?", "Warning!"))
             return;
         this.importBoard(this.solution.getSolution().toArray());
-        //this.repaint();
         this.puzzle = this.solution.getSolution();
         this.updateStatus();
+    }
+
+
+    /***/
+    private void resetTimer() {
+        this.seconds = 0;
+        this.timeField.setText(this.timeToString());
+        this.task.cancel();
+        this.timer.cancel();
+        this.timer.purge();
+        this.timer = new Timer();
+        this.task = new TimerTask() {
+            @Override
+            public void run() {
+                seconds++;
+                timeField.setText(timeToString());
+            }
+        };
+        this.timer.scheduleAtFixedRate(this.task, 1000, 1000);
     }
 
 

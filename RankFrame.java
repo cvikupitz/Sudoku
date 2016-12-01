@@ -86,6 +86,7 @@ public class RankFrame extends JFrame {
             this.easyTable.setValueAt(n.getDate(), i, 2);
             i++;
         }
+        i = 0;
         for (HighScoreNode n : BestTimes.medium) {
             this.mediumTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.mediumTable.setValueAt(n.getDate(), i, 2);

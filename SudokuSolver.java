@@ -4,6 +4,10 @@
  * -----------------------------------------------------------------------------
  * Class that takes a Sudoku puzzle, copies and solves it. Contains a method for
  * getting the solution and another for checking its solvavility.
+ *
+ * Resources:
+ * http://www.programcreek.com/2014/05/leetcode-sudoku-solver-java/
+ * http://www.heimetli.ch/ffh/simplifiedsudoku.html
  */
 package sudoku;
 

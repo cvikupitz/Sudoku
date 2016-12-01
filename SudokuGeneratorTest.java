@@ -4,7 +4,7 @@
  * -----------------------------------------------------------------------------
  * Contains a test for the SudokuGenerator class. Run this file separately from
  * the package and pass in a command line argument for the number of puzzles to
- * generate and test. By default, 100 are tested if no argument given, and can
+ * generate and test. By default, 1000 are tested if no argument given, and can
  * test up to 100,000 puzzles. Displays the number of puzzles created and solved.
  *
  * Usage: java SudokuGeneratorTest n=NUMBER_OF_TEST_PUZZLES
@@ -22,7 +22,7 @@ public class SudokuGeneratorTest {
         /* Get the number of iterations to perform */
         int iter;
         if (args.length == 0)
-            iter = 100;
+            iter = 1000;
         else
             iter = Integer.parseInt(args[0]);
 
@@ -40,7 +40,7 @@ public class SudokuGeneratorTest {
         System.out.println("********** TEST COMPLETE **********");
         System.out.printf("%d sudoku puzzles generated.\n", iter);
         System.out.printf("%d of the puzzles are solvable.\n", solvable);
-        System.out.printf("-> (%d%%)\n", (int)(((float)solvable / iter)) * 100);
+        System.out.printf("---- %d%% ----\n", (int)(((float)solvable / iter)) * 100);
         System.out.println("***********************************");
     }
 }
