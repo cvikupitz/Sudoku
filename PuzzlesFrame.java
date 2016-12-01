@@ -64,7 +64,7 @@ public class PuzzlesFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 String f = puzzleList.getSelectedValue();
                 if (f != null) {
-                    File file = FileUtility.getFile(f + ".txt", FileUtility.MY_PUZZLES_PATH);
+                    File file = FileUtility.getFile(f + ".dat", FileUtility.MY_PUZZLES_PATH);
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy  h:mm a");
                     puzzleDate.setText("Last Modified: " + sdf.format(file.lastModified()));
                 } else {
@@ -104,7 +104,7 @@ public class PuzzlesFrame extends JFrame {
 
         /* Add each puzzle found into table */
         for (File file : fileList) {
-            if (file.isFile() && file.toString().endsWith(".txt"))
+            if (file.isFile() && file.toString().endsWith(".dat"))
                 txtFiles.add(file.getName().substring(0, file.getName().length()-4));
         }
 
@@ -132,7 +132,7 @@ public class PuzzlesFrame extends JFrame {
                 return;
             }
             /* Verify that the file name is unique */
-            else if (!(FileUtility.nameIsUnique(name + ".txt", FileUtility.MY_PUZZLES_PATH))) {
+            else if (!(FileUtility.nameIsUnique(name + ".dat", FileUtility.MY_PUZZLES_PATH))) {
                 WindowUtility.errorMessage("There already exists another puzzle with this name."
                         + "\nChoose a different name.",
                         "Error!");
@@ -141,7 +141,7 @@ public class PuzzlesFrame extends JFrame {
         } else {return;}
 
         /* Create the new file, opens a new puzzle */
-        name += ".txt";
+        name += ".dat";
         File dir = new File(FileUtility.MY_PUZZLES_PATH, name);
         try {
             dir.createNewFile();
@@ -167,7 +167,7 @@ public class PuzzlesFrame extends JFrame {
             WindowUtility.displayInfo("You must select a puzzle to edit.", "Note!");
         } else {
             try {
-                SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + this.puzzleList.getSelectedValue() + ".txt");
+                SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + this.puzzleList.getSelectedValue() + ".dat");
                 PuzzleEditorFrame f = new PuzzleEditorFrame(p, this.puzzleList.getSelectedValue(), this.getX(), this.getY());
                 this.dispose();
             } catch (Exception ex) {/* Ignore exceptions */}
@@ -186,7 +186,7 @@ public class PuzzlesFrame extends JFrame {
             if (WindowUtility.askYesNo("Are you sure you want to delete the puzzle:\n" +
                     this.puzzleList.getSelectedValue() + "?", "Warning!")) {
                 File file = new File(FileUtility.MY_PUZZLES_PATH,
-                        this.puzzleList.getSelectedValue() + ".txt");
+                        this.puzzleList.getSelectedValue() + ".dat");
                 if (!file.delete())
                     WindowUtility.errorMessage("Failed to delete the puzzle.",
                             "Error!");
@@ -203,14 +203,14 @@ public class PuzzlesFrame extends JFrame {
             WindowUtility.displayInfo("You must select a puzzle to play.", "Note!");
             return;
         }
-        SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + name + ".txt");
+        SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + name + ".dat");
         SudokuSolver s = new SudokuSolver(p);
         if (!s.isSolvable()) {
             WindowUtility.displayInfo("This puzzle is currently unsolvable.", "Note!");
             return;
         }
         SudokuFrame f = new SudokuFrame(p, false,
-                FileUtility.MY_PUZZLES_PATH + name + ".txt", this.getX(), this.getY());
+                FileUtility.MY_PUZZLES_PATH + name + ".dat", this.getX(), this.getY());
         this.dispose();
     }
 
@@ -225,9 +225,9 @@ public class PuzzlesFrame extends JFrame {
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
-        if (!fileName.endsWith(".txt")) {
+        if (!fileName.endsWith(".dat")) {
             WindowUtility.errorMessage("The file selected is illegal.\n"
-                    + "You may only import files with a .txt extension.", "Error!");
+                    + "You may only import files with a .dat extension.", "Error!");
             return;
         }
         if (!FileUtility.nameIsUnique(fileName, FileUtility.MY_PUZZLES_PATH)) {
@@ -265,15 +265,15 @@ public class PuzzlesFrame extends JFrame {
                         "Error!");
             return;
         }
-        if (!(FileUtility.nameIsUnique(fileName + ".txt", filePath))) {
+        if (!(FileUtility.nameIsUnique(fileName + ".dat", filePath))) {
             WindowUtility.errorMessage("There already exists file with this name."
                         + "\nChoose a different name.",
                         "Error!");
             return;
         }
-        if (!fileName.endsWith(".txt"))
-            fileName += ".txt";
-        if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + old + ".txt", filePath + fileName))
+        if (!fileName.endsWith(".dat"))
+            fileName += ".dat";
+        if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + old + ".dat", filePath + fileName))
             WindowUtility.errorMessage("Failed to export the puzzle.",
                         "Error!");
     }
@@ -290,7 +290,7 @@ public class PuzzlesFrame extends JFrame {
 
         for (File file : fileList) {
             String s = file.getName().toLowerCase().substring(0, file.getName().length()-4);
-            if (file.isFile() && file.toString().endsWith(".txt") &&
+            if (file.isFile() && file.toString().endsWith(".dat") &&
                     s.toLowerCase().contains(this.searchField.getText().toLowerCase()))
                 txtFiles.add(file.getName().substring(0, file.getName().length()-4));
         }

@@ -214,11 +214,11 @@ public class MainFrame extends JFrame {
     /* Load the saved game */
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try {
-            SudokuPuzzle p = FileUtility.loadGame(FileUtility.PATH + "saved.txt");
+            SudokuPuzzle p = FileUtility.loadGame(FileUtility.PATH + "saved.dat");
             if (p == null)
             WindowUtility.displayInfo("There is no saved game available.", "No Saved Game");
             else {
-                SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+                SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                         this.getX(), this.getY());
                 this.dispose();
             }

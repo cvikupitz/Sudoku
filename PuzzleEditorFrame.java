@@ -328,7 +328,7 @@ public class PuzzleEditorFrame extends JFrame {
             this.puzzle.setDifficulty(5);
         this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
         FileUtility.saveGame(puzzle, puzzle.getDifficulty(),
-                FileUtility.MY_PUZZLES_PATH + this.title + ".txt");
+                FileUtility.MY_PUZZLES_PATH + this.title + ".dat");
         this.setSaved(true);
     }
 
@@ -343,16 +343,16 @@ public class PuzzleEditorFrame extends JFrame {
             WindowUtility.errorMessage("You entered an illegal name.", "Error!");
             return;
         }
-        if (!FileUtility.nameIsUnique(new_name + ".txt", FileUtility.MY_PUZZLES_PATH)) {
+        if (!FileUtility.nameIsUnique(new_name + ".dat", FileUtility.MY_PUZZLES_PATH)) {
             WindowUtility.errorMessage("There already exists a puzzle with that name.", "Error");
             return;
         }
-        if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + this.title + ".txt",
-                FileUtility.MY_PUZZLES_PATH + new_name + ".txt")) {
+        if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + this.title + ".dat",
+                FileUtility.MY_PUZZLES_PATH + new_name + ".dat")) {
             WindowUtility.errorMessage("Failed to save the puzzle.", "Error!");
             return;
         }
-        File file = FileUtility.getFile(old + ".txt", FileUtility.MY_PUZZLES_PATH);
+        File file = FileUtility.getFile(old + ".dat", FileUtility.MY_PUZZLES_PATH);
         if (!file.delete()) {
             WindowUtility.errorMessage("Failed to delete the old file.", "Error!");
             return;

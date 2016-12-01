@@ -184,7 +184,7 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(1);
-            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
@@ -194,7 +194,7 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(2);
-            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
@@ -204,7 +204,7 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(3);
-            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
@@ -214,7 +214,7 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(4);
-            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}
@@ -224,7 +224,7 @@ public class LevelFrame extends JFrame {
         SudokuPuzzle p;
         try {
             p = Main.getPuzzle(5);
-            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.txt",
+            SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
         } catch(Exception e) {/* Ignore exceptions */}

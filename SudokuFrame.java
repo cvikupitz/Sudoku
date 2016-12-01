@@ -268,7 +268,6 @@ public class SudokuFrame extends JFrame {
                 StyleConstants.setAlignment(f_center, StyleConstants.ALIGN_CENTER);
                 f_doc.setParagraphAttributes(0, f_doc.getLength(), f_center, false);
                 this.fields[i][j].setEditable(false);
-                int val = Integer.parseInt(Character.toString(s.charAt(k)));
 
                 /* Makes the space uneditable if the number is predetermined, or editable if otherwise */
                 if (s.charAt(k) != '0') {
@@ -278,9 +277,13 @@ public class SudokuFrame extends JFrame {
                 } else {
                     this.editable[i][j] = true;
                     this.fields[i][j].setForeground(GUIColors.BLUE);
-                    if (Settings.showConflictingNumbers())
-                        if (!this.puzzle.insert(val, i, j))
-                            this.fields[i][j].setForeground(GUIColors.RED);
+                    if (Settings.showConflictingNumbers()) {
+                        boolean[] temp = this.puzzle.getLegalMoves(i, j);
+                        int val = this.puzzle.getValue(i, j);
+                        if (val != 0)
+                            if (!temp[val-1])
+                                this.fields[i][j].setForeground(GUIColors.RED);
+                    }
                     if (t.charAt(k) != '0')
                         this.fields[i][j].setText(Character.toString(t.charAt(k)));
                     else

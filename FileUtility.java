@@ -45,20 +45,17 @@ public class FileUtility {
             return;
         }
 
-        /* Create a new file */
-        File file = new File(path);
-
-        /* Open the file to write to */
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        try {
+            File file = new File(path);
+            file.createNewFile();
+            PrintWriter writer = new PrintWriter(new FileWriter(path));
             writer.write(p.initialPuzzleState() + "\n");
             writer.write(p.currentPuzzleState() + "\n");
             writer.write(Integer.toString(difficulty) + "\n");
             writer.write(Integer.toString(BestTimes.time));
             writer.close();
-        } catch (Exception e) {
-            WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
-                    "Error Saving Puzzle");
-        }
+        } catch (Exception e) {/* Ignore exceptions */}
+
     }
 
 
@@ -76,8 +73,10 @@ public class FileUtility {
         int[][] board;
         int k;
 
-        /* Try to open and read the file containing the saved puzzle */
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        try {
+            FileInputStream file = new FileInputStream(path);
+            DataInputStream input = new DataInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
             /* Reads the initial state of the puzzle */
             line = reader.readLine();
@@ -108,6 +107,7 @@ public class FileUtility {
             return p;
 
         } catch (Exception e) {return null;}
+
     }
 
 
@@ -143,7 +143,7 @@ public class FileUtility {
 
         /* Scan each file name, make sure it isn't the same */
         for (File file : fileList) {
-            if (file.isFile() && file.toString().endsWith(".txt") &&
+            if (file.isFile() && file.toString().endsWith(".dat") &&
                     file.getName().toLowerCase().equals(s.toLowerCase()))
                 return false;
         }
@@ -169,7 +169,7 @@ public class FileUtility {
 
         /* Checks each file's name */
         for (File file : fileList) {
-            if (file.isFile() && file.toString().endsWith(".txt") &&
+            if (file.isFile() && file.toString().endsWith(".dat") &&
                     file.getName().toLowerCase().equals(n.toLowerCase()))
                 return file;
         }
