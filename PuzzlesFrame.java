@@ -29,6 +29,7 @@ public class PuzzlesFrame extends JFrame {
     /* Default constructor */
     public PuzzlesFrame(int x, int y) {
 
+
         /* Initialize components */
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
@@ -86,6 +87,7 @@ public class PuzzlesFrame extends JFrame {
             }
         });
 
+        /* Sets the UI visible to the user */
         this.setVisible(true);
     }
 
@@ -150,6 +152,8 @@ public class PuzzlesFrame extends JFrame {
                     "Error!");
             return;
         }
+
+        /* Creates a new puzzle, opens the new puzzle inside the puzzle editor */
         this.bindIntoTable();
         SudokuPuzzle p = new SudokuPuzzle();
         FileUtility.saveGame(p, 0, FileUtility.MY_PUZZLES_PATH + name);
@@ -163,10 +167,14 @@ public class PuzzlesFrame extends JFrame {
      * Opens the selected puzzle in the editing frame.
      */
     private void editPuzzle() {
+
+        /* User does not select a puzzle form the list */
         if (this.puzzleList.getSelectedValue() == null) {
             WindowUtility.displayInfo("You must select a puzzle to edit.", "Note!");
         } else {
             try {
+
+                /* Loads the puzzle from the file, opens it in the editor */
                 SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + this.puzzleList.getSelectedValue() + ".dat");
                 PuzzleEditorFrame f = new PuzzleEditorFrame(p, this.puzzleList.getSelectedValue(), this.getX(), this.getY());
                 this.dispose();
@@ -180,39 +188,60 @@ public class PuzzlesFrame extends JFrame {
      * file from the 'My Puzzles' directory if confirmed.
      */
     private void deletePuzzle() {
+
+        /* User does not select a puzzle from the list */
         if (this.puzzleList.getSelectedValue() == null) {
             WindowUtility.displayInfo("You must select a puzzle to delete.", "Note!");
         } else {
+
+            /* Asks the user if they're sure */
             if (WindowUtility.askYesNo("Are you sure you want to delete the puzzle:\n" +
                     this.puzzleList.getSelectedValue() + "?", "Warning!")) {
+
+                /* Obtains and deletes the specified file */
                 File file = new File(FileUtility.MY_PUZZLES_PATH +
                         this.puzzleList.getSelectedValue() + ".dat");
                 if (!file.delete())
                     WindowUtility.errorMessage("Failed to delete the puzzle.",
                             "Error!");
+
+                /* Updates the search if user searched for the file to delete */
                 this.search();
             }
         }
     }
 
 
-    /***/
+    /**
+     * Opens the selected puzzle file to play. This is invoked when the user clicks
+     * the play button. Only works if the puzzle isn't completely filled in, is
+     * unsolvable, or is already solved. A message displays if puzzle cannot be
+     * played, otherwise opens in a SudokuFrame.
+     */
     private void play() {
+
+        /* User does not select a puzzle from the list */
         String name = this.puzzleList.getSelectedValue();
         if (name == null) {
             WindowUtility.displayInfo("You must select a puzzle to play.", "Note!");
             return;
         }
+
+        /* Loads the puzzle, checks to see if puzzle is already solved */
         SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + name + ".dat");
         if (p.isComplete()) {
             WindowUtility.displayInfo("This puzzle is already solved.", "Note!");
             return;
         }
+
+        /* Checks to see if puzzle is in an unsolvable state */
         SudokuSolver s = new SudokuSolver(p);
-        if (!s.isSolvable()) {
+        if (!s.isSolvable() || p.getNumberFilled() == 81) {
             WindowUtility.displayInfo("This puzzle is currently unsolvable.", "Note!");
             return;
         }
+
+        /* All constraints passed, puzzle loads into SudokuFrame successfully */
         SudokuFrame f = new SudokuFrame(p, false,
                 FileUtility.MY_PUZZLES_PATH + name + ".dat", this.getX(), this.getY());
         this.dispose();
@@ -220,26 +249,36 @@ public class PuzzlesFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Imports a puzzle file from the user's computer. Constraints include importing
+     * a file without the .dat extension, and name must be unique. Imported if
+     * satisfied, or displays error message if not.
      */
     private void importPuzzle() {
+
+        /* Open importing window, user finds and selects the file */
         FileDialog fd = new FileDialog(this, "Import", FileDialog.LOAD);
         fd.setVisible(true);
         String filePath = fd.getDirectory();
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
+
+        /* Check to see if the file type is legal */
         if (!fileName.endsWith(".dat")) {
             WindowUtility.errorMessage("The file selected is illegal.\n"
                     + "You may only import files with a .dat extension.", "Error!");
             return;
         }
+
+        /* Check to see if the file name is unique */
         if (!FileUtility.nameIsUnique(fileName, FileUtility.MY_PUZZLES_PATH)) {
             WindowUtility.errorMessage("Failed to import the puzzle."
                     + "\nAnother puzzle already exists with that name.",
                         "Error!");
             return;
         }
+
+        /* Copies the seleted file into the puzzles directory, updates the lists */
         if (!FileUtility.copyFile(filePath + fileName, FileUtility.MY_PUZZLES_PATH + fileName))
             WindowUtility.errorMessage("Failed to import the puzzle."
                     + "\nCould not copy the contents of the file.",
@@ -249,14 +288,20 @@ public class PuzzlesFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Exports the selected puzzle file to the user's computer. Constraints include
+     * renaming to a legal name and the name is unique. Exports successfully if
+     * satisfied, or an error message is displayed if not.
      */
     private void exportPuzzle() {
+
+        /* User did not select a file from the list */
         String old = this.puzzleList.getSelectedValue();
         if (old == null) {
             WindowUtility.displayInfo("You must select a puzzle to export.", "Note!");
             return;
         }
+
+        /* Opens the exporting window, user navigates to directory to export to */
         FileDialog fd = new FileDialog(this, "Export", FileDialog.SAVE);
         fd.setFile(old);
         fd.setVisible(true);
@@ -264,17 +309,23 @@ public class PuzzlesFrame extends JFrame {
         String fileName = fd.getFile();
         if (filePath == null || fileName == null)
             return;
+
+        /* Check to see if the file name is legal */
         if (!(FileUtility.fileNameValid(fileName))) {
             WindowUtility.errorMessage("The name you entered is an illegal name.",
                         "Error!");
             return;
         }
+
+        /* Check to see if the file name is unique */
         if (!(FileUtility.nameIsUnique(fileName + ".dat", filePath))) {
             WindowUtility.errorMessage("There already exists file with this name."
                         + "\nChoose a different name.",
                         "Error!");
             return;
         }
+
+        /* Exports the file to the desired directory */
         if (!fileName.endsWith(".dat"))
             fileName += ".dat";
         if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + old + ".dat", filePath + fileName))
@@ -284,21 +335,31 @@ public class PuzzlesFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Searches for all the puzzle files continaing or matching the string inside
+     * the search text box. Matches considered if the file name contains the string
+     * and is not case-sensitive. Updates the list to only show matches.
      */
     private void search() {
+
+        /* Get the list of all the puzzle files to scan */
         this.puzzleList.clearSelection();
         ArrayList<String> txtFiles = new ArrayList<String>();
         File folder = new File(FileUtility.MY_PUZZLES_PATH);
         File[] fileList = folder.listFiles();
 
+        /* Iterates through all the files */
         for (File file : fileList) {
+
+            /* Examines each name, scans to see if file name contains the phrase */
             String s = file.getName().toLowerCase().substring(0, file.getName().length()-4);
             if (file.isFile() && file.toString().endsWith(".dat") &&
                     s.toLowerCase().contains(this.searchField.getText().toLowerCase()))
+
+                /* Matches added to the list */
                 txtFiles.add(file.getName().substring(0, file.getName().length()-4));
         }
 
+        /* List updated to only include the matches */
         String[] list = txtFiles.toArray(new String[txtFiles.size()]);
         this.puzzleList.setListData(list);
     }

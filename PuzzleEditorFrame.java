@@ -39,6 +39,7 @@ public class PuzzleEditorFrame extends JFrame {
     private boolean saved;
     private SudokuPuzzle puzzle;
 
+
     /* Default constructor */
     public PuzzleEditorFrame(SudokuPuzzle p, String t, int x, int y) {
 
@@ -52,6 +53,7 @@ public class PuzzleEditorFrame extends JFrame {
         this.setTitle(this.title);
         this.setLocation(x, y);
 
+        /* Sets the tile count panel background color */
         UIDefaults defaults = new UIDefaults();
         defaults.put("TextPane[Enabled].backgroundPainter", GUIColors.BACKGROUND);
         this.statusField.putClientProperty("Nimbus.Overrides", defaults);
@@ -156,12 +158,13 @@ public class PuzzleEditorFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
-                    FileUtility.saveBestTimes();
+                    FileUtility.saveBestTimes();    /* Save best times before exiting */
                     System.exit(0);
                 }
             }
         });
 
+        /* Sets the UI visible to the user */
         this.setVisible(true);
     }
 
@@ -171,6 +174,7 @@ public class PuzzleEditorFrame extends JFrame {
      */
     @Override
     public void paint(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3));
         super.paint(g);
@@ -187,6 +191,7 @@ public class PuzzleEditorFrame extends JFrame {
      */
     private void initializeTable() {
 
+        /* Initialize variables, sets up the puzzle */
         this.highlighted = 0;
         int k = 0;
         String s = this.puzzle.initialPuzzleState();
@@ -209,6 +214,7 @@ public class PuzzleEditorFrame extends JFrame {
                 this.fields[i][j].setEditable(false);
                 int val = Integer.parseInt(Character.toString(s.charAt(k)));
 
+                /* Highlights illegal numbers from previous editing as red, or black if legal */
                 if (!this.puzzle.insert(val, i, j))
                     this.fields[i][j].setForeground(GUIColors.RED);
                 else
@@ -220,12 +226,15 @@ public class PuzzleEditorFrame extends JFrame {
                 k++;
             }
         }
-        this.updateStatus();
+        this.updateStatus();    /* Display number of tiles filled */
     }
 
 
     /**
-     * FIXME
+     * Adds an asterisk in the title or removes it depending on whether there are
+     * unsaved changes. Passing in true signifies that there are no more unsaved
+     * changes, and the asterisk is removed. Otherwise, false adds the asterisk
+     * and signifies that there are unsaved changes.
      */
     private void setSaved(boolean flag) {
         this.saved = flag;
@@ -237,7 +246,9 @@ public class PuzzleEditorFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Updates and displays the legal moves inside the boxes inside the legal
+     * moves panel. Invoked and updates the panel each time the user focuses on
+     * one of the tiles.
      */
     private void updateLegalMoves(int i, int j) {
         boolean[] legalMoves = this.puzzle.getLegalMoves(i, j);
@@ -251,7 +262,8 @@ public class PuzzleEditorFrame extends JFrame {
 
 
     /**
-     * FIXME
+     * Updates the text box to display the number of tiles filled and percentage.
+     * Invoked when a change to a tile has been made.
      */
     private void updateStatus() {
         int i = this.puzzle.getNumberFilled();
@@ -265,24 +277,35 @@ public class PuzzleEditorFrame extends JFrame {
      * as green.
      */
     private void highlight(JTextPane t) {
+
         try {
+
+            /* Try to obtain the number inside the tile */
             int k = Integer.parseInt(t.getText());
             if (t.getForeground() == GUIColors.GREEN || this.highlighted == k) {
+
+                /* Number is already green, so just reset the colors back */
                 this.resetColors();
                 this.highlighted = 0;
                 return;
             }
+
+            /* Otherwise, set the highlighting variable to the new clicked tile */
             this.highlighted = k;
             this.resetColors();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     try {
+
+                        /* Highlights all numbers common to the number in the selected tile */
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted)
                             if (this.fields[i][j].getForeground() != GUIColors.RED)
                                 this.fields[i][j].setForeground(GUIColors.GREEN);
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
             }
+
+            /* A blank tile was double-clicked, do nothing */
         } catch (Exception e) {/* Ignore exceptions */}
     }
 
@@ -300,32 +323,41 @@ public class PuzzleEditorFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Invoked when the user clicks the clear button. Asks the user yes or no to
+     * confirm, then clears all tiles and resets the puzzle.
+     */
     private void clear() {
         if (WindowUtility.askYesNo("Are you sure you want to clear the puzzle?", "Warning!")) {
             for (int i = 0; i < 9; i++)
-                for (int j = 0; j < 9; j++)
+                for (int j = 0; j < 9; j++)     /* Clears out all tiles on board */
                     this.fields[i][j].setText("");
-            this.puzzle.hardReset();
-            this.updateStatus();
-            this.setSaved(false);
+            this.puzzle.hardReset();    /* Completely resets the puzzle */
+            this.updateStatus();        /* Change status to 0 */
+            this.setSaved(false);       /* Unsaved changes exist */
         }
     }
 
 
-    /***/
+    /**
+     * Saves the puzzle to the specified file represented in the path given.
+     */
     private void save() {
+
+        /* Analyzes tiles filled, saves the resulting difficulty */
         int i = this.puzzle.getNumberFilled();
         if (45 <= i)
-            this.puzzle.setDifficulty(1);
+            this.puzzle.setDifficulty(1);   /* Novice puzzle (45+ tiles) */
         else if (39 <= i && i < 44)
-            this.puzzle.setDifficulty(2);
+            this.puzzle.setDifficulty(2);   /* Easy puzzle (39-44 tiles) */
         else if (32 <= i && i < 38)
-            this.puzzle.setDifficulty(3);
+            this.puzzle.setDifficulty(3);   /* Medium puzzle (32-38 tiles) */
         else if (26 <= i && i < 31)
-            this.puzzle.setDifficulty(4);
+            this.puzzle.setDifficulty(4);   /* Hard puzzle (26-31+ tiles) */
         else
-            this.puzzle.setDifficulty(5);
+            this.puzzle.setDifficulty(5);   /* Expert puzzle (<25 tiles) */
+
+        /* Saves the puzzle in its current state, set saved variable to true */
         this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
         FileUtility.saveGame(puzzle, puzzle.getDifficulty(),
                 FileUtility.MY_PUZZLES_PATH + this.title + ".dat");
@@ -333,43 +365,62 @@ public class PuzzleEditorFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Prompts the user to rename the file. The file is renamed and its contents
+     * are copied to the new file.
+     */
     private void saveAs() {
+
+        /* Obtain the new name from the user */
         String new_name = WindowUtility.getEntry("What would you like to rename this puzzle as?");
         String old = this.title;
         if (new_name == null)
             return;
+
+        /* Make sure the new name is legal */
         if (!FileUtility.fileNameValid(new_name)) {
             WindowUtility.errorMessage("You entered an illegal name.", "Error!");
             return;
         }
+
+        /* Make sure the new name is unique */
         if (!FileUtility.nameIsUnique(new_name + ".dat", FileUtility.MY_PUZZLES_PATH)) {
             WindowUtility.errorMessage("There already exists a puzzle with that name.", "Error");
             return;
         }
+
+        /* Copies the contents of the old file to the new file */
         if (!FileUtility.copyFile(FileUtility.MY_PUZZLES_PATH + this.title + ".dat",
                 FileUtility.MY_PUZZLES_PATH + new_name + ".dat")) {
             WindowUtility.errorMessage("Failed to save the puzzle.", "Error!");
             return;
         }
+
+        /* Deletes the old file from user's saved puzzles */
         File file = FileUtility.getFile(old + ".dat", FileUtility.MY_PUZZLES_PATH);
         if (!file.delete()) {
             WindowUtility.errorMessage("Failed to delete the old file.", "Error!");
             return;
         }
+
+        /* Sets the title to the new name, saves the puzzle */
         this.title = new_name;
         this.save();
         this.setSaved(true);
     }
 
 
-    /***/
+    /**
+     * Invoked when user tries to quit out of the frame. Asks the user if they're
+     * sure if any unsaved changes exist, or closes out automatically if not.
+     * Returns the user back to the puzzles menu.
+     */
     private void quit() {
         if (!this.saved)
             if (!WindowUtility.askYesNo("You have unsaved changes.\nAre you sure you want to quit?", "Warning!"))
-                return;
+                return;     /* User clicks no, abort the exit */
         PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
-        this.dispose();
+        this.dispose();     /* Go back to the puzzles menu */
     }
 
 

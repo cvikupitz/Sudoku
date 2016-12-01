@@ -14,13 +14,12 @@ package sudoku;
 
 public class SudokuSolver {
 
-
     /* Declare private members */
     private final SudokuPuzzle puzzle;
     private final int[][] board;
     private boolean solvable;
 
-    
+
     /* Default constructor */
     public SudokuSolver(SudokuPuzzle p) {
         this.puzzle = new SudokuPuzzle(p.initialPuzzleState());

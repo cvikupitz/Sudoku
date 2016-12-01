@@ -17,7 +17,6 @@ import java.util.Random;
 
 public class SudokuGenerator {
 
-
     /* Declare private members */
     private SudokuPuzzle puzzle;
 

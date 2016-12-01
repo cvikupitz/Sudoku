@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 
 public class RankFrame extends JFrame {
 
-
     /* Default constructor */
     public RankFrame(int x, int y) {
 

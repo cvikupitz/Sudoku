@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 
 public class SettingsFrame extends JFrame {
 
-
     /* Declare private members */
     private final ButtonGroup timerGroup, legalMovesGroup, highlighterGroup,
             conflictGroup, hintsGroup, solutionsgroup;

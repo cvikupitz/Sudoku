@@ -21,11 +21,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FileUtility {
-
 
     /* File paths where the user's saved game, fastest times, and puzzles are stored */
     protected static final String PATH = "C:/Sudoku/";
@@ -210,7 +207,7 @@ public class FileUtility {
         FileInputStream fis = null;
         FileOutputStream fos = null;
         boolean flag = true;
-        
+
         try {
 
             /* Opens two streams for copying */

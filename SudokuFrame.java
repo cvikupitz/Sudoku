@@ -48,7 +48,6 @@ public class SudokuFrame extends JFrame {
 
     public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
 
-
         /* Sets up the window components and design */
         this.puzzle = p;
         this.solution = new SudokuSolver(this.puzzle);
@@ -224,6 +223,8 @@ public class SudokuFrame extends JFrame {
             }
         };
         this.timer.scheduleAtFixedRate(this.task, 1000, 1000);
+
+        /* Makes the UI visible to the user */
         this.setVisible(true);
     }
 
@@ -249,6 +250,7 @@ public class SudokuFrame extends JFrame {
      */
     private void initializeTable() {
 
+        /* Initialize variables, sets up the puzzle */
         this.highlighted = 0;
         this.editable = new boolean[9][9];
         int k = 0;
@@ -279,6 +281,8 @@ public class SudokuFrame extends JFrame {
                 } else {
                     this.editable[i][j] = true;
                     this.fields[i][j].setForeground(GUIColors.BLUE);
+
+                    /* Illegally inserted numbers are highlighted red */
                     if (Settings.showConflictingNumbers()) {
                         boolean[] temp = this.puzzle.getLegalMoves(i, j);
                         int val = this.puzzle.getValue(i, j);
@@ -286,6 +290,8 @@ public class SudokuFrame extends JFrame {
                             if (!temp[val-1])
                                 this.fields[i][j].setForeground(GUIColors.RED);
                     }
+
+                    /* Displays the numbers inside the corresponding tiles */
                     if (t.charAt(k) != '0')
                         this.fields[i][j].setText(Character.toString(t.charAt(k)));
                     else
@@ -293,6 +299,8 @@ public class SudokuFrame extends JFrame {
                 } k++;
             }
         }
+
+        /* Updates the status, repaints the grid */
         this.updateStatus(true);
         this.repaint();
     }
@@ -303,10 +311,13 @@ public class SudokuFrame extends JFrame {
      * in the time field text box.
      */
     private String timeToString() {
+
+        /* Get timer variables */
         int sec = (this.seconds % 60);
         int min = (this.seconds / 60);
         int hrs = ((this.seconds / 60) / 60);
 
+        /* Returns time in format hh:mm:ss */
         if (hrs == 0)
             return String.format("%02d:%02d", min, sec);
         else
@@ -319,10 +330,16 @@ public class SudokuFrame extends JFrame {
      * requests the solution.
      */
     private void importBoard(int[][] board) {
+
+        /* Loops through the array, on each tile */
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+
+                /* Skip uneditable tiles */
                 if (!this.editable[i][j])
                     continue;
+
+                /* Inputs the correct numbers into the tiles */
                 if (board[i][j] == this.highlighted)
                     this.fields[i][j].setForeground(GUIColors.GREEN);
                 else
@@ -338,8 +355,12 @@ public class SudokuFrame extends JFrame {
      * focused box.
      */
     private void updateLegalMoves(int i, int j) {
+
+        /* Get the legal moves for the tile */
         boolean[] legalMoves = this.puzzle.getLegalMoves(i, j);
         for (int k = 0; k < 9; k++) {
+
+            /* Only update if the focused tile is editable */
             if (this.editable[i][j]) {
                 if (legalMoves[k])
                     this.legalBoxes[k].setText(Integer.toString(k + 1));
@@ -358,29 +379,42 @@ public class SudokuFrame extends JFrame {
      */
     private void updateStatus(boolean flag) {
 
+        /* Update the number and percent of tiles filled in the status text box */
         int i = this.puzzle.getNumberFilled();
         int j = (int)(((float)i / 81) * 100);
         this.statusField.setText(String.format("Tiles Filled: %d/81 (%d%%)", i, j));
 
+        /* Checks for puzzle completeness if all tiles are filled in */
         if (i == 81 && this.puzzle.isComplete()) {
+
+            /* Display complete, stop the timer */
             this.timer.cancel();
             this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
+
+            /* Display message and time, only add to best times if solution not requested or not a custome puzzle */
             String s = "";
             if (flag && this.loop)
                 if (BestTimes.insertBestTime(this.seconds, this.difficulty))
                     s += "\nNew Best Time!";
             WindowUtility.displayInfo("You solved the puzzle!\nTime: " +
                     this.timeToString() + s, "Congratulations!");
+
+            /* Starts a new game if not a custom puzzle, or returns to the puzzles menu if is */
             if (!this.loop) {
                 this.puzzle.resetPuzzle();
                 FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
                 PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
                 this.dispose();
             }
+
+            /* Resets the timer, starts a new game */
             this.seconds = 0;
             this.newGame();
+
         } else {
+
+            /* Puzzle is still incomplete */
             this.completeField.setForeground(GUIColors.RED);
             this.completeField.setText("Incomplete");
         }
@@ -392,25 +426,36 @@ public class SudokuFrame extends JFrame {
      * as green.
      */
     private void highlight(JTextPane t) {
+
+        /* Try to extract the value inside the focused tile */
         try {
+
+            /* Gets the number in the tile */
             int k = Integer.parseInt(t.getText());
             if (t.getForeground() == GUIColors.GREEN || this.highlighted == k) {
-                this.resetColors();
+                this.resetColors();     /* Resets all tile colors back */
                 this.highlighted = 0;
                 return;
             }
+
+            /* Sets the highlighted variable to new selected value */
             this.highlighted = k;
             this.resetColors();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     try {
+
+                        /* Sets foreground of each tile with the highlighted value to green */
                         if (Integer.parseInt(this.fields[i][j].getText()) == this.highlighted) {
                             if (this.fields[i][j].getForeground() != GUIColors.RED)
                                 this.fields[i][j].setForeground(GUIColors.GREEN);
                         }
+
+                        /* Skips blank tiles */
                     } catch (Exception e) {/* Ignore exceptions */}
                 }
             }
+            /* Skips blank tiles */
         } catch (Exception e) {/* Ignore exceptions */}
     }
 
@@ -422,10 +467,16 @@ public class SudokuFrame extends JFrame {
     private void resetColors() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+
+                /* Skips red-colored tiles */
                 if (this.fields[i][j].getForeground() == GUIColors.RED)
                     continue;
+
+                /* Uneditable tiles are black */
                 if (!this.editable[i][j])
                     this.fields[i][j].setForeground(GUIColors.BLACK);
+
+                /* Editable tiles are blue */
                 else
                     this.fields[i][j].setForeground(GUIColors.BLUE);
             }
@@ -433,20 +484,30 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Starts a brand new puzzle. Invoked when the user completes a non-custom
+     * puzzle, or requests a new game from the menu.
+     */
     private void newGame() {
 
+        /* Non-applicable if this is a custom puzzle */
         if (!this.loop)
             return;
+
+        /* Get the new puzzle */
         SudokuGenerator gen = new SudokuGenerator(this.difficulty);
         this.puzzle = gen.getPuzzle();
         this.solution = new SudokuSolver(this.puzzle);
+
+        /* Ask if the user is sure if the current puzzle is not complete */
         if (this.completeField.getForeground() != GUIColors.DARK_GREEN) {
             if (WindowUtility.askYesNo("You will lose your current progress on this puzzle.\n"
                     + "Are you sure you want to start a new game?", "Warning!")) {
                 this.initializeTable();
                 this.resetTimer();
             }
+
+        /* Restart the game immediately if complete */
         } else {
             this.initializeTable();
             this.resetTimer();
@@ -465,16 +526,27 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Quits out of the current puzzle. Invoked when the user clicks quit from
+     * the drop-down menu. If the current puzzle is a custom puzzle, the user is
+     * taken back to the puzzles menu, otherwise the user is taken back to the
+     * main menu.
+     */
     private void quit() {
+
+        /* Asks the user if they're sure */
         if (WindowUtility.askYesNo("Are you sure you want to quit?", "Warning!")) {
+
+            /* Saves the puzzle into the save file */
             BestTimes.time = this.seconds;
             FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
+
+            /* Destroys the timer */
             this.timer.cancel();
             this.timer.purge();
-            if (this.loop) {
+            if (this.loop) {    /* Goes back to the main menu */
                 MainFrame f = new MainFrame(this.getX(), this.getY());
-            } else {
+            } else {    /* Goes back to the puzzles menu */
                 PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
             }
             this.dispose();
@@ -482,24 +554,37 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Adds a hint into the puzzle. Invoked when the user clicks the get hint option
+     * from the drop-down menu.
+     */
     private void getHint() {
+
+        /* Hints are disabled */
         if (!Settings.showHints())
             return;
+
+        /* Get the hint from the solution */
         SudokuPuzzle p = this.solution.getSolution();
         int[][] a = p.toArray();
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
+
+                /* Checks to see if the value is correct, inserts numebr into tile if not */
                 if (this.puzzle.getValue(i, j) != a[i][j]) {
                     this.puzzle.insert(a[i][j], i, j);
                     this.fields[i][j].setText(Integer.toString(a[i][j]));
                     this.editable[i][j] = false;
+
+                    /* Highlights the value green if needed */
                     if (this.highlighted == a[i][j])
                         this.fields[i][j].setForeground(GUIColors.GREEN);
                     else
                         this.fields[i][j].setForeground(GUIColors.BLACK);
+
+                    /* Adds time to the timer, repaints the grid, updates the puzzle */
                     this.repaint();
-                    this.seconds += 15;
+                    this.seconds += 25;
                     this.updateStatus(true);
                     return;
                 }
@@ -511,11 +596,17 @@ public class SudokuFrame extends JFrame {
      * puzzle.
      */
     private void getSolution() {
+
+        /* Solutons are disabled */
         if (!Settings.showSolutions())
             return;
+
+        /* Asks the user if they're sure */
         if (!WindowUtility.askYesNo("Choosing to display the solution will result in your time not being counted."
                 + "\nAre you sure you want to display the solution?", "Warning!"))
             return;
+
+        /* Imports the solution */
         this.importBoard(this.solution.getSolution().toArray());
         this.puzzle = this.solution.getSolution();
         this.updateStatus(false);
@@ -528,11 +619,17 @@ public class SudokuFrame extends JFrame {
      * one.
      */
     private void resetTimer() {
+
+        /* Set seconds back to 0 */
         this.seconds = 0;
         this.timeField.setText(this.timeToString());
+
+        /* Destroys the old timer */
         this.task.cancel();
         this.timer.cancel();
         this.timer.purge();
+
+        /* Creates and starts the new timer */
         this.timer = new Timer();
         this.task = new TimerTask() {
             @Override

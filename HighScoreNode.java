@@ -16,7 +16,6 @@ import java.util.Date;
 
 public class HighScoreNode implements Comparable<HighScoreNode> {
 
-
     /* Declare private members */
     private final int score;
     private String date;

@@ -11,7 +11,6 @@ package sudoku;
 
 public class SudokuPuzzle {
 
-
     /* Declare private members */
     private int difficulty;
     private String initialState;

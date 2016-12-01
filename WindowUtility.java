@@ -28,6 +28,7 @@ public class WindowUtility {
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
+
     /**
      * Prompts the user to enter a string through a prompt window, then returns that
      * string for use.
@@ -42,6 +43,7 @@ public class WindowUtility {
             runnable.run();
         return JOptionPane.showInputDialog(null, msg, "");
     }
+
 
     /**
      * Asks the user a question through a ask yes or no prompt window. Returns true
@@ -59,6 +61,7 @@ public class WindowUtility {
         return JOptionPane.showConfirmDialog(null, qu, title,
                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
     }
+
 
     /**
      * Displays an error window with a message to the user.
