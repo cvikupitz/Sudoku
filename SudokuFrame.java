@@ -181,7 +181,7 @@ public class SudokuFrame extends JFrame {
                             if (!puzzle.insert(x, m, n))
                                 if (Settings.showConflictingNumbers())
                                     pane.setForeground(GUIColors.RED);
-                        } updateStatus();
+                        } updateStatus(true);
                     }
                     @Override
                     public void keyPressed(KeyEvent e) {/* No implementation needed */}
@@ -291,7 +291,7 @@ public class SudokuFrame extends JFrame {
                 } k++;
             }
         }
-        this.updateStatus();
+        this.updateStatus(true);
         this.repaint();
     }
 
@@ -354,17 +354,20 @@ public class SudokuFrame extends JFrame {
      * Updates the percentage of tiles filled, and checks if the puzzle is
      * filled of not. Starts a new game if completed, or resumes game if not.
      */
-    private void updateStatus() {
+    private void updateStatus(boolean flag) {
+
         int i = this.puzzle.getNumberFilled();
         int j = (int)(((float)i / 81) * 100);
         this.statusField.setText(String.format("Tiles Filled: %d/81 (%d%%)", i, j));
+
         if (i == 81 && this.puzzle.isComplete()) {
             this.timer.cancel();
             this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
             String s = "";
-            if (BestTimes.insertBestTime(this.seconds, this.difficulty))
-                s += "\nNew Best Time!";
+            if (flag)
+                if (BestTimes.insertBestTime(this.seconds, this.difficulty))
+                    s += "\nNew Best Time!";
             WindowUtility.displayInfo("You solved the puzzle!\nTime: " +
                     this.timeToString() + s, "Congratulations!");
             if (!this.loop) {
@@ -499,7 +502,7 @@ public class SudokuFrame extends JFrame {
                         this.fields[i][j].setForeground(GUIColors.BLACK);
                     this.repaint();
                     this.seconds += 15;
-                    this.updateStatus();
+                    this.updateStatus(true);
                     return;
                 }
     }
@@ -517,7 +520,7 @@ public class SudokuFrame extends JFrame {
             return;
         this.importBoard(this.solution.getSolution().toArray());
         this.puzzle = this.solution.getSolution();
-        this.updateStatus();
+        this.updateStatus(false);
     }
 
 
