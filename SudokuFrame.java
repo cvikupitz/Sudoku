@@ -45,7 +45,7 @@ public class SudokuFrame extends JFrame {
     private Timer timer;
     private TimerTask task;
 
-
+    /* Default constructor */
     public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
 
         /* Sets up the window components and design */
@@ -584,7 +584,7 @@ public class SudokuFrame extends JFrame {
 
                     /* Adds time to the timer, repaints the grid, updates the puzzle */
                     this.repaint();
-                    this.seconds += 25;
+                    this.seconds += (15 + this.puzzle.getDifficulty());
                     this.updateStatus(true);
                     return;
                 }
