@@ -17,13 +17,15 @@ public class SudokuSolver {
     /* Declare private members */
     private final SudokuPuzzle puzzle;
     private final int[][] board;
-    private final boolean solvable;
+    private boolean solvable;
 
     /* Default constructor */
     public SudokuSolver(SudokuPuzzle p) {
         this.puzzle = new SudokuPuzzle(p.initialPuzzleState());
         this.board = this.puzzle.toArray();
-        this.solvable = this.solve();
+        this.solvable = this.puzzle.isPossible();
+        if (this.solvable)
+            this.solvable = this.solve();
     }
 
 
@@ -38,12 +40,15 @@ public class SudokuSolver {
 
 
     /**
-     * Returns the solved Sudoku puzzle. The puzzle returned is a copy of the
-     * Sudoku puzzle passed into the constructor, but in a solved state.
+     * Returns the solved Sudoku puzzle, or null if th puzzle couldn't be solved.
+     * The puzzle returned is a copy of the Sudoku puzzle passed into the constructor,
+     * but in a solved state.
      *
-     * @return A copy of the Sudoku puzzle in a solved state.
+     * @return A copy of the Sudoku puzzle in a solved state, or null if not solvable.
      */
     public SudokuPuzzle getSolution() {
+        if (!this.solvable)
+            return null;
         this.puzzle.setArray(this.board);
         return this.puzzle;
     }
@@ -71,7 +76,8 @@ public class SudokuSolver {
                 return false;
             }
         }
-        return true;
+
+        return this.puzzle.isComplete();
     }
 
 } // End SudokuSolver class

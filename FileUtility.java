@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class FileUtility {
 
     /* File paths where the user's saved game, fastest times, and puzzles are stored */
-    //protected static final String PATH = "/Users/";
     protected static final String PATH = "C:/Sudoku/";
     protected static final String MY_PUZZLES_PATH = FileUtility.PATH + "My Puzzles/";
 
@@ -71,6 +70,7 @@ public class FileUtility {
      * @return The saved Sudoku puzzle from the specified path and file.
      */
     protected static SudokuPuzzle loadGame(String path) {
+
         String line;
         SudokuPuzzle p;
         int[][] board;

@@ -502,7 +502,10 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Gets the solution from the sudoku solver and imports the solution into the
+     * puzzle.
+     */
     private void getSolution() {
         if (!Settings.showSolutions())
             return;
@@ -515,7 +518,11 @@ public class SudokuFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Resets the timer back to 0, invoked when the user restarts or starts a
+     * new game. Cancels and purges the timer and timer task, and creates a new
+     * one.
+     */
     private void resetTimer() {
         this.seconds = 0;
         this.timeField.setText(this.timeToString());

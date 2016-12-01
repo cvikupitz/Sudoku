@@ -11,15 +11,18 @@ package sudoku;
 
 public class SudokuPuzzle {
 
+    
     /* Declare private members */
     private int difficulty;
     private String initialState;
     private int[][] board;
 
+
     /* Default constructor */
     public SudokuPuzzle() {
         this("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     }
+
 
     /* Default constructor */
     public SudokuPuzzle(String init) {
@@ -102,6 +105,26 @@ public class SudokuPuzzle {
      */
     public int getValue(int r, int c) {
         return this.board[r][c];
+    }
+
+
+    /**
+     * Returns true if this puzzle can be solved, that is, no row, column, or sub
+     * grid currently contains any duplicate numbers.
+     *
+     * @return True if the current state of the puzzle is solvable, false if not.
+     */
+    public boolean isPossible() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (this.board[i][j] == 0)
+                    continue;
+                boolean temp[] = this.getLegalMoves(i, j);
+                if (!temp[this.board[i][j] - 1])
+                    return false;
+            }
+        }
+        return true;
     }
 
 
