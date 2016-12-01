@@ -25,8 +25,10 @@ import java.util.ArrayList;
 public class FileUtility {
 
     /* File paths where the user's saved game, fastest times, and puzzles are stored */
-    protected static final String PATH = "C:/Sudoku/";
-    protected static final String MY_PUZZLES_PATH = FileUtility.PATH + "My Puzzles/";
+    protected static final String PATH = System.getProperty("user.home") +
+            System.getProperty("file.separator") + "Sudoku" + System.getProperty("file.separator");
+    protected static final String MY_PUZZLES_PATH = FileUtility.PATH + "My Puzzles" +
+            System.getProperty("file.separator");
 
 
     /**
