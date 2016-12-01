@@ -5,7 +5,7 @@
  * Class that takes a Sudoku puzzle, copies and solves it. Contains a method for
  * getting the solution and another for checking its solvavility.
  *
- * Resources:
+ * Resources that helped:
  * http://www.programcreek.com/2014/05/leetcode-sudoku-solver-java/
  * http://www.heimetli.ch/ffh/simplifiedsudoku.html
  */
@@ -14,11 +14,13 @@ package sudoku;
 
 public class SudokuSolver {
 
+
     /* Declare private members */
     private final SudokuPuzzle puzzle;
     private final int[][] board;
     private boolean solvable;
 
+    
     /* Default constructor */
     public SudokuSolver(SudokuPuzzle p) {
         this.puzzle = new SudokuPuzzle(p.initialPuzzleState());

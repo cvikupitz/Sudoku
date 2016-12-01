@@ -2,7 +2,7 @@
  * GUIColors.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * Class that contains the most used colors used for coloring the program GUIs.
+ * Class that contains the most used colors used for coloring the program's GUIs.
  */
 package sudoku;
 
@@ -38,5 +38,5 @@ public class GUIColors {
 
     /* Solid white */
     protected static final Color WHITE = Color.WHITE;
-    
-}
+
+} // End GUIColors class

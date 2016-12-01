@@ -3,7 +3,7 @@
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
  * File that contains methods for saving and loading the user's current played
- * game, and also the user's fastest times.
+ * game, and also the user's fastest times and settings.
  */
 package sudoku;
 
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class FileUtility {
 
+    
     /* File paths where the user's saved game, fastest times, and puzzles are stored */
     protected static final String PATH = "C:/Sudoku/";
     protected static final String MY_PUZZLES_PATH = FileUtility.PATH + "My Puzzles/";
@@ -38,24 +39,28 @@ public class FileUtility {
      */
     protected static void saveGame(SudokuPuzzle p, int difficulty, String path) {
 
-        /* Puzzle is equal to null, return */
+        /* Puzzle is equal to null, return null */
         if (p == null) {
             WindowUtility.errorMessage("An error occured while trying to save the puzzle.",
                     "Error Saving Puzzle");
             return;
         }
 
+        /* Attempts to write the game to the file */
         try {
+
+            /* Creates a new writer to write to the file */
             File file = new File(path);
             file.createNewFile();
             PrintWriter writer = new PrintWriter(new FileWriter(path));
+
+            /* Writes the puzzle states, time, and difficulty to the file */
             writer.write(p.initialPuzzleState() + "\n");
             writer.write(p.currentPuzzleState() + "\n");
             writer.write(Integer.toString(difficulty) + "\n");
             writer.write(Integer.toString(BestTimes.time));
             writer.close();
         } catch (Exception e) {/* Ignore exceptions */}
-
     }
 
 
@@ -68,12 +73,16 @@ public class FileUtility {
      */
     protected static SudokuPuzzle loadGame(String path) {
 
+        /* Declare variables */
         String line;
         SudokuPuzzle p;
         int[][] board;
         int k;
 
+        /* Attempts to load the saved game from the file */
         try {
+
+            /* Creates a new file reader to read from the file */
             FileInputStream file = new FileInputStream(path);
             DataInputStream input = new DataInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -107,7 +116,6 @@ public class FileUtility {
             return p;
 
         } catch (Exception e) {return null;}
-
     }
 
 
@@ -216,36 +224,47 @@ public class FileUtility {
      */
     protected static void loadSettings() {
 
+        /* Attempt to load the settings, create a new file reader */
         try (BufferedReader reader =
                 new BufferedReader(new FileReader(FileUtility.PATH + "settings.txt"))) {
 
+            /* Reads setting for showing the game timer */
             if (reader.readLine().equals("true"))
                 Settings.showTimer(true);
             else
                 Settings.showTimer(false);
+
+            /* Reads setting for showing the panel of legal moves */
             if (reader.readLine().equals("true"))
                 Settings.showLegal(true);
             else
                 Settings.showLegal(false);
+
+            /* Reads setting for highlighting numbers */
             if (reader.readLine().equals("true"))
                 Settings.showHighlighted(true);
             else
                 Settings.showHighlighted(false);
+
+            /* Reads setting for highlighting illegal numbers */
             if (reader.readLine().equals("true"))
                 Settings.showConflictingNumbers(true);
             else
                 Settings.showConflictingNumbers(false);
+
+            /* Reads setting for showing hints */
             if (reader.readLine().equals("true"))
                 Settings.showHints(true);
             else
                 Settings.showHints(false);
+
+            /* Reads setting for showing solutions */
             if (reader.readLine().equals("true"))
                 Settings.showSolutions(true);
             else
                 Settings.showSolutions(false);
             reader.close();
         } catch (Exception e) {/* Ignore exceptions */}
-
     }
 
 
@@ -258,8 +277,10 @@ public class FileUtility {
         /* Create a new file */
         File file = new File(FileUtility.PATH + "settings.txt");
 
-        /* Open the file to write to */
+        /* Attempts to open the file to write to */
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
+            /* Writes the booleans to the save file */
             writer.write(Boolean.toString(Settings.showTimer()) + "\n");
             writer.write(Boolean.toString(Settings.showLegal()) + "\n");
             writer.write(Boolean.toString(Settings.showHighlighted()) + "\n");
@@ -271,7 +292,10 @@ public class FileUtility {
     }
 
 
-    /***/
+    /**
+     * Loads all the save files containing the user's best times, and loads the
+     * best times into the list for displaying.
+     */
     protected static void loadBestTimes() {
         FileUtility.loadBestTimes("novice.dat");
         FileUtility.loadBestTimes("easy.dat");
@@ -281,45 +305,63 @@ public class FileUtility {
     }
 
 
-    /***/
+    /**
+     * Internal method for loading an individual file of best times. The file name
+     * is passed as an argument, and reads novice.dat, easy.dat, etc.
+     */
     private static void loadBestTimes(String s) {
 
+        /* Attempts to open and read the file containing the best times */
         try {
+
+            /* Creates the reader to read from the file */
             FileInputStream file = new FileInputStream(FileUtility.PATH + s);
             DataInputStream input = new DataInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+            /* Arraylist to hold the times */
             ArrayList<HighScoreNode> list;
             switch (s) {
-                case "novice.dat":
+                case "novice.dat":  /* Novice best times */
                     list = BestTimes.novice;
                     break;
-                case "easy.dat":
+                case "easy.dat":    /* Easy best times */
                     list = BestTimes.easy;
                     break;
-                case "medium.dat":
+                case "medium.dat":  /* Medium best times */
                     list = BestTimes.medium;
                     break;
-                case "hard.dat":
+                case "hard.dat":    /* Hard best times */
                     list = BestTimes.hard;
                     break;
-                default:
+                default:            /* Expert best times */
                     list = BestTimes.expert;
                     break;
             }
+
+            /* Reads each line inside the file */
             String str = reader.readLine();
             while (str != null) {
+
+                /* Reads the line, separates data from the comma, parses integer */
                 String[] data = str.split(",");
                 int score = Integer.parseInt(data[0]);
+
+                /* Creates the node, adds it to the list */
                 HighScoreNode node = new HighScoreNode(score);
                 node.setDate(data[1]);
                 list.add(node);
                 str = reader.readLine();
+
+                /* End of file, close the reader */
             } reader.close();
         } catch (Exception e) {/* Ignore exceptions */}
     }
 
 
-    /***/
+    /**
+     * Saves all the user's best times into all the save files.
+     */
     protected static void saveBestTimes() {
         FileUtility.saveBestTimes("novice.dat");
         FileUtility.saveBestTimes("easy.dat");
@@ -329,37 +371,49 @@ public class FileUtility {
     }
 
 
-    /***/
+    /**
+     * Internal method for saving a list of best times to a file. The file name
+     * is passed as an argument, and writes to novice.dat, easy.dat, etc.
+     */
     private static void saveBestTimes(String s) {
 
+        /* Attempts to write to the file */
         try {
+
+            /* Creates the file writer, writes to the file */
             File file = new File(FileUtility.PATH + s);
             file.createNewFile();
             PrintWriter writer = new PrintWriter(new FileWriter(FileUtility.PATH + s));
+
+            /* Arraylist to read the times from */
             ArrayList<HighScoreNode> list;
             switch (s) {
-                case "novice.dat":
+                case "novice.dat":  /* Novice best times */
                     list = BestTimes.novice;
                     break;
-                case "easy.dat":
+                case "easy.dat":    /* Easy best times */
                     list = BestTimes.easy;
                     break;
-                case "medium.dat":
+                case "medium.dat":  /* Medium best times */
                     list = BestTimes.medium;
                     break;
-                case "hard.dat":
+                case "hard.dat":    /* Hard best times */
                     list = BestTimes.hard;
                     break;
-                default:
+                default:            /* Expert best times */
                     list = BestTimes.expert;
                     break;
             }
+
+            /* Writes the data of each node to the file */
             for (HighScoreNode node : list) {
                 writer.print(Integer.toString(node.getScore()));
                 writer.print(",");
                 writer.print(node.getDate());
                 writer.print("\n");
             }
+
+            /* End of file, close the writer */
             writer.close();
 
         } catch (Exception e) {/* Ignore exceptions */}

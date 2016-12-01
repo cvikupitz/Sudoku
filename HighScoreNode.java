@@ -2,10 +2,10 @@
  * HighScoreNode.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * Class that represents a node to be stored inside the high score list class used
+ * Class that represents a node to be stored inside the array lists used
  * to store the user's highest scores. The node class can hold a score (int) and
- * will construct and store a date (String) as well. Contnains pointers to a
- * previous and next node for the doubly-linked list structure.
+ * will construct and store a date (String) as well. Also contains a comparator to
+ * compare other scores.
  */
 package sudoku;
 
@@ -16,17 +16,16 @@ import java.util.Date;
 
 public class HighScoreNode implements Comparable<HighScoreNode> {
 
+
     /* Declare private members */
     private final int score;
     private String date;
-    private HighScoreNode prev, next;
 
 
     /* Default constructor */
     public HighScoreNode(int score) {
         this.score = score;
         this.date = new SimpleDateFormat("MM/dd/yyyy  h:mm a").format(new Date());
-        this.prev = this.next = null;
     }
 
 
@@ -62,44 +61,12 @@ public class HighScoreNode implements Comparable<HighScoreNode> {
 
 
     /**
-     * Returns the previously linked node.
+     * Returns an integer representing the result of comparing two nodes. Returns
+     * 0 if the nodes' stored scores are equal, 1 if this node's score is greater
+     * than the other's, or -1 if less than the other's.
      *
-     * @return The node that is linked previous to this node.
+     * @param other The other node to compare with.
      */
-    public HighScoreNode getPrev() {
-        return this.prev;
-    }
-
-
-    /**
-     * Sets this node's previous link to the specified node.
-     *
-     * @param n The node to link this node to previously.
-     */
-    public void setPrev(HighScoreNode n) {
-        this.prev = n;
-    }
-
-
-    /**
-     * Returns the next linked node.
-     *
-     * @return The node that is linked next to this node.
-     */
-    public HighScoreNode getNext() {
-        return this.next;
-    }
-
-
-    /**
-     * Sets this node's next link to the specified node.
-     *
-     * @param n The node to link this node to next.
-     */
-    public void setNext(HighScoreNode n) {
-        this.next = n;
-    }
-
     @Override
     public int compareTo(HighScoreNode other) {
         if (this.getScore() < other.getScore())

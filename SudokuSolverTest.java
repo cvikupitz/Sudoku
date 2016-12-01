@@ -22,6 +22,7 @@ public class SudokuSolverTest {
 
     public static void main(String[] args) throws IOException {
 
+        /* Declare variables */
         BufferedReader br;
 
         /* Read each of the five test files */
@@ -41,9 +42,11 @@ public class SudokuSolverTest {
                     p.print();
                     System.exit(1);
                 }
-            } System.out.println(i + ".txt -- COMPLETE");
-        } System.out.println("Sudoku Solver Test Passed!");
+            }
+            System.out.println(i + ".txt -- COMPLETE");
+        }
         /* Display message when all tests passed */
+        System.out.println("Sudoku Solver Test Passed!");
     }
 
 } // End SudokuSolverTest class

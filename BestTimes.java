@@ -2,10 +2,10 @@
  * BestTimes.java
  * Authors: Lucas Chavarria, Cole Vikupitz, Ron Guo, James Xu
  * -----------------------------------------------------------------------------
- * Contains static linked lists that stores the user's top 10 times in each
+ * Contains static array lists that stores the user's top 10 times in each
  * difficulty, including novice, easy, medium, hard, and expert puzzles. Also
  * contains a method for inserting scores into the lists that will accept or
- * decline the score as a top-10 score, and rearrange the list if needed. Also
+ * decline the score as a top-10 score, and resort the list if needed. Also
  * contains a method for getting a string representation of the date the score
  * was achieved, used for displaying purposes.
  */
@@ -36,6 +36,7 @@ public class BestTimes {
     /* Linked list to store the best expert puzzle times */
     protected static ArrayList<HighScoreNode> expert = new ArrayList<HighScoreNode>();
 
+
     /**
      * Inserts the specified time into the corresponding list storing the best
      * times associated with the specified difficulty. Returns true if the
@@ -50,38 +51,37 @@ public class BestTimes {
 
         HighScoreNode node = new HighScoreNode(time);
         switch (difficulty) {
-            case 1:
+            case 1:     /* Insert into novice difficulty list */
                 BestTimes.novice.add(node);
                 Collections.sort(BestTimes.novice);
                 if (BestTimes.novice.size() > 10)
                     BestTimes.novice.remove(10);
                 return BestTimes.novice.contains(node);
-            case 2:
+            case 2:     /* Insert into easy difficulty list */
                 BestTimes.easy.add(node);
                 Collections.sort(BestTimes.easy);
                 if (BestTimes.easy.size() > 10)
                     BestTimes.easy.remove(10);
                 return BestTimes.easy.contains(node);
-            case 3:
+            case 3:     /* Insert into medium difficulty list */
                 BestTimes.medium.add(node);
                 Collections.sort(BestTimes.medium);
                 if (BestTimes.medium.size() > 10)
                     BestTimes.medium.remove(10);
                 return BestTimes.medium.contains(node);
-            case 4:
+            case 4:     /* Insert into hard difficulty list */
                 BestTimes.hard.add(node);
                 Collections.sort(BestTimes.hard);
                 if (BestTimes.hard.size() > 10)
                     BestTimes.hard.remove(10);
                 return BestTimes.hard.contains(node);
-            default:
+            default:    /* Insert into expert difficulty list */
                 BestTimes.expert.add(node);
                 Collections.sort(BestTimes.expert);
                 if (BestTimes.expert.size() > 10)
                     BestTimes.expert.remove(10);
                 return BestTimes.expert.contains(node);
         }
-
     }
 
 
@@ -93,9 +93,13 @@ public class BestTimes {
      * @return A string representing the time given, in the format hh:mm:ss.
      */
     protected static String timeToString(int time) {
+
+        /* Get variables for the seconds, minutes, and hours */
         int sec = (time % 60);
         int min = (time / 60);
         int hrs = ((time / 60) / 60);
+
+        /* Return time in hh:mm:ss format */
         if (hrs == 0)
             return String.format("%d:%02d", min, sec);
         else
