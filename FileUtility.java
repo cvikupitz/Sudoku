@@ -17,13 +17,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileUtility {
 
-    
+
     /* File paths where the user's saved game, fastest times, and puzzles are stored */
     protected static final String PATH = "C:/Sudoku/";
     protected static final String MY_PUZZLES_PATH = FileUtility.PATH + "My Puzzles/";
@@ -47,12 +50,13 @@ public class FileUtility {
         }
 
         /* Attempts to write the game to the file */
+        PrintWriter writer = null;
         try {
 
             /* Creates a new writer to write to the file */
             File file = new File(path);
             file.createNewFile();
-            PrintWriter writer = new PrintWriter(new FileWriter(path));
+            writer = new PrintWriter(new FileWriter(path));
 
             /* Writes the puzzle states, time, and difficulty to the file */
             writer.write(p.initialPuzzleState() + "\n");
@@ -60,7 +64,7 @@ public class FileUtility {
             writer.write(Integer.toString(difficulty) + "\n");
             writer.write(Integer.toString(BestTimes.time));
             writer.close();
-        } catch (Exception e) {/* Ignore exceptions */}
+        } catch (Exception e) {/* Ignore exceptions */} finally {writer.close();}
     }
 
 
@@ -78,6 +82,7 @@ public class FileUtility {
         SudokuPuzzle p;
         int[][] board;
         int k;
+        BufferedReader reader = null;
 
         /* Attempts to load the saved game from the file */
         try {
@@ -85,7 +90,7 @@ public class FileUtility {
             /* Creates a new file reader to read from the file */
             FileInputStream file = new FileInputStream(path);
             DataInputStream input = new DataInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            reader = new BufferedReader(new InputStreamReader(input));
 
             /* Reads the initial state of the puzzle */
             line = reader.readLine();
@@ -113,9 +118,15 @@ public class FileUtility {
 
             /* Sets the board to the read board, return the puzzle */
             p.setArray(board);
+            reader.close();
             return p;
 
-        } catch (Exception e) {return null;}
+        } catch (Exception e) {
+            try {
+                reader.close();
+            } catch (IOException ex) {}
+            return null;
+        }
     }
 
 
@@ -195,26 +206,39 @@ public class FileUtility {
      */
     protected static boolean copyFile(String path, String dest) {
 
+        /* Creae the streams */
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        boolean flag = true;
+        
         try {
 
             /* Opens two streams for copying */
             File sourceFile = new File(path);
             File destinationFile = new File(dest);
-            FileInputStream fileInputStream = new FileInputStream(sourceFile);
-            FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
+            fis = new FileInputStream(sourceFile);
+            fos = new FileOutputStream(destinationFile);
 
             /* Copies file contents by line */
             int bufferSize;
             byte[] buffer = new byte[512];
-            while ((bufferSize = fileInputStream.read(buffer)) > 0) {
-                fileOutputStream.write(buffer, 0, bufferSize);
+            while ((bufferSize = fis.read(buffer)) > 0) {
+                fos.write(buffer, 0, bufferSize);
             }
 
             /* Close streams */
-            fileInputStream.close();
-            fileOutputStream.close();
+            fis.close();
+            fos.close();
             return true;
-        } catch (Exception e) {return false;}
+        } catch (Exception e) {
+            flag = false;
+        } finally {
+            try {
+                fis.close();
+                fos.close();
+            } catch (Exception e) {}
+            return flag;
+        }
     }
 
 

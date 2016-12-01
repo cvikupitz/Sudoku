@@ -185,7 +185,7 @@ public class PuzzlesFrame extends JFrame {
         } else {
             if (WindowUtility.askYesNo("Are you sure you want to delete the puzzle:\n" +
                     this.puzzleList.getSelectedValue() + "?", "Warning!")) {
-                File file = new File(FileUtility.MY_PUZZLES_PATH,
+                File file = new File(FileUtility.MY_PUZZLES_PATH +
                         this.puzzleList.getSelectedValue() + ".dat");
                 if (!file.delete())
                     WindowUtility.errorMessage("Failed to delete the puzzle.",
@@ -204,6 +204,10 @@ public class PuzzlesFrame extends JFrame {
             return;
         }
         SudokuPuzzle p = FileUtility.loadGame(FileUtility.MY_PUZZLES_PATH + name + ".dat");
+        if (p.isComplete()) {
+            WindowUtility.displayInfo("This puzzle is already solved.", "Note!");
+            return;
+        }
         SudokuSolver s = new SudokuSolver(p);
         if (!s.isSolvable()) {
             WindowUtility.displayInfo("This puzzle is currently unsolvable.", "Note!");

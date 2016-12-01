@@ -21,7 +21,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.geom.Line2D;
-import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -46,7 +45,9 @@ public class SudokuFrame extends JFrame {
     private Timer timer;
     private TimerTask task;
 
+
     public SudokuFrame(SudokuPuzzle p, boolean loop, String path, int x, int y) {
+
 
         /* Sets up the window components and design */
         this.puzzle = p;
@@ -212,7 +213,7 @@ public class SudokuFrame extends JFrame {
         if (!Settings.showTimer())
             timeField.setVisible(false);
 
-        /* Sets the timer up, display the GUI */
+        /* Sets the timer up, display the UI to user */
         this.timeField.setText(this.timeToString());
         this.timer = new Timer();
         this.task = new TimerTask() {
@@ -228,7 +229,7 @@ public class SudokuFrame extends JFrame {
 
 
     /**
-     * Paints the lines in the window.
+     * Paints the lines in the sudoku puzzle window.
      */
     @Override
     public void paint(Graphics g) {
@@ -247,6 +248,7 @@ public class SudokuFrame extends JFrame {
      * Takes the puzzle given and sets up the board in the window for the user.
      */
     private void initializeTable() {
+
         this.highlighted = 0;
         this.editable = new boolean[9][9];
         int k = 0;
@@ -365,7 +367,7 @@ public class SudokuFrame extends JFrame {
             this.completeField.setForeground(GUIColors.DARK_GREEN);
             this.completeField.setText("Complete!");
             String s = "";
-            if (flag)
+            if (flag && this.loop)
                 if (BestTimes.insertBestTime(this.seconds, this.difficulty))
                     s += "\nNew Best Time!";
             WindowUtility.displayInfo("You solved the puzzle!\nTime: " +
