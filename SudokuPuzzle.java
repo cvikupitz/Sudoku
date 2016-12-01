@@ -11,7 +11,7 @@ package sudoku;
 
 public class SudokuPuzzle {
 
-    
+
     /* Declare private members */
     private int difficulty;
     private String initialState;
@@ -24,18 +24,21 @@ public class SudokuPuzzle {
     }
 
 
-    /* Default constructor */
+    /* Secondary constructor, takes a string representing the puzzle's initial state */
     public SudokuPuzzle(String init) {
+
+        /* Declares/initializes variables */
         this.difficulty = 0;
         this.initialState = init;
         this.board = new int[9][9];
         char[] chars = init.toCharArray();
         int temp, index = 0;
 
+        /* Loops through the given string, parsing each value and setting up the board */
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 temp = Character.getNumericValue(chars[index++]);
-                if (temp == -1)
+                if (temp == -1)     /* Non-integers in string are set as 0 */
                     this.board[i][j] = 0;
                 else
                     this.board[i][j] = temp;

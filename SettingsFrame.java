@@ -17,9 +17,11 @@ import javax.swing.JFrame;
 
 public class SettingsFrame extends JFrame {
 
+
     /* Declare private members */
     private final ButtonGroup timerGroup, legalMovesGroup, highlighterGroup,
             conflictGroup, hintsGroup, solutionsgroup;
+
 
     /* Default constructors */
     public SettingsFrame(int x, int y) {
@@ -59,40 +61,60 @@ public class SettingsFrame extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent we) {
                 if (WindowUtility.askYesNo("Are you sure you want to quit?",
                         "Quitting")) {
-                    FileUtility.saveSettings();
+                    FileUtility.saveSettings(); /* Saves the setting and times before exiting */
                     FileUtility.saveBestTimes();
                     System.exit(0);
                 }
             }
         });
 
+        /* Make the UI visible to user */
         this.setVisible(true);
     }
 
 
-    /***/
+    /**
+     * Initializes the radio buttons according to the specified settings in
+     * Settings.java. Enabled settings construct the radio buttons that are
+     * set to 'On', or 'Off' if disabled. Invoked in the constructor when the
+     * user loads the settings menu from the home menu.
+     */
     private void initializeSettings() {
+
+        /* Loads the users settings into Settings.java */
         FileUtility.loadSettings();
+
+        /* Sets the timer on/off */
         if (Settings.showTimer())
             this.timerOn.setSelected(true);
         else
             this.timerOff.setSelected(true);
+
+        /* Sets legal panel visibility on/off */
         if (Settings.showLegal())
             this.legalMovesOn.setSelected(true);
         else
             this.legalMovesOff.setSelected(true);
+
+        /* Sets highlighting feature on/off */
         if (Settings.showHighlighted())
             this.highlighterOn.setSelected(true);
         else
             this.highlighterOff.setSelected(true);
+
+        /* Sets illegal highlighting feature on/off */
         if (Settings.showConflictingNumbers())
             this.conflictOn.setSelected(true);
         else
             this.conflictOff.setSelected(true);
+
+        /* Sets hints feature on/off */
         if (Settings.showHints())
             this.hintsOn.setSelected(true);
         else
             this.hintsOff.setSelected(true);
+
+        /* Sets solutions feature on/off */
         if (Settings.showSolutions())
             this.solutionsOn.setSelected(true);
         else

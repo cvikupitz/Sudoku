@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 
 public class RankFrame extends JFrame {
 
+
     /* Default constructor */
     public RankFrame(int x, int y) {
 
@@ -67,37 +68,51 @@ public class RankFrame extends JFrame {
             }
         });
 
+        /* Display the times in the tables, set the UI visible to user */
         this.bindToTable();
         this.setVisible(true);
     }
 
 
-    /***/
+    /**
+     * Writes the user's best times stored inside the best times lists into the
+     * tables.
+     */
     private void bindToTable() {
+
+        /* Writes data to novice difficulty table */
         int i = 0;
         for (HighScoreNode n : BestTimes.novice) {
             this.noviceTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.noviceTable.setValueAt(n.getDate(), i, 2);
             i++;
         }
+
+        /* Writes data to easy difficulty table */
         i = 0;
         for (HighScoreNode n : BestTimes.easy) {
             this.easyTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.easyTable.setValueAt(n.getDate(), i, 2);
             i++;
         }
+
+        /* Writes data to medium difficulty table */
         i = 0;
         for (HighScoreNode n : BestTimes.medium) {
             this.mediumTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.mediumTable.setValueAt(n.getDate(), i, 2);
             i++;
         }
+
+        /* Writes data to hard difficulty table */
         i = 0;
         for (HighScoreNode n : BestTimes.hard) {
             this.hardTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
             this.hardTable.setValueAt(n.getDate(), i, 2);
             i++;
         }
+
+        /* Writes data to expert difficulty table */
         i = 0;
         for (HighScoreNode n : BestTimes.expert) {
             this.expertTable.setValueAt(BestTimes.timeToString(n.getScore()), i, 1);
@@ -107,45 +122,53 @@ public class RankFrame extends JFrame {
     }
 
 
-    /***/
+    /**
+     * Resets the currently selected table's data. This erases all the data
+     * displayed inside the selected table, as well as deletes the user's best
+     * times form the associated list. Invoked when user clicks the reset button.
+     */
     private void reset() {
+
+        /* Ask user if they're sure, abort if not */
         if (!WindowUtility.askYesNo("You are about to delete all your best times for this difficulty.\n"
                 + "Are your sure you want to reset?", "Warning!"))
             return;
+
+        /* Chooses the selected table to reset */
         int i = this.timesTable.getSelectedIndex();
         if (i == -1)
             return;
 
         switch (i) {
-            case 0:
+            case 0: /* User requests resetting the novice table */
                 BestTimes.novice.clear();
                 for (int j = 0; j < 10; j++) {
                     this.noviceTable.setValueAt("", j, 1);
                     this.noviceTable.setValueAt("", j, 2);
                 }
                 break;
-            case 1:
+            case 1: /* User requests resetting the easy table */
                 BestTimes.easy.clear();
                 for (int j = 0; j < 10; j++) {
                     this.easyTable.setValueAt("", j, 1);
                     this.easyTable.setValueAt("", j, 2);
                 }
                 break;
-            case 2:
+            case 2: /* User requests resetting the medium table */
                 BestTimes.medium.clear();
                 for (int j = 0; j < 10; j++) {
                     this.mediumTable.setValueAt("", j, 1);
                     this.mediumTable.setValueAt("", j, 2);
                 }
                 break;
-            case 3:
+            case 3: /* User requests resetting the hard table */
                 BestTimes.hard.clear();
                 for (int j = 0; j < 10; j++) {
                     this.hardTable.setValueAt("", j, 1);
                     this.hardTable.setValueAt("", j, 2);
                 }
                 break;
-            default:
+            default:    /* User requests resetting the expert table */
                 BestTimes.expert.clear();
                 for (int j = 0; j < 10; j++) {
                     this.expertTable.setValueAt("", j, 1);

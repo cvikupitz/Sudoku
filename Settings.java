@@ -12,12 +12,12 @@ package sudoku;
 public class Settings {
 
     /* Declare private members */
-    private static boolean showTimer = true;
-    private static boolean showLegal = true;
-    private static boolean highlight = true;
-    private static boolean conflictingNumbers = true;
-    private static boolean hints = true;
-    private static boolean solutions = true;
+    private static boolean showTimer = true;    /* Timer is visible */
+    private static boolean showLegal = true;    /* Panel of legal moves to make is visible */
+    private static boolean highlight = true;    /* Users can double-click to highlight */
+    private static boolean conflictingNumbers = true;   /* Illegal numbers are highlighted */
+    private static boolean hints = true;        /* Hints are enabled */
+    private static boolean solutions = true;    /* Solutions are enabled */
 
 
     /**
