@@ -436,13 +436,9 @@ public class SudokuFrame extends JFrame {
 
         if (!this.loop)
             return;
-        try {
-            this.puzzle = Main.getPuzzle(this.difficulty);
-            this.solution = new SudokuSolver(this.puzzle);
-        } catch (FileNotFoundException ex) {
-            /* Ignore exceptions */
-            return;
-        }
+        SudokuGenerator gen = new SudokuGenerator(this.difficulty);
+        this.puzzle = gen.getPuzzle();
+        this.solution = new SudokuSolver(this.puzzle);
         if (this.completeField.getForeground() != GUIColors.DARK_GREEN) {
             if (WindowUtility.askYesNo("You will lose your current progress on this puzzle.\n"
                     + "Are you sure you want to start a new game?", "Warning!")) {

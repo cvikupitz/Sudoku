@@ -183,7 +183,8 @@ public class LevelFrame extends JFrame {
     private void noviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noviceButtonActionPerformed
         SudokuPuzzle p;
         try {
-            p = Main.getPuzzle(1);
+            SudokuGenerator gen = new SudokuGenerator(1);
+            p = gen.getPuzzle();
             SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
@@ -193,7 +194,8 @@ public class LevelFrame extends JFrame {
     private void easyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_easyButtonActionPerformed
         SudokuPuzzle p;
         try {
-            p = Main.getPuzzle(2);
+            SudokuGenerator gen = new SudokuGenerator(2);
+            p = gen.getPuzzle();
             SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
@@ -203,7 +205,8 @@ public class LevelFrame extends JFrame {
     private void mediumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediumButtonActionPerformed
         SudokuPuzzle p;
         try {
-            p = Main.getPuzzle(3);
+           SudokuGenerator gen = new SudokuGenerator(3);
+            p = gen.getPuzzle();
             SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
@@ -213,7 +216,8 @@ public class LevelFrame extends JFrame {
     private void hardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hardButtonActionPerformed
         SudokuPuzzle p;
         try {
-            p = Main.getPuzzle(4);
+            SudokuGenerator gen = new SudokuGenerator(4);
+            p = gen.getPuzzle();
             SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();
@@ -223,7 +227,8 @@ public class LevelFrame extends JFrame {
     private void expertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expertButtonActionPerformed
         SudokuPuzzle p;
         try {
-            p = Main.getPuzzle(5);
+            SudokuGenerator gen = new SudokuGenerator(5);
+            p = gen.getPuzzle();
             SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                     this.getX(), this.getY());
             this.dispose();

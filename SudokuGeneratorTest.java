@@ -19,28 +19,28 @@ public class SudokuGeneratorTest {
 
     public static void main(String[] args) {
 
-        /* Get the number of iterations to perform */
-        int iter;
-        if (args.length == 0)
-            iter = 1000;
-        else
-            iter = Integer.parseInt(args[0]);
-
-        /* Runs the test */
-        Random r = new Random();
-        int solvable = 0;
-        for (int i = 0; i < iter; i++) {
-            SudokuPuzzle p = SudokuGenerator.generatePuzzle(r.nextInt(5) + 1);
-            SudokuSolver s = new SudokuSolver(p);
-            if (s.isSolvable())
-                solvable++;
-        }
-
-        /* Displays the results */
-        System.out.println("********** TEST COMPLETE **********");
-        System.out.printf("%d sudoku puzzles generated.\n", iter);
-        System.out.printf("%d of the puzzles are solvable.\n", solvable);
-        System.out.printf("---- %d%% ----\n", (int)(((float)solvable / iter)) * 100);
-        System.out.println("***********************************");
+//        /* Get the number of iterations to perform */
+//        int iter;
+//        if (args.length == 0)
+//            iter = 1000;
+//        else
+//            iter = Integer.parseInt(args[0]);
+//
+//        /* Runs the test */
+//        Random r = new Random();
+//        int solvable = 0;
+//        for (int i = 0; i < iter; i++) {
+//            SudokuPuzzle p = SudokuGenerator.generatePuzzle(r.nextInt(5) + 1);
+//            SudokuSolver s = new SudokuSolver(p);
+//            if (s.isSolvable())
+//                solvable++;
+//        }
+//
+//        /* Displays the results */
+//        System.out.println("********** TEST COMPLETE **********");
+//        System.out.printf("%d sudoku puzzles generated.\n", iter);
+//        System.out.printf("%d of the puzzles are solvable.\n", solvable);
+//        System.out.printf("---- %d%% ----\n", (int)(((float)solvable / iter)) * 100);
+//        System.out.println("***********************************");
     }
 }

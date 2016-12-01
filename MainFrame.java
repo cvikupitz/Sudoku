@@ -226,6 +226,7 @@ public class MainFrame extends JFrame {
     }//GEN-LAST:event_loadButtonActionPerformed
     /* Start a new game */
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        BestTimes.time = 0;
         LevelFrame f = new LevelFrame(this.getX(), this.getY());
         this.dispose();
     }//GEN-LAST:event_newButtonActionPerformed

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 ///////////////////////////////////////
@@ -58,43 +59,5 @@ public class Main {
         /* Creates a new window */
         MainFrame f = new MainFrame(360, 30);
     }
-
-
-    ////////////////////////////////////////////////////////////////////////
-    protected static SudokuPuzzle getPuzzle(int difficulty) throws FileNotFoundException {
-        Random r = new Random();
-        int k = r.nextInt(10000);
-
-        try {
-            BufferedReader br;
-            switch (difficulty) {
-                case 1:
-                    br = new BufferedReader(new FileReader("src/sudoku/1.txt"));
-                    break;
-                case 2:
-                    br = new BufferedReader(new FileReader("src/sudoku/2.txt"));
-                    break;
-                case 3:
-                    br = new BufferedReader(new FileReader("src/sudoku/3.txt"));
-                    break;
-                case 4:
-                    br = new BufferedReader(new FileReader("src/sudoku/4.txt"));
-                    break;
-                default:
-                    br = new BufferedReader(new FileReader("src/sudoku/5.txt"));
-            }
-
-
-            String line = br.readLine();
-            for (int i = 0; i < k-1; i++)
-                line = br.readLine();
-            SudokuPuzzle p = new SudokuPuzzle(line);
-            p.setDifficulty(difficulty);
-            br.close();
-            return p;
-
-        } catch (Exception e) {return null;}
-    }
-    //////////////////////////////////////////////////////////////////////////
 
 } // End Main class
