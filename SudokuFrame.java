@@ -59,7 +59,8 @@ public class SudokuFrame extends JFrame {
         BestTimes.time = 0;
         this.initComponents();
         this.getContentPane().setBackground(GUIColors.BACKGROUND);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+                "icons/sudoku_icon.png")));
         this.setLocation(x, y);
 
         /* Sets the background color of the status fields */
@@ -1819,7 +1820,8 @@ public class SudokuFrame extends JFrame {
 
         OptionsMenu.setText("Options");
 
-        NewGameOption.setText("New Game");
+        NewGameOption.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sudoku/icons/new_puzzle_icon.png"))); // NOI18N
+        NewGameOption.setText("   New Game");
         NewGameOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NewGameOptionActionPerformed(evt);
@@ -1827,7 +1829,8 @@ public class SudokuFrame extends JFrame {
         });
         OptionsMenu.add(NewGameOption);
 
-        ResetGameOption.setText("Reset Game");
+        ResetGameOption.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sudoku/icons/restart_icon.png"))); // NOI18N
+        ResetGameOption.setText("   Reset Game");
         ResetGameOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ResetGameOptionActionPerformed(evt);
@@ -1836,7 +1839,8 @@ public class SudokuFrame extends JFrame {
         OptionsMenu.add(ResetGameOption);
         OptionsMenu.add(jSeparator1);
 
-        QuitOption.setText("Quit");
+        QuitOption.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sudoku/icons/close_icon.png"))); // NOI18N
+        QuitOption.setText("   Quit");
         QuitOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 QuitOptionActionPerformed(evt);
@@ -1848,7 +1852,8 @@ public class SudokuFrame extends JFrame {
 
         HelpMenu.setText("Help");
 
-        GetHintOption.setText("Get Hint");
+        GetHintOption.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sudoku/icons/hint_icon.png"))); // NOI18N
+        GetHintOption.setText("   Get Hint");
         GetHintOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GetHintOptionActionPerformed(evt);
@@ -1857,7 +1862,8 @@ public class SudokuFrame extends JFrame {
         HelpMenu.add(GetHintOption);
         HelpMenu.add(jSeparator2);
 
-        SolveOption.setText("Solve Puzzle");
+        SolveOption.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sudoku/icons/solution_icon.png"))); // NOI18N
+        SolveOption.setText("   Solve Puzzle");
         SolveOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SolveOptionActionPerformed(evt);

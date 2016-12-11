@@ -22,7 +22,8 @@ public class RankFrame extends JFrame {
 
         /* Initialize components */
         initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+                "icons/sudoku_icon.png")));
         this.setTitle("Sudoku");
         this.setLocation(x, y);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

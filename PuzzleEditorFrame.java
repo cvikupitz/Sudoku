@@ -49,7 +49,8 @@ public class PuzzleEditorFrame extends JFrame {
         this.title = t;
         this.saved = true;
         initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+                "icons/sudoku_icon.png")));
         this.setTitle(this.title);
         this.setLocation(x, y);
 

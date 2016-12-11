@@ -23,11 +23,13 @@ public class MainFrame extends JFrame {
 
         /* Initialize components */
         initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+                "icons/sudoku_icon.png")));
         this.setTitle("Sudoku");
         this.setLocation(x, y);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.image.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sudoku_image.png"))));
+        this.image.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource("icons/sudoku_image.png"))));
 
 
         /* Asks user if they're sure when closing the window. */

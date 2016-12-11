@@ -35,7 +35,10 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="NewGameOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New Game"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sudoku/icons/new_puzzle_icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="   New Game"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NewGameOptionActionPerformed"/>
@@ -43,7 +46,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="ResetGameOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reset Game"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sudoku/icons/restart_icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="   Reset Game"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ResetGameOptionActionPerformed"/>
@@ -53,7 +59,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="QuitOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Quit"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sudoku/icons/close_icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="   Quit"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="QuitOptionActionPerformed"/>
@@ -68,7 +77,10 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="GetHintOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Get Hint"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sudoku/icons/hint_icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="   Get Hint"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GetHintOptionActionPerformed"/>
@@ -78,7 +90,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="SolveOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Solve Puzzle"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sudoku/icons/solution_icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="   Solve Puzzle"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolveOptionActionPerformed"/>
