@@ -349,14 +349,14 @@ public class PuzzleEditorFrame extends JFrame {
         int i = this.puzzle.getNumberFilled();
         if (45 <= i)
             this.puzzle.setDifficulty(1);   /* Novice puzzle (45+ tiles) */
-        else if (39 <= i && i < 44)
+        else if (39 <= i && i < 45)
             this.puzzle.setDifficulty(2);   /* Easy puzzle (39-44 tiles) */
-        else if (32 <= i && i < 38)
+        else if (32 <= i && i < 39)
             this.puzzle.setDifficulty(3);   /* Medium puzzle (32-38 tiles) */
-        else if (26 <= i && i < 31)
-            this.puzzle.setDifficulty(4);   /* Hard puzzle (26-31+ tiles) */
+        else if (26 <= i && i < 32)
+            this.puzzle.setDifficulty(4);   /* Hard puzzle (26-31 tiles) */
         else
-            this.puzzle.setDifficulty(5);   /* Expert puzzle (<25 tiles) */
+            this.puzzle.setDifficulty(5);   /* Expert puzzle (<=25 tiles) */
 
         /* Saves the puzzle in its current state, set saved variable to true */
         this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
