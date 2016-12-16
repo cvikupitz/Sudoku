@@ -235,6 +235,27 @@ public class SudokuPuzzle {
 
 
     /**
+     * Returns a string representation of the list of the squares in the Sudoku
+     * puzzle that conflict with the given tile. The string contains the list
+     * of these tiles in the format "(i, j) (i, j) (i, j)...", where i is
+     * the row and j is the column. Used for highlighting other tiles that
+     * conflict with an illegal insertion.
+     *
+     * @param r The row of the tile.
+     * @param c The column of the tile.
+     * @return The string containing the conflicting squares, to be extracted
+     * for highlighting.
+     */
+    protected String getConflictingSquares(int r, int c) {
+        String str = "";
+        str = this.getConflictingRow(r, c, str);
+        str = this.getConflictingColumn(c, r, str);
+        str = this.getConflictingSubGrid(r, c, str);
+        return str;
+    }
+
+
+    /**
      * Returns a 2-d integer array representing the Sudoku board.
      *
      * @return The 2-d array representing the Sudoku board.
