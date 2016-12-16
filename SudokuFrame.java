@@ -402,7 +402,7 @@ public class SudokuFrame extends JFrame {
                     this.timeToString() + s, "Congratulations!");
 
             /* Starts a new game if not a custom puzzle, or returns to the puzzles menu if is */
-            if (!this.loop) {
+            if (!this.loop || !flag) {
                 this.puzzle.resetPuzzle();
                 FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
                 PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
@@ -608,8 +608,10 @@ public class SudokuFrame extends JFrame {
             return;
 
         /* Imports the solution */
+        int x = this.puzzle.getDifficulty();
         this.importBoard(this.solution.getSolution().toArray());
         this.puzzle = this.solution.getSolution();
+        this.puzzle.setDifficulty(x);
         this.updateStatus(false);
     }
 
