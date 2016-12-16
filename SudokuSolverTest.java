@@ -27,7 +27,7 @@ public class SudokuSolverTest {
 
         /* Read each of the five test files */
         for (int i = 1; i <= 5; i++) {
-            br = new BufferedReader(new FileReader(i + ".txt"));
+            br = new BufferedReader(new FileReader("src/Sudoku/" + i + ".txt"));
 
             /* Read and solve each of the 10,000 stored puzzles */
             for (int j = 0; j < 10000; j++) {
