@@ -55,7 +55,7 @@ public class SudokuFrame extends JFrame {
         this.loop = loop;
         this.path = path;
         this.highlighted = 0;
-        this.seconds = (0 + BestTimes.time);
+        this.seconds = BestTimes.time;
         BestTimes.time = 0;
         this.initComponents();
         this.getContentPane().setBackground(GUIColors.BACKGROUND);
