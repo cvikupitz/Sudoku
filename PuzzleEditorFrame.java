@@ -130,7 +130,9 @@ public class PuzzleEditorFrame extends JFrame {
                                 e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
                                 e.getKeyChar() == '9')) {
                             pane.setText("");  /* If not a valid number, delete the value in square */
+                            String str = puzzle.getConflictingSquares(m, n);
                             puzzle.remove(m, n);
+                            correct(str);
                         } else {
                             int x = Integer.parseInt(Character.toString(e.getKeyChar()));
                             if (x == highlighted)
@@ -138,10 +140,14 @@ public class PuzzleEditorFrame extends JFrame {
                             else
                                 pane.setForeground(GUIColors.BLACK);
                             pane.setText(Integer.toString(x));
-                            if (!puzzle.insert(x, m, n))
+                            String str = puzzle.getConflictingSquares(m, n);
+                            if (!puzzle.insert(x, m, n)) {
+                                correct(str);
+                                mark(puzzle.getConflictingSquares(m, n));
                                 pane.setForeground(GUIColors.RED);
-                        }
-                        updateStatus();
+                            } else
+                                correct(str);
+                        } updateStatus();
                         setSaved(false);
                     }
                     @Override
@@ -216,8 +222,10 @@ public class PuzzleEditorFrame extends JFrame {
                 int val = Integer.parseInt(Character.toString(s.charAt(k)));
 
                 /* Highlights illegal numbers from previous editing as red, or black if legal */
-                if (!this.puzzle.insert(val, i, j))
+                if (!this.puzzle.insert(val, i, j)) {
                     this.fields[i][j].setForeground(GUIColors.RED);
+                    this.mark(this.puzzle.getConflictingSquares(i, j));
+                }
                 else
                     this.fields[i][j].setForeground(GUIColors.BLACK);
 
@@ -312,6 +320,34 @@ public class PuzzleEditorFrame extends JFrame {
 
 
     /**
+     * Marks all conflicting tiles given by the string in red.
+     */
+    private void mark(String str) {
+        for (int i = 0; i < str.length(); i += 6) {
+            String coor = str.substring(i, i + 6);
+            int x = Integer.parseInt(Character.toString(coor.charAt(1)));
+            int y = Integer.parseInt(Character.toString(coor.charAt(3)));
+            this.fields[x][y].setForeground(GUIColors.RED);
+        }
+    }
+
+
+    /**
+     * Recolors all the grids back to black if they do not contain any conflicting
+     * tiles.
+     */
+    private void correct(String str) {
+        for (int i = 0; i < str.length(); i += 6) {
+            String coor = str.substring(i, i + 6);
+            int x = Integer.parseInt(Character.toString(coor.charAt(1)));
+            int y = Integer.parseInt(Character.toString(coor.charAt(3)));
+            if (this.puzzle.getConflictingSquares(x, y).isEmpty())
+                this.fields[x][y].setForeground(GUIColors.BLACK);
+        }
+    }
+
+
+    /**
      * Resets the color of all numbers back to its original form. Uneditable
      * numbers are reset to black, and others set to blue.
      */
@@ -349,14 +385,14 @@ public class PuzzleEditorFrame extends JFrame {
         int i = this.puzzle.getNumberFilled();
         if (45 <= i)
             this.puzzle.setDifficulty(1);   /* Novice puzzle (45+ tiles) */
-        else if (39 <= i && i < 45)
+        else if (39 <= i && i < 44)
             this.puzzle.setDifficulty(2);   /* Easy puzzle (39-44 tiles) */
-        else if (32 <= i && i < 39)
+        else if (32 <= i && i < 38)
             this.puzzle.setDifficulty(3);   /* Medium puzzle (32-38 tiles) */
-        else if (26 <= i && i < 32)
-            this.puzzle.setDifficulty(4);   /* Hard puzzle (26-31 tiles) */
+        else if (26 <= i && i < 31)
+            this.puzzle.setDifficulty(4);   /* Hard puzzle (26-31+ tiles) */
         else
-            this.puzzle.setDifficulty(5);   /* Expert puzzle (<=25 tiles) */
+            this.puzzle.setDifficulty(5);   /* Expert puzzle (<25 tiles) */
 
         /* Saves the puzzle in its current state, set saved variable to true */
         this.puzzle.setInitialPuzzleState(this.puzzle.currentPuzzleState());
@@ -1551,14 +1587,14 @@ public class PuzzleEditorFrame extends JFrame {
                             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
-                        .addComponent(saveButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(renameButton)
+                        .addComponent(renameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(clearButton)
-                        .addGap(31, 31, 31)
-                        .addComponent(quitButton))
+                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(quitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

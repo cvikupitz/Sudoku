@@ -165,13 +165,16 @@ public class SudokuFrame extends JFrame {
                     public void keyTyped(KeyEvent e) {
                         if (!editable[m][n])  /* If square is uneditable, do nothing */
                             return;
+
                         if (!(e.getKeyChar() == '1' || e.getKeyChar() == '2' ||
                                 e.getKeyChar() == '3' || e.getKeyChar() == '4' ||
                                 e.getKeyChar() == '5' || e.getKeyChar() == '6' ||
                                 e.getKeyChar() == '7' || e.getKeyChar() == '8' ||
                                 e.getKeyChar() == '9')) {
                             pane.setText("");  /* If not a valid number, delete the value in square */
+                            String str = puzzle.getConflictingSquares(m, n);
                             puzzle.remove(m, n);
+                            correct(str);
                         } else {
                             int x = Integer.parseInt(Character.toString(e.getKeyChar()));
                             if (x == highlighted)
@@ -179,9 +182,15 @@ public class SudokuFrame extends JFrame {
                             else
                                 pane.setForeground(GUIColors.BLUE);
                             pane.setText(Integer.toString(x));
-                            if (!puzzle.insert(x, m, n))
-                                if (Settings.showConflictingNumbers())
+                            String str = puzzle.getConflictingSquares(m, n);
+                            if (!puzzle.insert(x, m, n)) {
+                                if (Settings.showConflictingNumbers()) {
+                                    correct(str);
+                                    mark(puzzle.getConflictingSquares(m, n));
                                     pane.setForeground(GUIColors.RED);
+                                }
+                            } else
+                                correct(str);
                         } updateStatus(true);
                     }
                     @Override
@@ -283,21 +292,22 @@ public class SudokuFrame extends JFrame {
                     this.editable[i][j] = true;
                     this.fields[i][j].setForeground(GUIColors.BLUE);
 
-                    /* Illegally inserted numbers are highlighted red */
-                    if (Settings.showConflictingNumbers()) {
-                        boolean[] temp = this.puzzle.getLegalMoves(i, j);
-                        int val = this.puzzle.getValue(i, j);
-                        if (val != 0)
-                            if (!temp[val-1])
-                                this.fields[i][j].setForeground(GUIColors.RED);
-                    }
-
                     /* Displays the numbers inside the corresponding tiles */
                     if (t.charAt(k) != '0')
                         this.fields[i][j].setText(Character.toString(t.charAt(k)));
                     else
                         this.fields[i][j].setText("");
                 } k++;
+
+                /* Illegally inserted numbers are highlighted red */
+                if (Settings.showConflictingNumbers()) {
+                    boolean[] temp = this.puzzle.getLegalMoves(i, j);
+                    int val = this.puzzle.getValue(i, j);
+                    if (val != 0 && !temp[val-1]) {
+                        this.mark(this.puzzle.getConflictingSquares(i, j));
+                        this.fields[i][j].setForeground(GUIColors.RED);
+                    }
+                }
             }
         }
 
@@ -402,7 +412,7 @@ public class SudokuFrame extends JFrame {
                     this.timeToString() + s, "Congratulations!");
 
             /* Starts a new game if not a custom puzzle, or returns to the puzzles menu if is */
-            if (!this.loop || !flag) {
+            if (!this.loop) {
                 this.puzzle.resetPuzzle();
                 FileUtility.saveGame(this.puzzle, this.puzzle.getDifficulty(), this.path);
                 PuzzlesFrame f = new PuzzlesFrame(this.getX(), this.getY());
@@ -458,6 +468,38 @@ public class SudokuFrame extends JFrame {
             }
             /* Skips blank tiles */
         } catch (Exception e) {/* Ignore exceptions */}
+    }
+
+
+    /**
+     * Marks all conflicting tiles given by the string in red.
+     */
+    private void mark(String str) {
+        for (int i = 0; i < str.length(); i += 6) {
+            String coor = str.substring(i, i + 6);
+            int x = Integer.parseInt(Character.toString(coor.charAt(1)));
+            int y = Integer.parseInt(Character.toString(coor.charAt(3)));
+            this.fields[x][y].setForeground(GUIColors.RED);
+        }
+    }
+
+
+    /**
+     * Recolors all the grids back to black if they do not contain any conflicting
+     * tiles.
+     */
+    private void correct(String str) {
+        for (int i = 0; i < str.length(); i += 6) {
+            String coor = str.substring(i, i + 6);
+            int x = Integer.parseInt(Character.toString(coor.charAt(1)));
+            int y = Integer.parseInt(Character.toString(coor.charAt(3)));
+            if (this.puzzle.getConflictingSquares(x, y).isEmpty()) {
+                if (!this.editable[x][y])
+                    this.fields[x][y].setForeground(GUIColors.BLACK);
+                else
+                    this.fields[x][y].setForeground(GUIColors.BLUE);
+            }
+        }
     }
 
 
@@ -573,7 +615,9 @@ public class SudokuFrame extends JFrame {
 
                 /* Checks to see if the value is correct, inserts numebr into tile if not */
                 if (this.puzzle.getValue(i, j) != a[i][j]) {
+                    String str = this.puzzle.getConflictingSquares(i, j);
                     this.puzzle.insert(a[i][j], i, j);
+                    this.correct(str);
                     this.fields[i][j].setText(Integer.toString(a[i][j]));
                     this.editable[i][j] = false;
 
@@ -612,6 +656,12 @@ public class SudokuFrame extends JFrame {
         this.importBoard(this.solution.getSolution().toArray());
         this.puzzle = this.solution.getSolution();
         this.puzzle.setDifficulty(x);
+        for (int i = 0; i < 9; i++)
+            for (int j = 0; j < 9; j++)
+                if (this.editable[i][j])
+                    this.fields[i][j].setForeground(GUIColors.BLUE);
+                else
+                    this.fields[i][j].setForeground(GUIColors.BLACK);
         this.updateStatus(false);
     }
 
