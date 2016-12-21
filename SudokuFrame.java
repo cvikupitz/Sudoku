@@ -498,6 +498,8 @@ public class SudokuFrame extends JFrame {
                     this.fields[x][y].setForeground(GUIColors.BLACK);
                 else
                     this.fields[x][y].setForeground(GUIColors.BLUE);
+                if (Integer.parseInt(this.fields[x][y].getText()) == this.highlighted)
+                    this.fields[x][y].setForeground(GUIColors.GREEN);
             }
         }
     }

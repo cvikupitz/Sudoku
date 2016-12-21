@@ -218,13 +218,15 @@ public class MainFrame extends JFrame {
         try {
             SudokuPuzzle p = FileUtility.loadGame(FileUtility.PATH + "saved.dat");
             if (p == null)
-            WindowUtility.displayInfo("There is no saved game available.", "No Saved Game");
+                WindowUtility.displayInfo("There is no saved game available.", "No Saved Game");
             else {
                 SudokuFrame f = new SudokuFrame(p, true, FileUtility.PATH + "saved.dat",
                         this.getX(), this.getY());
                 this.dispose();
             }
-        } catch (Exception e) {/* Ignore Exceptions */}
+        } catch (Exception e) {
+            WindowUtility.displayInfo("There is no saved game available.", "No Saved Game");
+        }
     }//GEN-LAST:event_loadButtonActionPerformed
     /* Start a new game */
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
