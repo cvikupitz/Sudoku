@@ -10,6 +10,7 @@ Directory:
 |
 |-- doc/
 |
+|-- nbproject
 |
-|
+|-- src/
 |
