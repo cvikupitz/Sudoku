@@ -1,6 +1,9 @@
 Welcome to team IDK's repository for the Sudoku desktop application.
 
-Directory:
+To download the application, head over to the releases page and download the zipped archive there. You will find the
+executable, the jar file, and a user manual.
+
+GitHub Directory:
 
 ...
 |
