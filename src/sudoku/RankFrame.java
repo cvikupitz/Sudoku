@@ -203,6 +203,7 @@ public class RankFrame extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         resetButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        achievesButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -389,6 +390,15 @@ public class RankFrame extends JFrame {
             }
         });
 
+        achievesButton.setBackground(new java.awt.Color(153, 153, 255));
+        achievesButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        achievesButton.setText("Achievements");
+        achievesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                achievesButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -400,13 +410,15 @@ public class RankFrame extends JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(backButton)
-                                .addGap(310, 310, 310)
+                                .addGap(91, 91, 91)
+                                .addComponent(achievesButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(resetButton))
                             .addComponent(timesTable, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,7 +430,8 @@ public class RankFrame extends JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(achievesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -446,10 +459,16 @@ public class RankFrame extends JFrame {
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         this.reset();
     }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void achievesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_achievesButtonActionPerformed
+        AchievementsFrame m = new AchievementsFrame(this.getX(), this.getY());
+        this.dispose();
+    }//GEN-LAST:event_achievesButtonActionPerformed
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Component Declarations">
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton achievesButton;
     private javax.swing.JButton backButton;
     private javax.swing.JTable easyTable;
     private javax.swing.JTable expertTable;
